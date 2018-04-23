@@ -58,6 +58,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Adminstration\ContractManager.cs" />
+    <Compile Include="Adminstration\CustomerManager.cs" />
+    <Compile Include="Adminstration\LogManager.cs" />
+    <Compile Include="Adminstration\ProductCatalogManager.cs" />
+    <Compile Include="Adminstration\StatisticsManager.cs" />
+    <Compile Include="Adminstration\SubscriptionManager.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
