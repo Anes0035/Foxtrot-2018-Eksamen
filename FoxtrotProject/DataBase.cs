@@ -8,6 +8,9 @@ using System.Data.SqlClient;
 
 namespace FoxtrotProject
 {
+/// <summary>
+/// Author: Kasper Bach Pedersen
+/// </summary>
    public class DataBase
     {
         string ConnectionString = "";
