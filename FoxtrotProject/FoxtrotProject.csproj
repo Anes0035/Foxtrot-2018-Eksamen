@@ -58,17 +58,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Adminstration\ContractManager.cs" />
-    <Compile Include="Adminstration\CustomerManager.cs" />
-    <Compile Include="Adminstration\LogManager.cs" />
-    <Compile Include="Adminstration\ProductCatalogManager.cs" />
-    <Compile Include="Adminstration\StatisticsManager.cs" />
-    <Compile Include="Adminstration\SubscriptionManager.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\DataBase.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -99,6 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
