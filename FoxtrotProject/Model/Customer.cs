@@ -6,70 +6,25 @@ using System.Threading.Tasks;
 
 namespace FoxtrotProject.Model
 {
+    struct ContactPerson
+    {
+        string Name;
+        int TelephoneNumber;
+    }
     class Customer
     {
-        private int Cvr;
+        public string Name { get; set; }
 
-        public int cvr
-        {
-            get { return cvr; }
-            set { cvr = value; }
-        }
+        public string Address { get; set; }
 
+        public int TelephoneNumber { get; set; }
 
+        public ContactPerson ContactPerson { get; set; }
 
-        private string Name;
+        public double GrossIncome { get; set; }
 
-        public string name
-        {
-            get { return name; }
-            set { name = value; }
-        }
+        public int CVR { get; set; }
 
-
-        private string Address;
-
-        public string address
-        {
-            get { return address; }
-            set { address = value; }
-        }
-
-
-        private int TelefonNr;
-
-        public int telefonNr
-        {
-            get { return telefonNr; }
-            set { telefonNr = value; }
-        }
-
-
-        private string CustomerInfo;
-
-        public string customerInfo
-        {
-            get { return customerInfo; }
-            set { customerInfo = value; }
-        }
-
-
-        private string ContactPerson;
-
-        public string contactPerson
-        {
-            get { return contactPerson; }
-            set { contactPerson = value; }
-        }
-
-
-        private int GrossIncome;
-
-        public int grossIncome
-        {
-            get { return grossIncome; }
-            set { grossIncome = value; }
-        }
 
     }
 }
