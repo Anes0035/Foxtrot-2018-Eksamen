@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FoxtrotProject.ViewModel;
 
 namespace FoxtrotProject
 {
@@ -20,9 +21,22 @@ namespace FoxtrotProject
     /// </summary>
     public partial class MainWindow : Window
     {
+        ProductViewModel productViewModel;
         public MainWindow()
         {
             InitializeComponent();
+            productViewModel = new ProductViewModel();
+
+
+            DataContext = productViewModel;
+        }
+
+        private void txtSearchCostumer_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox txt = (TextBox)sender;
+            txt.Text = string.Empty;
+            txt.Foreground = Brushes.Black;
+            txt.GotFocus -= txtSearchCostumer_GotFocus;
         }
     }
 }

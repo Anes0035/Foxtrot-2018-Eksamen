@@ -5,51 +5,134 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FoxtrotProject"
         mc:Ignorable="d"
-       Title="MainWindow" Height="500" Width="600">
+       Title="MainWindow" Height="500" Width="700">
     <Grid>
         <TabControl>
             <TabItem Header="Kunde">
-                <Grid>
-                    <TabControl TabStripPlacement="Left">
-                        <TabItem Header="Vis Kunder" Margin="0,10,0,-15">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="35"/>
-                                    <RowDefinition Height="0.5*" MinHeight="250"/>
-                                    <RowDefinition Height="0.5*"/>
-                                </Grid.RowDefinitions>
-                                <TextBox Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,50,0" Width="100" Height="25"/>
-                                <ListBox Grid.Row="1" HorizontalAlignment="Left" Height="200" Margin="10,10,0,0" VerticalAlignment="Top" Width="400"/>
-                            </Grid>
-                        </TabItem>
-                        <TabItem Header="Opret Kunde" Margin="0,30,0,-35">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Row="0" Content="Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                                <TextBox x:Name="txt_Name" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,2.5,0,0" Height="25" Width="100"/>
-                                <Label Grid.Row="1" Content="Adresse:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,2.5,0,0" Height="25" Width="100"/>
-                                <Label Grid.Row="2" Content="Tlf. Nummer:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                                <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,2.5,0,0" Height="25" Width="100"/>
-                                <Button Content="Klik mig!" Command="{Binding CreateCustomerCommand}" CommandParameter="Hello!" Grid.Column="1" HorizontalAlignment="Right" Height="50" Margin="0,10,50,-79" Grid.Row="4" VerticalAlignment="Top" Width="100"/>
-                            </Grid>
-                        </TabItem>
-                    </TabControl>
-
+                <Grid Background="Beige">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="0.6*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Text="Søge Muligheder: CVR, Name eller Address" Name="txtSearchCostumer" Foreground="#55000000" GotFocus="txtSearchCostumer_GotFocus" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,80,0" Width="250" Height="25"/>
+                    <Button Grid.Row="0" Grid.Column="2" Content="Søg" HorizontalAlignment="Right" Margin="0,5,20,0" VerticalAlignment="Top"  Height="25" Width="40"/>
+                    <Label Grid.Row="1" Content="CVR:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtCVR" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="5,5,5,0" Height="25" Width="100"/>
+                    <Label Grid.Row="2" Content="Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtName" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <Label Grid.Row="3" Content="Adresse:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtAddress" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <Label Grid.Row="4" Content="Tlf. Nummer:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtTelephoneNumber" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <Label Grid.Row="5" Content="Kontakt Person:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtContactPerson" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <Label Grid.Row="6" Content="Årlig Omsætning:"  VerticalAlignment="Top" Margin="10,5,10,0" Height="25" Width="Auto"/>
+                    <TextBox x:Name="txtGrossIncome" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <Button Grid.Row="7" Grid.Column="1" Content="Gem Kunde" VerticalAlignment="Top" Margin="5,10,5,0" Height="25" Width="Auto"/>
+                    <Button Grid.Row="7" Content="Vælg Kunde" Grid.Column="2" HorizontalAlignment="Right" Height="25" Margin="0,35,10,-25" VerticalAlignment="Top" Width="75"/>
+                    <ListBox Grid.Column="2" Grid.Row="1" Grid.RowSpan="7" HorizontalAlignment="Right" Height="Auto" Margin="0,10,10,10" Width="250">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Aftaler"/>
-            <TabItem Header="Produktgrupper"/>
+            <TabItem Header="Aftaler">
+                <TabControl TabStripPlacement="Left">
+                    <TabItem Header="Vis" Margin="0,25,0,-40">
+                        <Grid>
+                            <TextBox Grid.Row="0" Grid.Column="3" Text="" Foreground="#55000000" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,80,0" Width="250" Height="25"/>
+                            <Button Grid.Row="0" Grid.Column="3" Content="Søg" HorizontalAlignment="Right" Margin="0,5,20,0" VerticalAlignment="Top"  Height="25" Width="40"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Opret" Margin="0,50,0,-65">
+                        <Grid Background="Azure">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="0.6*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="1" Content="StartDate: " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
+                            <DatePicker x:Name="dpStartDate" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="5,10,10,0" VerticalAlignment="Top"/>
+                            <Label Grid.Row="2" Content="Periode(i måneder):" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="115"/>
+                            <TextBox x:Name="txtPeriod" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                            <Label Grid.Row="3" Content="Abonnoment:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
+                            <CheckBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                            <Label Grid.Row="4" Content="Produkt grupper:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
+                            <ComboBox Grid.Row="4" Grid.Column="1" IsEditable="True" IsTextSearchEnabled="True" Margin="10,5,10,0" VerticalAlignment="Top" Width="120">
+                                <ComboBoxItem>
+                                    <CheckBox>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding ProductGroups[0].Name}"/>
+                                        </StackPanel>
+                                    </CheckBox>
+                                </ComboBoxItem>
+                            </ComboBox>
+                            <ListView Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Height="200" Margin="50,5,0,0" Grid.RowSpan="5" VerticalAlignment="Top" Width="300">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Produkt Gruppe">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Rabat">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBox Text="{Binding }"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                            <Button Grid.Row="5" Grid.Column="2" Content="Gem" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,70,20,0" Height="25" Width="75"/>
+                            <Button Content="Rens" Grid.Column="2" HorizontalAlignment="Left" Margin="170,70,0,0" Grid.Row="5" VerticalAlignment="Top" Height="25" Width="75"/>
+
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+
+            </TabItem>
+            <TabItem Header="ProduktKatalog">
+                <TabControl TabStripPlacement="Left">
+                    <TabItem Header="Opret Produkt" Margin="0,10,0,-15" Height="25">
+                        <Grid>
+                            <Label Content="ID:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                            <TextBox Name="txtProductID" HorizontalAlignment="Left" Height="23" Margin="53,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+                            <Label Content="Name:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+                            <TextBox Name="txtProductName" Height="23" Margin="53,41,317,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem Header="Statistik"/>
+            <TabItem Header="Log"/>
         </TabControl>
 
     </Grid>

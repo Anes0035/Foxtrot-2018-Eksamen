@@ -14,11 +14,10 @@ namespace FoxtrotProject.Model
 
         public bool Status { get; set; }
 
-        public List<ProductGroup> ProductGroups { get; set; }
+        public Dictionary<ProductGroup, int> DiscountGroups { get; set; }
 
         public Subscription Subscription { get; set; }
 
-        // need a possible discount for each productgroup
         public int Discount { get; set; }
     }
 }
