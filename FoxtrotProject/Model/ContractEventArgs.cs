@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace FoxtrotProject.Model
 {
-    class Statistic
+    class ContractEventArgs : EventArgs
     {
+        public Contract contract { get; set; }
 
-
-
-        public List<Product> FindTopXProducts(int x, List<Contract> contracts)
+        public ContractEventArgs(Contract contract)
         {
-            throw new NotImplementedException();
+            this.contract = contract;
         }
     }
 }

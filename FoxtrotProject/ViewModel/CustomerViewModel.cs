@@ -6,14 +6,24 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using FoxtrotProject.Model;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace FoxtrotProject.ViewModel
 {
     class CustomerViewModel : ViewModel
     {
-        List<Customer> customers;
+        public ObservableCollection<Customer> customers { get; set; }
 
         private Customer currentCustomer;
+
+        public CustomerViewModel()
+        {
+            currentCustomer = new Customer();
+            customers = new ObservableCollection<Customer>();
+        }
+
+        public ICommand SaveCustomerCommand { get; set; }
 
         public string Name
         {
@@ -73,6 +83,16 @@ namespace FoxtrotProject.ViewModel
                 currentCustomer.CVR = value;
                 NotifyPropertyChanged();
             }
+        }
+
+        public void SaveCustomerExecute()
+        {
+            customers.Add(currentCustomer);
+        }
+
+        public bool SaveCustomerCanExecute()
+        {
+            return string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(Address);
         }
 
     }

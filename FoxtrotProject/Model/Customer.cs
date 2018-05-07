@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace FoxtrotProject.Model
 {
-    struct ContactPerson
-    {
-        string Name;
-        int TelephoneNumber;
-    }
+
     class Customer
     {
         public string Name { get; set; }
@@ -19,7 +15,7 @@ namespace FoxtrotProject.Model
 
         public int TelephoneNumber { get; set; }
 
-        public ContactPerson ContactPerson { get; set; }
+        public string ContactPerson { get; set; }
 
         public double GrossIncome { get; set; }
 

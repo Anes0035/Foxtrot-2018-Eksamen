@@ -54,6 +54,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\ContractEventArgs.cs" />
+    <Compile Include="Model\ContractManager.cs" />
+    <Compile Include="Model\SearchFunction.cs" />
+    <Compile Include="ViewModel\ContractViewModel.cs" />
+    <Compile Include="ViewModel\CustomerViewModel.cs" />
+    <Compile Include="ViewModel\LogViewModel.cs" />
+    <Compile Include="ViewModel\ProductViewModel.cs" />
+    <Compile Include="ViewModel\StatisticViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel.cs" />
+    <Compile Include="ViewModel\WpfCommand.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -68,6 +78,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Contract.cs" />
+    <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\Database.cs" />
+    <Compile Include="Model\LogReader.cs" />
+    <Compile Include="Model\LogWriter.cs" />
+    <Compile Include="Model\Product.cs" />
+    <Compile Include="Model\ProductCatalog.cs" />
+    <Compile Include="Model\ProductGroup.cs" />
+    <Compile Include="Model\Statistic.cs" />
+    <Compile Include="Model\Subscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -93,8 +113,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

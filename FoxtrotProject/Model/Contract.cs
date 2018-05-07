@@ -14,10 +14,21 @@ namespace FoxtrotProject.Model
 
         public bool Status { get; set; }
 
-        public Dictionary<ProductGroup, int> DiscountGroups { get; set; }
+        public List<ProductGroup> ProductGroups { get; set; }
+
+        private List<Tuple<ProductGroup, int>> ProductGroupWithDiscount;
 
         public Subscription Subscription { get; set; }
 
-        public int Discount { get; set; }
+        public int? GetDiscount(ProductGroup productGroup)
+        {
+            foreach(Tuple<ProductGroup, int> discount in ProductGroupWithDiscount)
+            {
+                if (productGroup == discount.Item1)
+                    return discount.Item2;
+            }
+            return null;
+        }
+
     }
 }

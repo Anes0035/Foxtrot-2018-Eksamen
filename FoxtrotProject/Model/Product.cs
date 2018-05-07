@@ -17,5 +17,11 @@ namespace FoxtrotProject.Model
         public decimal Price { get; set; }
 
         public string Category { get; set; }
+
+        public Product(int iD, string name)
+        {
+            ID = iD;
+            Name = name;
+        }
     }
 }

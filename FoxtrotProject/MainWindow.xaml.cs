@@ -22,13 +22,16 @@ namespace FoxtrotProject
     public partial class MainWindow : Window
     {
         ProductViewModel productViewModel;
+        CustomerViewModel customerViewModel;
         public MainWindow()
         {
             InitializeComponent();
+            
+
             productViewModel = new ProductViewModel();
+            customerViewModel = new CustomerViewModel();
 
-
-            DataContext = productViewModel;
+            DataContext = customerViewModel;
         }
 
         private void txtSearchCostumer_GotFocus(object sender, RoutedEventArgs e)
