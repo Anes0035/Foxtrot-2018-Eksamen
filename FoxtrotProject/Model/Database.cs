@@ -30,12 +30,13 @@ namespace FoxtrotProject.Model
             try
             {
                 OpenConnection();
-                SqlCommand command = new SqlCommand("Insert INTO Customer(CVR, Name, Address, PhoneNumber, ContactPerson) Values(@cvr, @name, @address, @phonenumber, @contactperson, @SetDate)", connection);
+                SqlCommand command = new SqlCommand("Insert INTO Customer(CVR, Name, Address, PhoneNumber, ContactPerson, GrossIncome) Values(@cvr, @name, @address, @phonenumber, @contactperson, @grossincome)", connection);
                 command.Parameters.AddWithValue("@cvr", customer.CVR);
                 command.Parameters.AddWithValue("@name", customer.Name);
                 command.Parameters.AddWithValue("@address", customer.Address);
                 command.Parameters.AddWithValue("@phonenumber", customer.TelephoneNumber);
                 command.Parameters.AddWithValue("@contactperson", customer.ContactPerson);
+                command.Parameters.AddWithValue("@grossincome", customer.GrossIncome);
                 command.ExecuteNonQuery();
             }
             catch (Exception)
@@ -56,12 +57,13 @@ namespace FoxtrotProject.Model
             try
             {
                 OpenConnection();
-                SqlCommand command = new SqlCommand("UPDATE Customer SET CVR = @cvr, Name = @name, Address = @address, PhoneNumber = @phonenumber, ContactPerson = @contactperson ");
+                SqlCommand command = new SqlCommand("UPDATE Customer SET CVR = @cvr, Name = @name, Address = @address, PhoneNumber = @phonenumber, ContactPerson = @contactperson, GrossIncome = @grossincome ");
                 command.Parameters.AddWithValue("@cvr", customer.CVR);
                 command.Parameters.AddWithValue("@name", customer.Name);
                 command.Parameters.AddWithValue("@address", customer.Address);
                 command.Parameters.AddWithValue("@phonenumber", customer.TelephoneNumber);
                 command.Parameters.AddWithValue("@contactperson", customer.ContactPerson);
+                command.Parameters.AddWithValue("@grossincome", customer.GrossIncome);
                 command.ExecuteNonQuery();
             }
             catch (Exception)
