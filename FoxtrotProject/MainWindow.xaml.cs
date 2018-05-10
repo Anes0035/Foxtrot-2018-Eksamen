@@ -41,5 +41,23 @@ namespace FoxtrotProject
             txt.Foreground = Brushes.Black;
             txt.GotFocus -= txtSearchCostumer_GotFocus;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Produktet er oprettet");
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+        }
+
+        //private void btnSlet_Click(object sender, RoutedEventArgs e)
+        //{
+        //    foreach (ListViewItem listViewProduct in ((ListView)sender).SelectedItems)
+        //    {
+        //        listViewProduct.RemoveHandler();
+        //    }
+        //}
     }
 }

@@ -58,7 +58,9 @@
                             <Button Grid.Row="0" Grid.Column="3" Content="Søg" HorizontalAlignment="Right" Margin="0,5,20,0" VerticalAlignment="Top"  Height="25" Width="40"/>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Opret" Margin="0,50,0,-65">
+
+
+                    <TabItem Header="Opret" Margin="0,50,0,-65" Height="35" VerticalAlignment="Top">
                         <Grid Background="Azure">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="35"/>
@@ -117,22 +119,113 @@
                         </Grid>
                     </TabItem>
                 </TabControl>
-
             </TabItem>
+
+
             <TabItem Header="ProduktKatalog">
+
                 <TabControl TabStripPlacement="Left">
-                    <TabItem Header="Opret Produkt" Margin="0,10,0,-15" Height="25">
+                    <TabItem Header="Opret / Rediger Produkt" Margin="0,10,0,-15" Height="25">
+                        <Grid Background="Azure">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="161.5"/>
+                                <ColumnDefinition Width="328.5"/>
+                                <ColumnDefinition Width="0.6*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Content="ID:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="120"/>
+                            <TextBox Name="txtProductID" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="10,5,0,0" 
+                                     TextWrapping="Wrap" Text="{Binding Id}" VerticalAlignment="Top" Width="120"/>
+
+                            <Label Content="Navn:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Margin="10,5,10,0" VerticalAlignment="Top" Width="110"/>
+                            <TextBox Name="txtProductName" Grid.Column="1" Grid.Row="1" Height="23" Margin="10,5,31.5,0" TextWrapping="Wrap" 
+                                     Text="{Binding Name}" VerticalAlignment="Top" Width="120"/>
+
+                            <Label Content="Beskrivelse:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Margin="10,5,10,0" VerticalAlignment="Top" Width="110"/>
+                            <TextBox Name="txtDescription" Grid.Column="1" Grid.Row="2" Height="23" Margin="10,5,31.5,0" TextWrapping="Wrap"
+                                     Text="{Binding Description}" VerticalAlignment="Top" Width="120"/>
+
+                            <Label Content="Kategori:" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Margin="10,5,10,0" VerticalAlignment="Top" Width="110"/>
+                            <TextBox Name="txtCategory" Grid.Column="1" Grid.Row="3" Height="23" Margin="10,5,31.5,0" TextWrapping="Wrap" 
+                                     Text="{Binding Category}" VerticalAlignment="Top" Width="120"/>
+
+                            <Label Content="Pris:" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Margin="10,5,10,0" VerticalAlignment="Top" Width="110"/>
+                            <TextBox Name="txtPrice" Grid.Column="1" Grid.Row="4" Height="23" Margin="10,5,31.5,0" TextWrapping="Wrap" 
+                                     Text="{Binding Price}" VerticalAlignment="Top" Width="120"/>
+
+                            <Button Grid.Column="1" Grid.Row="5" Margin="10,33,31.5,187" Content="Gem" Click="Button_Click" />
+
+                            <TextBox Grid.Column="2" Grid.Row="0" Margin="10,0,200,0" />
+                            <ListView Grid.Column="2" Grid.Row="2" Margin="10,0,96,187" Grid.RowSpan="4"/>
+                            <Button Content="Søg" Grid.Column="2" HorizontalAlignment="Left" Margin="158,5,0,0" VerticalAlignment="Top" Width="74"/>
+
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Søg / Slet Produkt" Margin="0,37,0,-36" Height="25">
                         <Grid>
-                            <Label Content="ID:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                            <TextBox Name="txtProductID" HorizontalAlignment="Left" Height="23" Margin="53,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-                            <Label Content="Name:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-                            <TextBox Name="txtProductName" Height="23" Margin="53,41,317,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="*"/>
+
+                            </Grid.RowDefinitions>
+
+                            <Label Content="Søg:" Grid.Row="0" HorizontalAlignment="Center" Margin="10,10,482,0" VerticalAlignment="Top" 
+                                   Width="56" Height="30" />
+                            <TextBox Name="txtSøg" Height="35" Margin="71,8,209,0" TextWrapping="Wrap" Text=" " VerticalAlignment="Top"/>
+                            <Button Name="btn" Content="Søg" Margin="405,10,40,7"/>
+
+                            <ListView Grid.Row="1" Name="ListView" Margin="71,15,209,15" SelectionChanged="ListView_SelectionChanged"/>
+                            <Button Name="btnSlet" Content="Slet" Margin="405,15,40,337" Grid.Row="1" Click="btnSlet_Click"/>
+
                         </Grid>
                     </TabItem>
                 </TabControl>
             </TabItem>
-            <TabItem Header="Statistik"/>
+
+
+
+            <TabItem Header="Statistik">
+                <Grid Background="MintCream">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.2*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Margin="5">
+                        <StackPanel Orientation="Horizontal" Height="64">
+                            <Label Content="Aftale status:" Margin="10,14,0,14" Width="106"/>
+                            <ComboBox Height="36" Width="231" Margin="0,14">
+                                <ComboBoxItem Content="Product Grupper"/>
+                                <ComboBoxItem Content="Aktiv Aftale"/>
+                                <ComboBoxItem Content="Inaktiv Aftale"/>
+                                <ComboBoxItem Content="Aftale med Abonnement"/>
+                                <ComboBoxItem Content="Aftale uden Abonnement"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Height="35">
+                            <Label Content="Mest populær:" Margin="10,0,0,0" Width="133"/>
+                            <TextBox Text="" Width="133" x:Name="TextBoxTopX"/>
+                            <Button Content="Søg" Width="70"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <ListView Name="ListViewStatistik" Grid.Column="1" Margin="20"/>
+                </Grid>
+            </TabItem>
+
+
             <TabItem Header="Log"/>
+
         </TabControl>
 
     </Grid>

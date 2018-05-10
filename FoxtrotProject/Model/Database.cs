@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace FoxtrotProject.Model
 {
@@ -27,17 +28,20 @@ namespace FoxtrotProject.Model
 
         public void AddCustomer(Customer customer)
         {
+          
+
             try
             {
                 OpenConnection();
-                SqlCommand command = new SqlCommand("Insert INTO Customer(CVR, Name, Address, PhoneNumber, ContactPerson, GrossIncome) Values(@cvr, @name, @address, @phonenumber, @contactperson, @grossincome)", connection);
+                 SqlCommand command = new SqlCommand("Insert INTO Customer(CVR, Name, Address, PhoneNumber, ContactPerson, GrossIncome) Values(@cvr, @name, @address, @phonenumber, @contactperson, @grossincome)", connection);
                 command.Parameters.AddWithValue("@cvr", customer.CVR);
                 command.Parameters.AddWithValue("@name", customer.Name);
                 command.Parameters.AddWithValue("@address", customer.Address);
                 command.Parameters.AddWithValue("@phonenumber", customer.TelephoneNumber);
                 command.Parameters.AddWithValue("@contactperson", customer.ContactPerson);
                 command.Parameters.AddWithValue("@grossincome", customer.GrossIncome);
-                command.ExecuteNonQuery();
+                command.ExecuteNonQuery();             
+
             }
             catch (Exception)
             {
@@ -49,6 +53,7 @@ namespace FoxtrotProject.Model
                 CloseConnection();
             }
         }
+              
 
         /// Method for editing a customers details ( Not Finished ) 
 
@@ -92,6 +97,81 @@ namespace FoxtrotProject.Model
             {
                 // Create an exception if no Customer is selected
                 throw;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
+
+        public string AddProduct(Product product)
+        {
+        try
+        {
+            SqlCommand command = new SqlCommand("Insert INTO [dbo].[Product]([Id], [Name], [Description], [Price], [Category]) " +
+                                                                "Values(@id, @name, @description, @price, @category)", connection);
+            command.Parameters.AddWithValue("@id", product.ID);
+            command.Parameters.AddWithValue("@name", product.Name);
+            command.Parameters.AddWithValue("@description", product.Description);
+            command.Parameters.AddWithValue("@price", product.Price);
+            command.Parameters.AddWithValue("@category", product.Category);
+            command.ExecuteNonQuery();
+            CloseConnection();
+                          
+            return "Successfully Inserted";               
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+        }              
+       
+        public bool UpdateProduct(Product product)
+        {
+            OpenConnection();
+            try
+            {
+                SqlCommand command = new SqlCommand("UPDATE [dbo].[Product] SET [ID] = @id, [Name] = @name, [Description] = @description, [Price] = @price, [Category] = @category");
+                command.Parameters.AddWithValue("@id", product.ID);
+                command.Parameters.AddWithValue("@name", product.Name);
+                command.Parameters.AddWithValue("@description", product.Description);
+                command.Parameters.AddWithValue("@price", product.Price);
+                command.Parameters.AddWithValue("@category", product.Category);
+                command.ExecuteNonQuery();
+                CloseConnection();
+
+                return true;
+            }
+          
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
+        public bool RemoveProduct(int id)
+        {
+            try
+            {
+                OpenConnection();
+                SqlCommand command = new SqlCommand("DELETE FROM [dbo].[Product] WHERE Id = @id", connection);
+                command.ExecuteNonQuery();
+                CloseConnection();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
             finally
             {
