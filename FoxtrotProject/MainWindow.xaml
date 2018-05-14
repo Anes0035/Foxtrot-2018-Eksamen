@@ -25,29 +25,30 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="0.6*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Text="Søge Muligheder: CVR, Name eller Address" Name="txtSearchCostumer" Foreground="#55000000" GotFocus="txtSearchCostumer_GotFocus" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,80,0" Width="250" Height="25"/>
+                    <TextBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Text="Søge Muligheder: CVR, Name eller Address" Name="txtSearchCustomer" Foreground="#55000000" GotFocus="txtSearchCustomer_GotFocus" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,80,0" Width="250" Height="25"/>
                     <Button Grid.Row="0" Grid.Column="2" Content="Søg" HorizontalAlignment="Right" Margin="0,5,20,0" VerticalAlignment="Top"  Height="25" Width="40"/>
                     <Label Grid.Row="1" Content="CVR:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                    <TextBox x:Name="txtCVR" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="5,5,5,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtCVR" Text="{Binding CVR}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="5,5,5,0" Height="25" Width="100"/>
                     <Label Grid.Row="2" Content="Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                    <TextBox x:Name="txtName" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtName" Text="{Binding Name}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
                     <Label Grid.Row="3" Content="Adresse:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                    <TextBox x:Name="txtAddress" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtAddress" Text="{Binding Address}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
                     <Label Grid.Row="4" Content="Tlf. Nummer:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                    <TextBox x:Name="txtTelephoneNumber" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtTelephoneNumber" Text="{Binding TelephoneNumber}" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
                     <Label Grid.Row="5" Content="Kontakt Person:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                    <TextBox x:Name="txtContactPerson" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtContactPerson" Text="{Binding ContactPerson}" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
                     <Label Grid.Row="6" Content="Årlig Omsætning:"  VerticalAlignment="Top" Margin="10,5,10,0" Height="25" Width="Auto"/>
-                    <TextBox x:Name="txtGrossIncome" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
-                    <Button Grid.Row="7" Grid.Column="1" Content="Gem Kunde" VerticalAlignment="Top" Margin="5,10,5,0" Height="25" Width="Auto"/>
-                    <Button Grid.Row="7" Content="Vælg Kunde" Grid.Column="2" HorizontalAlignment="Right" Height="25" Margin="0,35,10,-25" VerticalAlignment="Top" Width="75"/>
-                    <ListBox Grid.Column="2"  Grid.Row="1" Grid.RowSpan="7" HorizontalAlignment="Right" Height="Auto" Margin="0,10,10,10" Width="250">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
+                    <TextBox x:Name="txtGrossIncome" Text="{Binding GrossIncome}" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <Button Grid.Row="7" Grid.Column="1" Command="{Binding SaveCustomerCommand}" Content="Gem Kunde" VerticalAlignment="Top" Margin="5,10,5,0" Height="25" Width="Auto"/>
+                    <Button Grid.Row="7" Content="Vis Kunde" Grid.Column="2" HorizontalAlignment="Right" Height="25" Margin="0,45,10,-35" VerticalAlignment="Top" Width="75"/>
+                    <DataGrid x:Name="lstCustomers" AutoGenerateColumns="False" ItemsSource="{Binding Customers, Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Right" Height="Auto" Margin="0,10,10,0" Grid.Row="1" Grid.RowSpan="7" Width="300">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="CVR" Width="Auto" Binding="{Binding CVR}"/>
+                            <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Label x:Name="lblCustomerError" Content="" HorizontalAlignment="Left" Height="25" Margin="10,45,0,0" Grid.Row="7" VerticalAlignment="Top"/>
+                    <Button Content="Slet Kunde" Grid.Column="2" HorizontalAlignment="Right" Margin="0,45,100,-35" Grid.Row="7" VerticalAlignment="Top" Height="25" Width="75"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Aftaler">
@@ -185,7 +186,7 @@
                             <Button Name="btn" Content="Søg" Margin="405,10,40,7"/>
 
                             <ListView Grid.Row="1" Name="ListView" Margin="71,15,209,15" SelectionChanged="ListView_SelectionChanged"/>
-                            <Button Name="btnSlet" Content="Slet" Margin="405,15,40,337" Grid.Row="1" Click="btnSlet_Click"/>
+                            <Button Name="btnSlet" Content="Slet" Margin="405,15,40,337" Grid.Row="1"/>
 
                         </Grid>
                     </TabItem>

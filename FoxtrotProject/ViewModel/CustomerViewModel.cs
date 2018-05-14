@@ -8,20 +8,15 @@ using System.Threading.Tasks;
 using FoxtrotProject.Model;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Windows;
 
 namespace FoxtrotProject.ViewModel
 {
     class CustomerViewModel : ViewModel
     {
-        public ObservableCollection<Customer> customers { get; set; }
+        public ObservableCollection<Customer> Customers { get; set; }
 
         private Customer currentCustomer;
-
-        public CustomerViewModel()
-        {
-            currentCustomer = new Customer();
-            customers = new ObservableCollection<Customer>();
-        }
 
         public ICommand SaveCustomerCommand { get; set; }
 
@@ -85,14 +80,36 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-        public void SaveCustomerExecute()
+        private string customerErrorMessage;
+
+        public string CustomerErrorMessage
         {
-            customers.Add(currentCustomer);
+            get { return customerErrorMessage; }
+            set
+            {
+                customerErrorMessage = value;
+                NotifyPropertyChanged();
+            }
         }
 
-        public bool SaveCustomerCanExecute()
+        public CustomerViewModel()
         {
-            return string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(Address);
+            currentCustomer = new Customer();
+            Customers = new ObservableCollection<Customer>();
+            SaveCustomerCommand = new WpfCommand(SaveCustomerExecute, SaveCustomerCanExecute);
+        }
+
+        public void SaveCustomerExecute(object parameter)
+        {
+            Customers.Add(currentCustomer);
+            NotifyPropertyChanged("customers");
+            MessageBox.Show("Kunde Oprettet");
+            
+        }
+
+        public bool SaveCustomerCanExecute(object parameter)
+        {
+            return true;
         }
 
     }
