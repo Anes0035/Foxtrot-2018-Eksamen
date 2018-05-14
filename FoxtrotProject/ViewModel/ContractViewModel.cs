@@ -51,18 +51,6 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-        private Dictionary<ProductGroup, int> discountGroups;
-
-        public Dictionary<ProductGroup, int> DiscountGroups
-        {
-            get { return currentContract.DiscountGroups; }
-            set
-            {
-                currentContract.DiscountGroups = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         private Subscription subscription;
 
         public Subscription Subscription
@@ -75,18 +63,6 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-        private int discount;
-
-        public int Discount
-        {
-            get { return currentContract.Discount; }
-            set
-            {
-                currentContract.Discount = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         public ContractViewModel()
         {
             ProductGroupCount = new Dictionary<ProductGroup, int>();
@@ -95,7 +71,7 @@ namespace FoxtrotProject.ViewModel
 
         private void CountProductGroup(object sender, ContractEventArgs e)
         {
-            foreach (ProductGroup pg in e.contract.DiscountGroups.Keys)
+            foreach (ProductGroup pg in e.contract.ProductGroups)
             {
                 if (!ProductGroupCount.ContainsKey(pg))
                     ProductGroupCount.Add(pg, 1);

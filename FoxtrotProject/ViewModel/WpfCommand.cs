@@ -23,12 +23,12 @@ namespace FoxtrotProject.ViewModel
 
         public bool CanExecute(object parameter)
         {
-            return CanExecute(parameter);
+            return canExecute(parameter);
         }
 
         public void Execute(object parameter)
         {
-            Execute(parameter);
+            execute(parameter);
         }
     }
 }
