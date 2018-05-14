@@ -204,7 +204,7 @@
                     <StackPanel Margin="5">
                         <StackPanel Orientation="Horizontal" Height="64">
                             <Label Content="Aftale status:" Margin="10,14,0,14" Width="106"/>
-                            <ComboBox Height="36" Width="231" Margin="0,14">
+                            <ComboBox Height="36" Width="211" Margin="0,14">
                                 <ComboBoxItem Content="Product Grupper"/>
                                 <ComboBoxItem Content="Aktiv Aftale"/>
                                 <ComboBoxItem Content="Inaktiv Aftale"/>
@@ -213,9 +213,9 @@
                             </ComboBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Height="35">
-                            <Label Content="Mest populær:" Margin="10,0,0,0" Width="133"/>
-                            <TextBox Text="" Width="133" x:Name="TextBoxTopX"/>
-                            <Button Content="Søg" Width="70"/>
+                            <Label Content="Mest populær:" Margin="10,0,0,0" Width="105"/>
+                            <TextBox Text="" Width="81" x:Name="TextBoxTopX"/>
+                            <Button Content="Søg" Width="56"/>
                         </StackPanel>
                     </StackPanel>
 

@@ -178,5 +178,110 @@ namespace FoxtrotProject.Model
                 CloseConnection();
             }
         }
+
+        public List<Product> Products(int id, string name)
+
+        {
+
+            List<Product> productList = new List<Product>();
+
+            string selectquery =
+
+               @"select * from Product where Id='" + id + "' or name='" + name + "'";
+
+           connection.Open();
+
+            SqlCommand selectSqlCommand = new SqlCommand(selectquery, connection);
+
+            SqlDataReader sqlDataReader = selectSqlCommand.ExecuteReader();
+
+            while (sqlDataReader.Read())
+
+            {
+
+                productList.Add(new Product(Convert.ToInt32(sqlDataReader["Id"]), sqlDataReader["Name"].ToString()));
+
+            }
+
+            CloseConnection();
+
+            return productList;
+
+        }
+
+        public string AddContract(Contract contract)
+        {
+            try
+            {
+                SqlCommand command = new SqlCommand("Insert CONTRACT [dbo].[Contract]([StartDate], [Period], [Status], [Subscription], [ProductGroups], [GetDiscount]) " +
+                                                                    "Values(@startDate, @period, @status, @subscription, @ProductGroups, @getDiscount)", connection);
+                command.Parameters.AddWithValue("@startDate", contract.StartDate);
+                command.Parameters.AddWithValue("@Period", contract.Period);
+                command.Parameters.AddWithValue("@status", contract.Status);
+                command.Parameters.AddWithValue("@subscription", contract.Subscription);
+                command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
+               // command.Parameters.AddWithValue("@getDiscount", contract.GetDiscount);
+                command.ExecuteNonQuery();
+                CloseConnection();
+
+                return "Successfully Inserted";
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+        }
+
+        public bool UpdateContract(Contract contract)
+        {
+            OpenConnection();
+            try
+            {
+                SqlCommand command = new SqlCommand("UPDATE [dbo].[Contract] SET [Status] = @status, [Subscription] = @subscription");
+                command.Parameters.AddWithValue("@status", contract.Status);
+                command.Parameters.AddWithValue("@subscription", contract.Subscription);
+                                
+                command.ExecuteNonQuery();
+                CloseConnection();
+
+                return true;
+            }
+
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
+
+        //CVR --- customer.CVR ?!?
+        public bool RemoveContract(int idContract)
+        {
+            try
+            {
+                OpenConnection();
+                SqlCommand command = new SqlCommand("DELETE FROM [dbo].[Contract] WHERE IdContract = @idContract", connection);
+                command.ExecuteNonQuery();
+                CloseConnection();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
     }
 }

@@ -81,7 +81,6 @@ namespace FoxtrotProject.ViewModel
                 NotifyPropertyChanged();
             }
         }
-
-
+        
     }
 }
