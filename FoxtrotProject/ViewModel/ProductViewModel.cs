@@ -12,6 +12,8 @@ namespace FoxtrotProject.ViewModel
     {
         private Product currentProduct;
 
+        private Database Db;
+
         public ObservableCollection<ProductGroup> ProductGroups { get; set; }
 
         private List<Product> products;
@@ -81,6 +83,13 @@ namespace FoxtrotProject.ViewModel
                 NotifyPropertyChanged();
             }
         }
+
+
+        public void AddProduct(object parameter)
+        {
+            //Product product = new Product();
+
+        }   
         
     }
 }

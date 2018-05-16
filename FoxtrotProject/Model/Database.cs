@@ -109,6 +109,7 @@ namespace FoxtrotProject.Model
         {
         try
         {
+               
             SqlCommand command = new SqlCommand("Insert INTO [dbo].[Product]([Id], [Name], [Description], [Price], [Category]) " +
                                                                 "Values(@id, @name, @description, @price, @category)", connection);
             command.Parameters.AddWithValue("@id", product.ID);
@@ -130,7 +131,12 @@ namespace FoxtrotProject.Model
                 CloseConnection();
             }
 
-        }              
+        }           
+        
+        public void GetAllProducts()
+        {
+
+        }
        
         public bool UpdateProduct(Product product)
         {
@@ -179,35 +185,25 @@ namespace FoxtrotProject.Model
             }
         }
 
-        public List<Product> Products(int id, string name)
-
+        public List<Product> Products(int id) 
         {
 
             List<Product> productList = new List<Product>();
-
-            string selectquery =
-
-               @"select * from Product where Id='" + id + "' or name='" + name + "'";
-
-           connection.Open();
-
+            string selectquery = @"select * from Product where Id='" + id;
+            connection.Open();
             SqlCommand selectSqlCommand = new SqlCommand(selectquery, connection);
-
             SqlDataReader sqlDataReader = selectSqlCommand.ExecuteReader();
 
             while (sqlDataReader.Read())
-
             {
-
-                productList.Add(new Product(Convert.ToInt32(sqlDataReader["Id"]), sqlDataReader["Name"].ToString()));
+                productList.Add(new Product(Convert.ToInt32(sqlDataReader["Id"])));
 
             }
-
             CloseConnection();
-
             return productList;
-
         }
+
+
 
         public string AddContract(Contract contract)
         {

@@ -143,11 +143,11 @@
                                 <ColumnDefinition Width="0.6*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Label Content="ID:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="120"/>
+                            <Label Content="ID:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Margin="10,5,0,0" VerticalAlignment="Top" Width="120"/>
                             <TextBox Name="txtProductID" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="10,5,0,0" 
-                                     TextWrapping="Wrap" Text="{Binding Id}" VerticalAlignment="Top" Width="120"/>
+                                     TextWrapping="Wrap" Text="{Binding ID}" VerticalAlignment="Top" Width="120"/>
 
-                            <Label Content="Navn:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Margin="10,5,10,0" VerticalAlignment="Top" Width="110"/>
+                            <Label Content="Navn:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Margin="10,5,0,0" VerticalAlignment="Top" Width="120"/>
                             <TextBox Name="txtProductName" Grid.Column="1" Grid.Row="1" Height="23" Margin="10,5,31.5,0" TextWrapping="Wrap" 
                                      Text="{Binding Name}" VerticalAlignment="Top" Width="120"/>
 
@@ -163,11 +163,11 @@
                             <TextBox Name="txtPrice" Grid.Column="1" Grid.Row="4" Height="23" Margin="10,5,31.5,0" TextWrapping="Wrap" 
                                      Text="{Binding Price}" VerticalAlignment="Top" Width="120"/>
 
-                            <Button Grid.Column="1" Grid.Row="5" Margin="10,33,31.5,187" Content="Gem" Click="Button_Click" />
+                            <Button Grid.Column="1" Grid.Row="5" Margin="10,33,31.5,187" Content="Gem" Click="Button_Save_Product_Click"  />
 
-                            <TextBox Grid.Column="2" Grid.Row="0" Margin="10,0,200,0" />
-                            <ListView Grid.Column="2" Grid.Row="2" Margin="10,0,96,187" Grid.RowSpan="4"/>
-                            <Button Content="Søg" Grid.Column="2" HorizontalAlignment="Left" Margin="158,5,0,0" VerticalAlignment="Top" Width="74"/>
+                            <TextBox Grid.Column="2" Grid.Row="0" Margin="10,5,175,7" />
+                            <ListView Grid.Column="2" Grid.Row="1" Margin="10,5,96,187" Grid.RowSpan="5"/>
+                            <Button Content="Søg" Grid.Column="2" HorizontalAlignment="Left" Margin="158,5,0,0" VerticalAlignment="Top" Width="74" Height="23"/>
 
                         </Grid>
                     </TabItem>
@@ -185,8 +185,8 @@
                             <TextBox Name="txtSøg" Height="35" Margin="71,8,209,0" TextWrapping="Wrap" Text=" " VerticalAlignment="Top"/>
                             <Button Name="btn" Content="Søg" Margin="405,10,40,7"/>
 
-                            <ListView Grid.Row="1" Name="ListView" Margin="71,15,209,15" SelectionChanged="ListView_SelectionChanged"/>
-                            <Button Name="btnSlet" Content="Slet" Margin="405,15,40,337" Grid.Row="1"/>
+                            <ListView Grid.Row="1" Name="ListView_Product" Margin="71,15,209,15" />
+                            <Button Name="btnSlet_Product" Content="Slet" Margin="405,15,40,337" Grid.Row="1" Click="btnSlet_Product_Click"/>
 
                         </Grid>
                     </TabItem>
@@ -225,7 +225,16 @@
             </TabItem>
 
 
-            <TabItem Header="Log"/>
+            <TabItem Header="Log">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" MinHeight="30"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" Content="Vis Log" Name="Button_Vis_Log" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10,10,512,10" Width="104" Height="20" Click="Button_Vis_Log_Click_1"/>
+                    <TextBox Name="TextBox_Log_File" Grid.Row="1" Height="390" Margin="5"/>
+                </Grid>
+            </TabItem>
 
         </TabControl>
 

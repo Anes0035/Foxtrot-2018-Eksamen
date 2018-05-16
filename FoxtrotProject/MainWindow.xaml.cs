@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FoxtrotProject.ViewModel;
+using Microsoft.Win32;
 
 namespace FoxtrotProject
 {
@@ -23,6 +24,7 @@ namespace FoxtrotProject
     {
         ProductViewModel productViewModel;
         CustomerViewModel customerViewModel;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -30,16 +32,16 @@ namespace FoxtrotProject
 
             productViewModel = new ProductViewModel();
             customerViewModel = new CustomerViewModel();
-
+          
             DataContext = customerViewModel;
         }
 
-        private void txtSearchCostumer_GotFocus(object sender, RoutedEventArgs e)
+        private void txtSearchCustomer_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox txt = (TextBox)sender;
             txt.Text = string.Empty;
             txt.Foreground = Brushes.Black;
-            txt.GotFocus -= txtSearchCostumer_GotFocus;
+            txt.GotFocus -= txtSearchCustomer_GotFocus;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -47,17 +49,37 @@ namespace FoxtrotProject
             MessageBox.Show("Produktet er oprettet");
         }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+       
+
+        private void Button_Save_Product_Click(object sender, RoutedEventArgs e)
         {
-            
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
-        //private void btnSlet_Click(object sender, RoutedEventArgs e)
-        //{
-        //    foreach (ListViewItem listViewProduct in ((ListView)sender).SelectedItems)
-        //    {
-        //        listViewProduct.RemoveHandler();
-        //    }
-        //}
+        private void Button_Vis_Log_Click_1(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "DataLog(.txt)|*.txt";
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                string filename = dlg.FileName;
+                TextBox_Log_File.Text = filename;
+
+                Paragraph parag = new Paragraph();
+                parag.Inlines.Add(System.IO.File.ReadAllText(filename));
+            
+            }
+
+        }
     }
 }
