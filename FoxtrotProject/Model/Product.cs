@@ -19,10 +19,20 @@ namespace FoxtrotProject.Model
 
         public string Category { get; set; }
 
+        public Product()
+        {
+
+        }
+
          public Product(int iD)
           {
               ID = iD;
           }
+
+        public Product Clone()
+        {
+            return new Product() { ID = ID, Name = Name, Description = Description, Price = Price, Category = Category };
+        }
 
           public Product(List<Product> products, string name, string description, decimal price, string category)
           {

@@ -1,6 +1,7 @@
 ﻿using FoxtrotProject.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ using System.Windows;
 
 namespace FoxtrotProject.Model
 {
-    class Database
+   class Database
     {
         private SqlConnection connection;
 
@@ -133,12 +134,12 @@ namespace FoxtrotProject.Model
 
         }           
         
-        public void GetAllProducts()
-        {
+        //public void GetAllProducts()
+        //{
 
-        }
+        //}
        
-        public bool UpdateProduct(Product product)
+        public bool UpDateProduct(Product product)
         {
             OpenConnection();
             try
@@ -185,22 +186,42 @@ namespace FoxtrotProject.Model
             }
         }
 
-        public List<Product> Products(int id) 
+        public ObservableCollection<Product> Products() 
         {
 
-            List<Product> productList = new List<Product>();
-            string selectquery = @"select * from Product where Id='" + id;
-            connection.Open();
-            SqlCommand selectSqlCommand = new SqlCommand(selectquery, connection);
-            SqlDataReader sqlDataReader = selectSqlCommand.ExecuteReader();
+            ObservableCollection<Product> _products = new ObservableCollection<Product>();
 
-            while (sqlDataReader.Read())
+
+            try
             {
-                productList.Add(new Product(Convert.ToInt32(sqlDataReader["Id"])));
+                connection.Open();
+                SqlCommand command = new SqlCommand("Insert INTO [dbo].[Product]([Id], [Name], [Description], [Price], [Category]) " +
+                                                               "Values(@id, @name, @description, @price, @category)", connection);
+                SqlDataReader sqlDataReader = command.ExecuteReader();
+
+                while (sqlDataReader.Read())
+                {
+                    Product product = new Product();
+
+                    product.ID = (int)sqlDataReader["Id"];
+                    product.Name = (string)sqlDataReader["Name"];
+                    product.Description = (string)sqlDataReader["Description"];
+                    product.Price = (decimal)sqlDataReader["Price"];
+                    product.Category = (string)sqlDataReader["Category"];
+                    _products.Add(product);
+                }
+
+                return _products;
 
             }
-            CloseConnection();
-            return productList;
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                CloseConnection();
+            }
         }
 
 

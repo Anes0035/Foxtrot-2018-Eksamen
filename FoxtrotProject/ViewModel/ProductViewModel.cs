@@ -10,19 +10,16 @@ namespace FoxtrotProject.ViewModel
 {
     class ProductViewModel : ViewModel
     {
-        private Product currentProduct;
+      
 
-        private Database Db;
+        private Database Db = new Database();
 
         public ObservableCollection<ProductGroup> ProductGroups { get; set; }
 
-        private List<Product> products;
+        public ObservableCollection<Product> Products { get; set; }
 
-        public List<Product> Products
-        {
-            get { return products; }
-            set { products = value; }
-        }
+        private Product currentProduct = new Product();
+
 
         private int iD;
 
@@ -85,11 +82,34 @@ namespace FoxtrotProject.ViewModel
         }
 
 
-        public void AddProduct(object parameter)
+        public void AddProduct()
         {
-            //Product product = new Product();
+            Product Clone = currentProduct.Clone();
+            Db.AddProduct(Clone);
+            Products.Add(Clone);
+        }
+              
+        public Collection<Product> _Search_Product { get; set; }
 
-        }   
-        
+        public void Search_Product(Collection<Product> _p)
+        {
+            for (int i = 0; _p.Where(p => p.ID == i).Any(); i++)
+            {
+                ID = i;
+            }
+
+        }
+
+        public void DeleteProduct()
+        {
+            Db.RemoveProduct(ID);
+        }
+
+        public void UpDateProduct()
+        {
+            Product Clone = currentProduct.Clone();
+            Db.UpDateProduct(Clone);
+            Products.Add(Clone);
+        }
     }
 }
