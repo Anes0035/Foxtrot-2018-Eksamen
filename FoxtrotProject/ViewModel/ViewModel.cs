@@ -19,5 +19,30 @@ namespace FoxtrotProject.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        protected string ValidateIntegerParse(string value, string propertyName, out int integerValue)
+        {
+            string message = null;
+
+            if (!Int32.TryParse(value, out integerValue))
+                message = string.Format("{0} feltet indeholder ulovlige tegn", propertyName);
+
+            return message;
+        }
+
+        protected string ValidateDoubleParse(string value, string propertyName, out double doubleValue)
+        {
+            string message = null;
+
+            if (!Double.TryParse(value, out doubleValue))
+                message = string.Format("{0} feltet indeholder ulovlige tegn", propertyName);
+
+            return message;
+        }
+
+        protected string PropertyIsEmptyErrorMessage(string propertyName)
+        {
+            return string.Format("{0} feltet er tomt", propertyName);
+        }
     }
 }

@@ -12,110 +12,190 @@ using System.Windows;
 
 namespace FoxtrotProject.ViewModel
 {
-    class CustomerViewModel : ViewModel
+    class CustomerViewModel : ViewModel, IDataErrorInfo
     {
-        public ObservableCollection<Customer> Customers { get; set; }
-
-        private Customer currentCustomer;
-        private Database db;
-        public ICommand SaveCustomerCommand { get; set; }
+        #region Customer
+        public Customer customer { get; set; }
 
         public string Name
         {
-            get { return currentCustomer.Name; }
+            get { return customer.Name; }
             set
             {
-                currentCustomer.Name = value;
+                customer.Name = value;
                 NotifyPropertyChanged();
             }
         }
 
         public string Address
         {
-            get { return currentCustomer.Address; }
+            get { return customer.Address; }
             set
             {
-                currentCustomer.Address = value;
+                customer.Address = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public int TelephoneNumber
+        private string telephoneNumber;
+
+        public string TelephoneNumber
         {
-            get { return currentCustomer.TelephoneNumber; }
+            get { return telephoneNumber; }
             set
             {
-                currentCustomer.TelephoneNumber = value;
+                telephoneNumber = value;
                 NotifyPropertyChanged();
             }
         }
 
         public string ContactPerson
         {
-            get { return currentCustomer.ContactPerson; }
+            get { return customer.ContactPerson; }
             set
             {
-                currentCustomer.ContactPerson = value;
+                customer.ContactPerson = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public double GrossIncome
+        private string grossIncome;
+
+        public string GrossIncome
         {
-            get { return currentCustomer.GrossIncome; }
+            get { return grossIncome; }
             set
             {
-                currentCustomer.GrossIncome = value;
+                grossIncome = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public int CVR
+        private string cVR;
+
+        public string CVR
         {
-            get { return currentCustomer.CVR; }
+            get { return cVR; }
             set
             {
-                currentCustomer.CVR = value;
+                cVR = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private string customerErrorMessage;
+        public ObservableCollection<Customer> Customers { get; set; }
+        #endregion
 
-        public string CustomerErrorMessage
+        #region IDataErrorInfo
+        public string FirstErrorMessage
         {
-            get { return customerErrorMessage; }
-            set
+            get
             {
-                customerErrorMessage = value;
-                NotifyPropertyChanged();
+                PropertyInfo[] properties = GetType().GetProperties();
+                foreach (PropertyInfo p in properties)
+                {
+                    if (this[p.Name] != null)
+                        return this[p.Name];
+                }
+
+                return null;
             }
         }
+
+        public string Error
+        {
+            get { return null; }
+        }
+
+        public string this[string propertyName]
+        {
+            get
+            {
+                string message;
+                switch (propertyName)
+                {
+                    case "CVR":
+                        if (String.IsNullOrEmpty(CVR))
+                            return PropertyIsEmptyErrorMessage(propertyName);
+
+                        int cVR;
+                        message = ValidateIntegerParse(CVR, propertyName, out cVR);
+
+                        if (message != null)
+                            return message;
+
+                        customer.CVR = cVR;
+                        break;
+                    case "Name":
+                        if (String.IsNullOrEmpty(Name))
+                            return PropertyIsEmptyErrorMessage("Navn");
+                        break;
+                    case "Address":
+                        if (String.IsNullOrEmpty(Address))
+                            return PropertyIsEmptyErrorMessage("Adresse");
+                        break;
+                    case "TelephoneNumber":
+                        if (String.IsNullOrEmpty(TelephoneNumber))
+                            return PropertyIsEmptyErrorMessage("Tlf. Nummer");
+
+                        int telephoneNumber;
+                        message = ValidateIntegerParse(TelephoneNumber, propertyName, out telephoneNumber);
+
+                        if (message != null)
+                            return message;
+
+                        customer.TelephoneNumber = telephoneNumber;
+                        break;
+                    case "ContactPerson":
+                        if (String.IsNullOrEmpty(ContactPerson))
+                            return PropertyIsEmptyErrorMessage("Kontakt Person");
+                        break;
+                    case "GrossIncome":
+                        if (String.IsNullOrEmpty(GrossIncome))
+                            return PropertyIsEmptyErrorMessage("Årlig Omsætning");
+
+                        int grossIncome;
+                        message = ValidateIntegerParse(GrossIncome, "Årlig Omsætning", out grossIncome);
+
+                        if (message != null)
+                            return message;
+
+                        customer.GrossIncome = grossIncome;
+                        break;
+                }
+
+                return null;
+            }
+        }
+        #endregion
 
         public CustomerViewModel()
         {
-            currentCustomer = new Customer();
-            Customer Clone = currentCustomer.Clone();
-            db = new Database();
-            Customers = db.Customers();
-            
-            
+            customer = new Customer();
+            Customers = new ObservableCollection<Customer>();
             SaveCustomerCommand = new WpfCommand(SaveCustomerExecute, SaveCustomerCanExecute);
         }
 
+        #region SaveCustomerCommand
+        public ICommand SaveCustomerCommand { get; set; }
+
         public void SaveCustomerExecute(object parameter)
         {
-            Customers.Add(currentCustomer);
-            db.AddCustomer(currentCustomer);
+            Customers.Add(customer.Clone());
             NotifyPropertyChanged("customers");
             MessageBox.Show("Kunde Oprettet");
-            
+
         }
 
         public bool SaveCustomerCanExecute(object parameter)
         {
-            return true;
+            if (FirstErrorMessage != null)
+                return false;
+            else
+                return true;
         }
+        #endregion
 
     }
+}
 }
