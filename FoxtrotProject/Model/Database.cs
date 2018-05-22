@@ -12,11 +12,11 @@ namespace FoxtrotProject.Model
 {
    class Database
     {
-        private SqlConnection connection;
+        SqlConnection connection = new SqlConnection("Data Source =.; Initial Catalog = Foxtrot_SQLProject; Integrated Security = True");
 
         private void OpenConnection()
         {
-            SqlConnection connection = new SqlConnection("Data Source =.; Initial Catalog = Foxtrot_SQLProject; Integrated Security = True");
+            
             connection.Open();
         }
 

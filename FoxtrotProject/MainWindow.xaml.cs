@@ -88,6 +88,22 @@ namespace FoxtrotProject
             }
         }
 
+        private void Btn_UpDate_Product_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                productViewModel.UpDateProduct();
+                txtName.Text = string.Empty;
+                txtDescription.Text = string.Empty;
+                txtCategory.Text = string.Empty;
+                txtPrice.Text = string.Empty;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        
+        }
         private void Btn_Search_Product_Click(object sender, RoutedEventArgs e)
         {
             try
