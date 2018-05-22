@@ -88,7 +88,7 @@ namespace FoxtrotProject.ViewModel
             Db.AddProduct(Clone);
             Products.Add(Clone);
         }
-              
+
         public Collection<Product> _Search_Product { get; set; }
 
         public void Search_Product(Collection<Product> _p)
@@ -99,6 +99,9 @@ namespace FoxtrotProject.ViewModel
             }
 
         }
+
+
+
 
         public void DeleteProduct()
         {
