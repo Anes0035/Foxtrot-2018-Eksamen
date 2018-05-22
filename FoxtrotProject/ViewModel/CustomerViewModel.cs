@@ -95,8 +95,11 @@ namespace FoxtrotProject.ViewModel
         public CustomerViewModel()
         {
             currentCustomer = new Customer();
-            Customers = new ObservableCollection<Customer>();
+            Customer Clone = currentCustomer.Clone();
             db = new Database();
+            Customers = db.Customers();
+            
+            
             SaveCustomerCommand = new WpfCommand(SaveCustomerExecute, SaveCustomerCanExecute);
         }
 

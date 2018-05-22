@@ -104,8 +104,46 @@ namespace FoxtrotProject.Model
                 CloseConnection();
             }
         }
+        public ObservableCollection<Customer> Customers()
+        {
 
+            ObservableCollection<Customer> customers = new ObservableCollection<Customer>();
+           
 
+        
+                OpenConnection();
+
+            try
+            {
+                SqlCommand command = new SqlCommand("Select * FROM Customer", connection);
+                SqlDataReader sqlDataReader = command.ExecuteReader();
+
+                while (sqlDataReader.Read())
+                {
+                    Customer customer = new Customer();
+                    customer.CVR = (int)sqlDataReader["CVR"];
+                    customer.Name = (string)sqlDataReader["Name"];
+                    customer.Address = (string)sqlDataReader["Address"];
+                    customer.TelephoneNumber = (int)sqlDataReader["PhoneNumber"];
+                    customer.ContactPerson = (string)sqlDataReader["ContactPerson"];
+                    //customer.GrossIncome = (int)sqlDataReader["GrossIncome"];
+                    customers.Add(customer);
+
+                }
+                return customers;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+     
+        }
+            
+           
         public string AddProduct(Product product)
         {
         try
