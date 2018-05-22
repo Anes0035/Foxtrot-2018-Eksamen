@@ -17,7 +17,7 @@ namespace FoxtrotProject.ViewModel
         public ObservableCollection<Customer> Customers { get; set; }
 
         private Customer currentCustomer;
-
+        private Database db;
         public ICommand SaveCustomerCommand { get; set; }
 
         public string Name
@@ -96,12 +96,14 @@ namespace FoxtrotProject.ViewModel
         {
             currentCustomer = new Customer();
             Customers = new ObservableCollection<Customer>();
+            db = new Database();
             SaveCustomerCommand = new WpfCommand(SaveCustomerExecute, SaveCustomerCanExecute);
         }
 
         public void SaveCustomerExecute(object parameter)
         {
             Customers.Add(currentCustomer);
+            db.AddCustomer(currentCustomer);
             NotifyPropertyChanged("customers");
             MessageBox.Show("Kunde Oprettet");
             
