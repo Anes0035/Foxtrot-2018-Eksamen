@@ -21,6 +21,9 @@ namespace FoxtrotProject.Model
 
         public int CVR { get; set; }
 
+    
+        
+
         public Customer()
         {
             

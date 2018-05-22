@@ -14,13 +14,13 @@ namespace FoxtrotProject.Model
     {
         SqlConnection connection = new SqlConnection("Data Source =.; Initial Catalog = Foxtrot_SQLProject; Integrated Security = True");
 
-        private void OpenConnection()
+        public void OpenConnection()
         {
             
             connection.Open();
         }
 
-        private void CloseConnection()
+       public void CloseConnection()
         {
             connection.Close();
         }
@@ -46,8 +46,8 @@ namespace FoxtrotProject.Model
             }
             catch (Exception)
             {
-                // Create an Exception if Customer already exists
-                throw;
+                //////MessageBox.Show("Fejl under oprettelse af kunde");
+                
             }
             finally
             {
@@ -86,12 +86,14 @@ namespace FoxtrotProject.Model
 
         ///  Method for removing a customer
 
-        public void RemoveCustomer()
+        public void RemoveCustomer(Customer customer)
         {
             try
             {
+
                 OpenConnection();
                 SqlCommand command = new SqlCommand("DELETE FROM Customer", connection);
+       
                 command.ExecuteNonQuery();
             }
             catch (Exception)

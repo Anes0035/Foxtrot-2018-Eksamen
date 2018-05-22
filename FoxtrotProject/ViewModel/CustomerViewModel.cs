@@ -13,8 +13,9 @@ using System.Reflection;
 
 namespace FoxtrotProject.ViewModel
 {
-    class CustomerViewModel : ViewModel, IDataErrorInfo
+    class CustomerViewModel : ViewModel, IDataErrorInfo, INotifyPropertyChanged
     {
+
         #region Customer
         public Customer customer { get; set; }
 
@@ -85,6 +86,9 @@ namespace FoxtrotProject.ViewModel
         }
 
         public ObservableCollection<Customer> Customers { get; set; }
+
+        
+
         #endregion
 
         #region IDataErrorInfo
@@ -176,13 +180,16 @@ namespace FoxtrotProject.ViewModel
         {
             db = new Database();
             customer = new Customer();
-            Customers = new ObservableCollection<Customer>();
+            Customers = db.Customers();
             SaveCustomerCommand = new WpfCommand(SaveCustomerExecute, SaveCustomerCanExecute);
+            RemoveCustomerCommand = new WpfCommand(RemoveCustomerExecute, RemoveCustomerCanExecute);
+            
         }
 
         #region SaveCustomerCommand
         public ICommand SaveCustomerCommand { get; set; }
 
+        public ICommand RemoveCustomerCommand { get; set; }
         public void SaveCustomerExecute(object parameter)
         {
             Customers.Add(customer.Clone());
@@ -198,6 +205,32 @@ namespace FoxtrotProject.ViewModel
                 return false;
             else
                 return true;
+        }
+
+        public void RemoveCustomerExecute(object parameter)
+        {
+          
+            Customers.Remove(customer.Clone());
+            db.RemoveCustomer(customer.Clone());
+            NotifyPropertyChanged("customers");
+            MessageBox.Show("Kunde Slettet");
+
+        }
+
+        public bool RemoveCustomerCanExecute(object parameter)
+        {
+                return true;
+        }
+
+        public void EditCustomerExecute(object parameter)
+        {
+           
+        }
+
+        public bool EditCustomerCanExecute(object parameter)
+        {
+            
+            return true;
         }
         #endregion
 
