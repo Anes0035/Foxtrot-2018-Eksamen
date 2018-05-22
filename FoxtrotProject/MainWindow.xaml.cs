@@ -101,10 +101,7 @@ namespace FoxtrotProject
                 MessageBox.Show("Error Search", "Error", MessageBoxButton.OK);
             }
         }
-        private void Btn_UpDate_Product_Click(object sender, RoutedEventArgs e)
-        {
-            //
-        }
+      
 
         private void Btn_Delete_Product_Click(object sender, RoutedEventArgs e)
         {
