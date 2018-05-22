@@ -3,13 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FoxtrotProject"
+        xmlns:local="clr-namespace:FoxtrotProject.ViewModel"
         mc:Ignorable="d"
        Title="MainWindow" Height="500" Width="700">
+    <Window.Resources>
+        <local:CustomerViewModel x:Key="CustomerViewModel"/>
+    </Window.Resources>
+    
     <Grid>
         <TabControl>
             <TabItem Header="Kunde">
-                <Grid Background="Beige">
+                <Grid DataContext="{StaticResource CustomerViewModel}" Background="Beige">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="35"/>
@@ -28,17 +32,23 @@
                     <TextBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Text="Søge Muligheder: CVR, Name eller Address" Name="txtSearchCustomer" Foreground="#55000000" GotFocus="txtSearchCustomer_GotFocus" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,80,0" Width="250" Height="25"/>
                     <Button Grid.Row="0" Grid.Column="2" Content="Søg" HorizontalAlignment="Right" Margin="0,5,20,0" VerticalAlignment="Top"  Height="25" Width="40"/>
                     <Label Grid.Row="1" Content="CVR:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                    <TextBox x:Name="txtCVR" Text="{Binding CVR}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="5,5,5,0" Height="25" Width="100"/>
-                    <Label Grid.Row="2" Content="Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                    <TextBox x:Name="txtName" Text="{Binding Name}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtCVR" Text="{Binding CVR, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="5,5,5,0" Height="25" Width="100"/>
+                    <Label x:Name="lblCVRError" Content="{Binding ElementName=txtCVR, Path=(Validation.Errors).CurrentItem.ErrorContent}" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27"/>
+                    <Label Grid.Row="2" Content="Navn:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtName" Text="{Binding Name, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <Label x:Name="lblNameError" Content="{Binding ElementName=txtName, Path=(Validation.Errors).CurrentItem.ErrorContent}" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27"/>
                     <Label Grid.Row="3" Content="Adresse:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                    <TextBox x:Name="txtAddress" Text="{Binding Address}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtAddress" Text="{Binding Address, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <Label x:Name="lblAddressError" Content="{Binding ElementName=txtAddress, Path=(Validation.Errors).CurrentItem.ErrorContent}" Grid.Row="3" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27"/>
                     <Label Grid.Row="4" Content="Tlf. Nummer:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                    <TextBox x:Name="txtTelephoneNumber" Text="{Binding TelephoneNumber}" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtTelephoneNumber" Text="{Binding TelephoneNumber, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <Label x:Name="lblTelephoneNumberError" Content="{Binding ElementName=txtTelephoneNumber, Path=(Validation.Errors).CurrentItem.ErrorContent}" Grid.Row="4" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27"/>
                     <Label Grid.Row="5" Content="Kontakt Person:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                    <TextBox x:Name="txtContactPerson" Text="{Binding ContactPerson}" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtContactPerson" Text="{Binding ContactPerson, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <Label x:Name="lblContactPersonError" Content="{Binding ElementName=txtContactPerson, Path=(Validation.Errors).CurrentItem.ErrorContent}" Grid.Row="5" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27"/>
                     <Label Grid.Row="6" Content="Årlig Omsætning:"  VerticalAlignment="Top" Margin="10,5,10,0" Height="25" Width="Auto"/>
-                    <TextBox x:Name="txtGrossIncome" Text="{Binding GrossIncome}" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <TextBox x:Name="txtGrossIncome" Text="{Binding GrossIncome, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <Label x:Name="lblGrossIncomeError" Content="{Binding ElementName=txtGrossIncome, Path=(Validation.Errors).CurrentItem.ErrorContent}" Grid.Row="6" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27"/>
                     <Button Grid.Row="7" Grid.Column="1" Command="{Binding SaveCustomerCommand}" Content="Gem Kunde" VerticalAlignment="Top" Margin="5,10,5,0" Height="25" Width="Auto"/>
                     <Button Grid.Row="7" Content="Vis Kunde" Grid.Column="2" HorizontalAlignment="Right" Height="25" Margin="0,45,10,-35" VerticalAlignment="Top" Width="75"/>
                     <DataGrid x:Name="lstCustomers" AutoGenerateColumns="False" ItemsSource="{Binding Customers, Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Right" Height="Auto" Margin="0,10,10,0" Grid.Row="1" Grid.RowSpan="7" Width="300">
@@ -47,7 +57,7 @@
                             <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Label x:Name="lblCustomerError" Content="" HorizontalAlignment="Left" Height="25" Margin="10,45,0,0" Grid.Row="7" VerticalAlignment="Top"/>
+                    <Label x:Name="lblCustomerError" Content="" HorizontalAlignment="Left" Height="27" Margin="10,75,0,-85" Grid.Row="7" Grid.ColumnSpan="3" VerticalAlignment="Top"/>
                     <Button Content="Slet Kunde" Grid.Column="2" HorizontalAlignment="Right" Margin="0,45,100,-35" Grid.Row="7" VerticalAlignment="Top" Height="25" Width="75"/>
                 </Grid>
             </TabItem>

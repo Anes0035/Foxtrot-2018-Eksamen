@@ -9,6 +9,7 @@ using FoxtrotProject.Model;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows;
+using System.Reflection;
 
 namespace FoxtrotProject.ViewModel
 {
@@ -154,8 +155,8 @@ namespace FoxtrotProject.ViewModel
                         if (String.IsNullOrEmpty(GrossIncome))
                             return PropertyIsEmptyErrorMessage("Årlig Omsætning");
 
-                        int grossIncome;
-                        message = ValidateIntegerParse(GrossIncome, "Årlig Omsætning", out grossIncome);
+                        double grossIncome;
+                        message = ValidateDoubleParse(GrossIncome, "Årlig Omsætning", out grossIncome);
 
                         if (message != null)
                             return message;
@@ -169,8 +170,11 @@ namespace FoxtrotProject.ViewModel
         }
         #endregion
 
+        private Database db;
+
         public CustomerViewModel()
         {
+            db = new Database();
             customer = new Customer();
             Customers = new ObservableCollection<Customer>();
             SaveCustomerCommand = new WpfCommand(SaveCustomerExecute, SaveCustomerCanExecute);
@@ -182,6 +186,7 @@ namespace FoxtrotProject.ViewModel
         public void SaveCustomerExecute(object parameter)
         {
             Customers.Add(customer.Clone());
+            db.AddCustomer(customer.Clone());
             NotifyPropertyChanged("customers");
             MessageBox.Show("Kunde Oprettet");
 
@@ -197,5 +202,4 @@ namespace FoxtrotProject.ViewModel
         #endregion
 
     }
-}
 }
