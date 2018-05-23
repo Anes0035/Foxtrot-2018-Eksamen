@@ -34,22 +34,22 @@
                     <Button Grid.Row="0" Grid.Column="3" Content="Søg" HorizontalAlignment="Right" Margin="0,5,20,0" VerticalAlignment="Top"  Height="25" Width="40"/>
                     <Label Grid.Row="1" Content="CVR:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
                     <TextBox x:Name="txtCVR" Text="{Binding CVR, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="5,5,5,0" Height="25" Width="100"/>
-                    <Label x:Name="lblCVRError" Content="{Binding ElementName=txtCVR, Path=(Validation.Errors).CurrentItem.ErrorContent}" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27" Grid.ColumnSpan="2"/>
+                    <Label x:Name="lblCVRError" Content="{Binding ElementName=txtCVR, Path=(Validation.Errors)/ErrorContent}" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27" Grid.ColumnSpan="2"/>
                     <Label Grid.Row="2" Content="Navn:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
                     <TextBox x:Name="txtName" Text="{Binding Name, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
-                    <Label x:Name="lblNameError" Content="{Binding ElementName=txtName, Path=(Validation.Errors).CurrentItem.ErrorContent}" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27" Grid.ColumnSpan="2"/>
+                    <Label x:Name="lblNameError" Content="{Binding ElementName=txtName, Path=(Validation.Errors)/ErrorContent}" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27" Grid.ColumnSpan="2"/>
                     <Label Grid.Row="3" Content="Adresse:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
                     <TextBox x:Name="txtAddress" Text="{Binding Address, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
-                    <Label x:Name="lblAddressError" Content="{Binding ElementName=txtAddress, Path=(Validation.Errors).CurrentItem.ErrorContent}" Grid.Row="3" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27" Grid.ColumnSpan="2"/>
+                    <Label x:Name="lblAddressError" Content="{Binding ElementName=txtAddress, Path=(Validation.Errors)/ErrorContent}" Grid.Row="3" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27" Grid.ColumnSpan="2"/>
                     <Label Grid.Row="4" Content="Tlf. Nummer:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
                     <TextBox x:Name="txtTelephoneNumber" Text="{Binding TelephoneNumber, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
-                    <Label x:Name="lblTelephoneNumberError" Content="{Binding ElementName=txtTelephoneNumber, Path=(Validation.Errors).CurrentItem.ErrorContent}" Grid.Row="4" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27" Grid.ColumnSpan="2"/>
+                    <Label x:Name="lblTelephoneNumberError" Content="{Binding ElementName=txtTelephoneNumber, Path=(Validation.Errors)/ErrorContent}" Grid.Row="4" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27" Grid.ColumnSpan="2"/>
                     <Label Grid.Row="5" Content="Kontakt Person:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
                     <TextBox x:Name="txtContactPerson" Text="{Binding ContactPerson, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
-                    <Label x:Name="lblContactPersonError" Content="{Binding ElementName=txtContactPerson, Path=(Validation.Errors).CurrentItem.ErrorContent}" Grid.Row="5" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27" Grid.ColumnSpan="2"/>
+                    <Label x:Name="lblContactPersonError" Content="{Binding ElementName=txtContactPerson, Path=(Validation.Errors)/ErrorContent}" Grid.Row="5" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27" Grid.ColumnSpan="2"/>
                     <Label Grid.Row="6" Content="Årlig Omsætning:"  VerticalAlignment="Top" Margin="10,5,10,0" Height="25" Width="Auto"/>
                     <TextBox x:Name="txtGrossIncome" Text="{Binding GrossIncome, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
-                    <Label x:Name="lblGrossIncomeError" Content="{Binding ElementName=txtGrossIncome, Path=(Validation.Errors).CurrentItem.ErrorContent}" Grid.Row="6" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27" Grid.ColumnSpan="2"/>
+                    <Label x:Name="lblGrossIncomeError" Content="{Binding ElementName=txtGrossIncome, Path=(Validation.Errors)/ErrorContent}" Grid.Row="6" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27" Grid.ColumnSpan="2"/>
                     <Button Grid.Row="7" Grid.Column="1" Command="{Binding SaveCustomerCommand}" Content="Gem Kunde" VerticalAlignment="Top" Margin="5,10,5,0" Height="25" Width="Auto"/>
                     <Button Grid.Row="7" Content="Vis Kunde" Grid.Column="3" HorizontalAlignment="Right" Height="25" Margin="0,45,10,-34" VerticalAlignment="Top" Width="75"/>
                     <DataGrid x:Name="lstCustomers" AutoGenerateColumns="False" ItemsSource="{Binding Customers, Mode=TwoWay}" Grid.Column="3" HorizontalAlignment="Right" Height="Auto" Margin="0,10,10,0" Grid.Row="1" Grid.RowSpan="7" Width="300">
@@ -172,18 +172,18 @@
                     <TextBox Name="txtPrice" Grid.Column="1" Grid.Row="4" Height="23" Margin="10,5,31.5,0" TextWrapping="Wrap" 
                                      Text="{Binding Price,ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
 
-                    <Button Grid.Column="1" Grid.Row="5" Margin="10,33,31.5,187" Content="Gem" Name="{Binding SaveProductCommand}"/>
+                    <Button Grid.Column="1" Grid.Row="5" Margin="10,33,31.5,187" Content="Gem" Name="btnSaveProduct" Command="{Binding SaveProductCommand}"/>
 
-                    <Button Grid.Column="2" Grid.Row="5" Margin="78,84,211,147" Content="UpDate" Name="Btn_UpDate_Product" Click="Btn_UpDate_Product_Click"/>
+                    <Button Grid.Column="2" Grid.Row="5" Margin="78,84,211,147" Content="UpDate" Name="Btn_UpDate_Product" />
 
                     <TextBox Name="TxtBox_Search_Product" Text="Søge : Id" GotFocus="TxtBox_Search_Product_GotFocus" 
                              Grid.Column="2" Grid.Row="0" Foreground="#55000000" Margin="10,5,89,7" />
                     <DataGrid x:Name="List_Products" ItemsSource="{Binding Product, Mode=TwoWay}" Grid.Column="3" Grid.Row="1" Margin="10,5,10,187" Grid.RowSpan="5"/>
 
 
-                    <Button Content="Søg" Name="Btn_Search_Product" Grid.Column="2" HorizontalAlignment="Left" Margin="310,5,0,0" VerticalAlignment="Top" Width="74" Height="23" Click="Btn_Search_Product_Click"/>
+                    <Button Content="Søg" Name="Btn_Search_Product" Grid.Column="2" HorizontalAlignment="Left" Margin="310,5,0,0" VerticalAlignment="Top" Width="74" Height="23" />
 
-                    <Button Grid.Column="2" Grid.Row="5" Name="Btn_Delete_Product" Content="Slet" Margin="213,84,76,147"  Click="Btn_Delete_Product_Click" />
+                    <Button Grid.Column="2" Grid.Row="5" Name="Btn_Delete_Product" Content="Slet" Margin="213,84,76,147"  />
 
 
                     <!--<TabItem Header="Søg / Slet Produkt" Margin="0,37,0,-46">
