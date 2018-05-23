@@ -3,8 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace FoxtrotProject.ViewModel
 {
@@ -12,7 +15,7 @@ namespace FoxtrotProject.ViewModel
     {
       
 
-        private Database Db = new Database();
+        private Database db = new Database();
 
         public ObservableCollection<ProductGroup> ProductGroups { get; set; }
 
@@ -57,14 +60,14 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-        private decimal price;
+        private string price;
 
-        public decimal Price
+        public string Price
         {
-            get { return currentProduct.Price; }
+            get { return price; }
             set
             {
-                currentProduct.Price = value;
+                price = value;
                 NotifyPropertyChanged();
             }
         }
@@ -82,37 +85,104 @@ namespace FoxtrotProject.ViewModel
         }
 
 
-        public void AddProduct()
+        
+        public ProductViewModel()
         {
-            Product Clone = currentProduct.Clone();
-            Db.AddProduct(Clone);
-            Products.Add(Clone);
+            db = new Database();
+            currentProduct = new Product();
+            Products = new ObservableCollection<Product>();
+            SaveProductCommand = new WpfCommand(SaveProductExecute, SaveProductCanExecute);
         }
 
-        public Collection<Product> _Search_Product { get; set; }
+        public ICommand SaveProductCommand { get; set; }
 
-        public void Search_Product(Collection<Product> _p)
+        public void SaveProductExecute(object parameter)
         {
-            for (int i = 0; _p.Where(p => p.ID == i).Any(); i++)
+            Products.Add(currentProduct.Clone());
+            db.AddProduct(currentProduct.Clone());
+            NotifyPropertyChanged("products");
+            MessageBox.Show("Product Oprettet");
+
+        }
+
+        public bool SaveProductCanExecute(object parameter)
+        {
+            if (FirstErrorMessage != null)
+                return false;
+            else
+                return true;
+        }
+
+
+
+
+        public string FirstErrorMessage
+        {
+            get
             {
-                ID = i;
+                PropertyInfo[] properties = GetType().GetProperties();
+                foreach (PropertyInfo p in properties)
+                {
+                    if (this[p.Name] != null)
+                        return this[p.Name];
+                }
+
+                return null;
             }
-
         }
 
-
-
-
-        public void DeleteProduct()
+        public string Error
         {
-            Db.RemoveProduct(ID);
+            get { return null; }
         }
 
-        public void UpDateProduct()
+        public string this[string propertyName]
         {
-            Product Clone = currentProduct.Clone();
-            Db.UpDateProduct(Clone);
-            Products.Add(Clone);
+            get
+            {
+                string message;
+                switch (propertyName)
+                {
+                 
+
+                case "Name":
+                        if (String.IsNullOrEmpty(Name))
+                            return PropertyIsEmptyErrorMessage("Navn");
+                        break;
+
+
+                case "Description":
+                        if (String.IsNullOrEmpty(Description))
+                            return PropertyIsEmptyErrorMessage("Description");
+                        break;
+
+
+                case "Price":
+                        if (String.IsNullOrEmpty(Price))
+                            return PropertyIsEmptyErrorMessage("Price");
+
+
+                        decimal price;
+                        message = ValidateNumericParse<decimal>(Price, propertyName, out price);
+
+                        if (message != null)
+                            return message;
+
+                        currentProduct.Price =  price;
+                        break;
+
+
+                case "Category":
+                        if (String.IsNullOrEmpty(Category))
+                            return PropertyIsEmptyErrorMessage("Category");
+                        break;
+                   
+                }
+
+                return null;
+            }
         }
+
+       
     }
 }

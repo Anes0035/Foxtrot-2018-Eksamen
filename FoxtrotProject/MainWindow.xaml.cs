@@ -72,64 +72,64 @@ namespace FoxtrotProject
 
         }
 
-        private void Btn_Save_Product_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                productViewModel.AddProduct();
-                txtName.Text = string.Empty;
-                txtDescription.Text = string.Empty;
-                txtCategory.Text = string.Empty;
-                txtPrice.Text = string.Empty;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+        //private void Btn_Save_Product_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        productViewModel.AddProduct();
+        //        txtName.Text = string.Empty;
+        //        txtDescription.Text = string.Empty;
+        //        txtCategory.Text = string.Empty;
+        //        txtPrice.Text = string.Empty;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
 
-        private void Btn_UpDate_Product_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                productViewModel.UpDateProduct();
-                txtName.Text = string.Empty;
-                txtDescription.Text = string.Empty;
-                txtCategory.Text = string.Empty;
-                txtPrice.Text = string.Empty;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+        //private void Btn_UpDate_Product_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        productViewModel.UpDateProduct();
+        //        txtName.Text = string.Empty;
+        //        txtDescription.Text = string.Empty;
+        //        txtCategory.Text = string.Empty;
+        //        txtPrice.Text = string.Empty;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
         
-        }
-        private void Btn_Search_Product_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
+        //}
+        //private void Btn_Search_Product_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
                
-                //productViewModel.Search_Product();
-                TxtBox_Search_Product.Text = string.Empty;
-            }
-            catch (Exception )
-            {
-                MessageBox.Show("Error Search", "Error", MessageBoxButton.OK);
-            }
-        }
+        //        //productViewModel.Search_Product();
+        //        TxtBox_Search_Product.Text = string.Empty;
+        //    }
+        //    catch (Exception )
+        //    {
+        //        MessageBox.Show("Error Search", "Error", MessageBoxButton.OK);
+        //    }
+        //}
       
 
-        private void Btn_Delete_Product_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                productViewModel.DeleteProduct();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error Delete", "Error", MessageBoxButton.OK);
-            }
-        }
+        //private void Btn_Delete_Product_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        productViewModel.DeleteProduct();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        MessageBox.Show("Error Delete", "Error", MessageBoxButton.OK);
+        //    }
+        //}
 
         private void TxtBox_Search_Product_GotFocus(object sender, RoutedEventArgs e)
         {
