@@ -20,6 +20,21 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
+        protected string ValidateNumericParse<T>(string value, string propertyName, out T numericValue) where T : IComparable
+        {
+            try
+            {
+                numericValue = (T) TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(value);
+                return String.Format("{0} feltet indeholder ulovelige tegn", propertyName);
+            }
+            catch
+            {
+                numericValue = default(T);
+                return null;
+            }
+            
+        }
+
         protected string ValidateIntegerParse(string value, string propertyName, out int integerValue)
         {
             string message = null;
