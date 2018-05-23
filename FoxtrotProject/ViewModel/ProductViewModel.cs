@@ -18,7 +18,16 @@ namespace FoxtrotProject.ViewModel
 
         public ObservableCollection<ProductGroup> ProductGroups { get; set; }
 
-        public ObservableCollection<Product> Products { get; set; }
+        private ObservableCollection<Product> products;
+        public ObservableCollection<Product> Products
+        {
+            get { return products; }
+            set
+            {
+                products = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private Product currentProduct = new Product();
 
@@ -90,10 +99,17 @@ namespace FoxtrotProject.ViewModel
 
         public ProductViewModel()
         {
-            //db = new Database();
+
+            db = new Database();
             currentProduct = new Product();
-            Products = new ObservableCollection<Product>();
+
+            Products = db.Products();
+
             SaveProductCommand = new WpfCommand(SaveProductExecute, SaveProductCanExecute);
+            
+
+         //   RemoveProductCommand = new WpfCommand(RemoveProductExecute, RemoveProductCanExecute);
+
         }
 
 
@@ -171,8 +187,8 @@ namespace FoxtrotProject.ViewModel
                             return PropertyIsEmptyErrorMessage("Price");
 
 
-                        decimal price;
-                        message = ValidateNumericParse<decimal>(Price, propertyName, out price);
+                        double price;
+                        message = ValidateNumericParse<double>(Price, propertyName, out price);
 
                         if (message != null)
                             return message;
@@ -218,10 +234,10 @@ namespace FoxtrotProject.ViewModel
         public void EditProductExecute(object parameter)
         {
 
-            Products.Add(currentProduct.Clone());
-            db.RemoveProduct(iD);
-            NotifyPropertyChanged("Product");
-            MessageBox.Show("Product redigeret");
+            //Products.Add(currentProduct.Clone());
+            //db.RemoveProduct(iD);
+            //NotifyPropertyChanged("Product");
+            //MessageBox.Show("Product redigeret");
 
 
         }

@@ -235,19 +235,18 @@ namespace FoxtrotProject.Model
             try
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("Insert INTO [dbo].[Product]([Id], [Name], [Description], [Price], [Category]) " +
-                                                               "Values(@id, @name, @description, @price, @category)", connection);
+                SqlCommand command = new SqlCommand("Select * FROM Catalog", connection);
                 SqlDataReader sqlDataReader = command.ExecuteReader();
 
                 while (sqlDataReader.Read())
                 {
                     Product product = new Product();
 
-                    product.ID = (int)sqlDataReader["Id"];
-                    product.Name = (string)sqlDataReader["Name"];
-                    product.Description = (string)sqlDataReader["Description"];
-                    product.Price = (decimal)sqlDataReader["Price"];
-                    product.Category = (string)sqlDataReader["Category"];
+                    product.ID = (int)sqlDataReader["ProductID"];
+                    product.Name = (string)sqlDataReader["ProductName1"];
+                    product.Description = sqlDataReader["ProductDesreptionLong"] != DBNull.Value ? (string) sqlDataReader["ProductDesreptionLong"] : null ;
+                    product.Price = (double) sqlDataReader["Price"];
+                    product.Category = (string)sqlDataReader["ProductGroup"];
                     _products.Add(product);
                 }
 
@@ -264,6 +263,7 @@ namespace FoxtrotProject.Model
             }
         }
 
+  
 
 
         public string AddContract(Contract contract)

@@ -22,18 +22,14 @@ namespace FoxtrotProject
     /// </summary>
     public partial class MainWindow : Window
     {
-        ProductViewModel productViewModel;
         CustomerViewModel customerViewModel;
-        
+        ProductViewModel productViewModel;
         public MainWindow()
         {
             InitializeComponent();
-            
-
-            productViewModel = new ProductViewModel();
             customerViewModel = new CustomerViewModel();
-          
-            DataContext = customerViewModel;
+            productViewModel = new ProductViewModel();
+            DataContext = new { customerViewModel, productViewModel };
         }
 
         private void txtSearchCustomer_GotFocus(object sender, RoutedEventArgs e)
@@ -75,5 +71,7 @@ namespace FoxtrotProject
             txt.Foreground = Brushes.Black;
             txt.GotFocus -= TxtBox_Search_Product_GotFocus;
         }
+
+        
     }
 }

@@ -6,15 +6,15 @@
         xmlns:local="clr-namespace:FoxtrotProject.ViewModel"
         mc:Ignorable="d"
        Title="MainWindow" Height="500" Width="700">
-    <Window.Resources>
+    <!--<Window.Resources>
         <local:CustomerViewModel x:Key="CustomerViewModel"/>
         <local:ProductViewModel x:Key="ProductViewModel"/>
-    </Window.Resources>
+    </Window.Resources>-->
 
     <Grid>
         <TabControl>
             <TabItem Header="Kunde">
-                <Grid DataContext="{StaticResource CustomerViewModel}" Background="Beige">
+                <Grid DataContext="{Binding customerViewModel}" Background="Beige">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="35"/>
@@ -137,68 +137,69 @@
 
             <TabItem Header="ProduktKatalog">
 
-                <Grid DataContext="ProductViewModel" Background="Azure">
+                <Grid DataContext="{Binding productViewModel}" Background="Azure">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="35"/>
-                        <RowDefinition Height="35"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="120"/>
                         <ColumnDefinition Width="160"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="99*"/>
+                        <ColumnDefinition Width="300*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Content="ID:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Top" Width="90"/>
-                    <TextBox Name="txtProductID" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="5,5,0,0" 
+                    <Label Content="ID:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Margin="10,5,10,0" VerticalAlignment="Top" Width="100"/>
+                    <TextBlock Name="txtProductID" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="5,5,0,0" 
                                      TextWrapping="Wrap" Text="{Binding ID}" VerticalAlignment="Top" Width="145"/>
                     <Label Grid.Column="2" Grid.Row="0" Margin="5" x:Name="lblIDError" Content="{Binding ElementName=txtID, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
 
 
-                    <Label Content="Navn:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Top" Width="90"/>
-                    <TextBox x:Name="txtProductName" Grid.Column="1" Grid.Row="1" Height="23" Margin="5,5,10,0" TextWrapping="Wrap" 
+                    <Label Content="Navn:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Margin="10,5,10,0" VerticalAlignment="Top" Width="100"/>
+                    <TextBox x:Name="txtPName" Grid.Column="1" Grid.Row="1" Height="23" Margin="5,5,10,0" TextWrapping="Wrap" 
                                      Text="{Binding Name,ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
-                    <Label Grid.Column="2" Grid.Row="1" Margin="5" x:Name="lbl_NameP_Error" Content="{Binding ElementName=txtName, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
-                    
+                    <Label Grid.Column="2" Grid.Row="1" Margin="5" x:Name="lbl_NameP_Error" Content="{Binding ElementName=txtPName, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
 
-                    <Label Content="Beskrivelse:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Top" Width="90"/>
+
+                    <Label Content="Beskrivelse:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Margin="10,5,10,0" VerticalAlignment="Top" Width="100"/>
                     <TextBox x:Name="txtDescription" Grid.Column="1" Grid.Row="2" Height="23" Margin="5,5,10,0" TextWrapping="Wrap"
                                      Text="{Binding Description,ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
                     <Label Grid.Column="2" Grid.Row="2" Margin="5" x:Name="lblBeskrivelseError" Content="{Binding ElementName=txtDescription, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
 
-                    <Button Grid.Column="1" Grid.Row="5" Margin="10,33,31.5,187" Content="Gem" Name="{Binding SaveProductCommand}"/>
+                    <Label Content="Price:" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Margin="10,5,10,0" VerticalAlignment="Top" Width="100"/>
+                    <TextBox x:Name="txtPrice" Grid.Column="1" Grid.Row="3" Height="23" Margin="5,5,10,0" TextWrapping="Wrap"
+                                     Text="{Binding Price,ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
+                    <Label Grid.Column="2" Grid.Row="3" Margin="5" x:Name="lblPriceError" Content="{Binding ElementName=txtPrice, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
 
-                    <Button Grid.Column="2" Grid.Row="5" Margin="78,84,211,147" Content="UpDate" Name="Btn_UpDate_Product" Click="Btn_UpDate_Product_Click"/>
+                    <Label Content="ProduktKategori:" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Margin="10,5,10,0" VerticalAlignment="Top" Width="100"/>
+                    <TextBox x:Name="txtProductCategory" Grid.Column="1" Grid.Row="4" Height="23" Margin="5,5,10,0" TextWrapping="Wrap"
+                                     Text="{Binding Category,ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
+                    <Label Grid.Column="2" Grid.Row="4" Margin="5" x:Name="lblProductCategoryError" Content="{Binding ElementName=txtProductCategory, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+
+
+
+
+                    <Button Content="Gem" Grid.Column="1" Grid.Row="5" Margin="36,90,37,147" Command="{Binding SaveProductCommand}"/>
+                    <Button Content="UpDate" Grid.Column="3" Grid.Row="5" Margin="10,90,234,147" Name="Btn_UpDate_Product"/>
+                    <Button Grid.Column="3" Grid.Row="5" Name="Btn_Delete_Product" Content="Slet" Margin="221,90,10,147" RenderTransformOrigin="0.5,0.5" />
 
                     <TextBox Name="TxtBox_Search_Product" Text="Søge : Id" GotFocus="TxtBox_Search_Product_GotFocus" 
-                             Grid.Column="2" Grid.Row="0" Foreground="#55000000" Margin="10,5,89,7" />
-                    <DataGrid x:Name="List_Products" ItemsSource="{Binding Product, Mode=TwoWay}" Grid.Column="3" Grid.Row="1" Margin="10,5,10,187" Grid.RowSpan="5"/>
+                             Grid.Column="3" Grid.Row="0" Foreground="#55000000" Margin="10,5,95,7" />
+                    <Button Content="Søg" Name="Btn_Search_Product" Grid.Column="3" HorizontalAlignment="Left" Margin="236,5,0,0" VerticalAlignment="Top" Width="80" Height="23"/>
 
 
-                    <Button Content="Søg" Name="Btn_Search_Product" Grid.Column="2" HorizontalAlignment="Left" Margin="310,5,0,0" VerticalAlignment="Top" Width="74" Height="23" Click="Btn_Search_Product_Click"/>
-
-                    <Button Grid.Column="2" Grid.Row="5" Name="Btn_Delete_Product" Content="Slet" Margin="213,84,76,147"  Click="Btn_Delete_Product_Click" />
-
-                    <Button Grid.Column="3" Grid.Row="5" Margin="50,84,188,147" Content="UpDate" Name="Btn_UpDate_Product"/>
-
-                    <TextBox Name="TxtBox_Search_Product" Text="Søge : Id" GotFocus="TxtBox_Search_Product_GotFocus" 
-                             Grid.Column="3" Grid.Row="0" Foreground="#55000000" Margin="10,5,89,7" />
-                    <DataGrid x:Name="ListProducts" ItemsSource="{Binding Product, Mode=TwoWay}" AutoGenerateColumns="False" Grid.Column="3" Grid.Row="1" Margin="10,5,10,187" Grid.RowSpan="5">
+                    <DataGrid x:Name="ListProducts" ItemsSource="{Binding Products, Mode=TwoWay}" AutoGenerateColumns="False" Grid.Column="3" Grid.Row="1" Margin="10,5,10,187" Grid.RowSpan="5" SelectionChanged="ListProducts_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Product Id" Width="Auto" Binding="{Binding ID}"/>
-                            <DataGridTextColumn Header="Product Name" Width="Auto" Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="Product Description" Width="*" Binding="{Binding Description}"/>
+                            <DataGridTextColumn Header="Name" Width="Auto" Binding="{Binding Name}"/>                           
+                            <DataGridTextColumn Header="Price" Width="Auto" Binding="{Binding Price}"/>
+                            <DataGridTextColumn Header="Kategori" Width="*" Binding="{Binding Category}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-
-                    <Button Content="Søg" Name="Btn_Search_Product" Grid.Column="3" Margin="242,5,10,0" VerticalAlignment="Top" Height="23"/>
-
-                    <Button Grid.Column="3" Grid.Row="5" Name="Btn_Delete_Product" Content="Slet" Margin="193,84,50,147"/>
-
 
                 </Grid>
             </TabItem>

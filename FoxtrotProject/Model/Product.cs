@@ -15,7 +15,7 @@ namespace FoxtrotProject.Model
 
         public string Description { get; set; }
 
-        public decimal Price { get; set; }
+        public double Price { get; set; }
 
         public string Category { get; set; }
 
@@ -34,7 +34,7 @@ namespace FoxtrotProject.Model
             return new Product() { ID = ID, Name = Name, Description = Description, Price = Price, Category = Category };
         }
 
-          public Product(List<Product> products, string name, string description, decimal price, string category)
+          public Product(List<Product> products, string name, string description, double price, string category)
           {
               AutoAssignId(products);
               name = Name;
