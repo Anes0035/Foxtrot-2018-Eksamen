@@ -151,7 +151,7 @@ namespace FoxtrotProject.Model
         try
         {
                
-            SqlCommand command = new SqlCommand("Insert INTO [dbo].[Product]([Id], [Name], [Description], [Price], [Category]) " +
+            SqlCommand command = new SqlCommand("Insert INTO Catalog([ProductID], [ProductName1], [ProductDescriptionLong], [Price], [ProductGroup]) " +
                                                                 "Values(@id, @name, @description, @price, @category)", connection);
             command.Parameters.AddWithValue("@id", product.ID);
             command.Parameters.AddWithValue("@name", product.Name);
@@ -179,12 +179,12 @@ namespace FoxtrotProject.Model
 
         //}
        
-        public bool UpDateProduct(Product product)
+        public bool EditProduct(Product product)
         {
             OpenConnection();
             try
             {
-                SqlCommand command = new SqlCommand("UPDATE [dbo].[Product] SET [ID] = @id, [Name] = @name, [Description] = @description, [Price] = @price, [Category] = @category");
+                SqlCommand command = new SqlCommand("UPDATE Catalog SET [ProductID] = @id, [ProductName1] = @name, [ProductDescriptionLong] = @description, [Price] = @price, [ProductGroup] = @category");
                 command.Parameters.AddWithValue("@id", product.ID);
                 command.Parameters.AddWithValue("@name", product.Name);
                 command.Parameters.AddWithValue("@description", product.Description);
@@ -211,7 +211,7 @@ namespace FoxtrotProject.Model
             try
             {
                 OpenConnection();
-                SqlCommand command = new SqlCommand("DELETE FROM [dbo].[Product] WHERE Id = @id", connection);
+                SqlCommand command = new SqlCommand("DELETE FROM Catalog WHERE Id = @id", connection);
                 command.ExecuteNonQuery();
                 CloseConnection();
                 return true;

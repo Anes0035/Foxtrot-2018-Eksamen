@@ -195,9 +195,47 @@ namespace FoxtrotProject.ViewModel
         #endregion
 
         #region RemoveProductExecute
+        public ICommand RemoveProductCommand { get; set; }
+
+        public void RemoveProductExecute(object parameter)
+        {
+            
+            Products.Remove(currentProduct.Clone());
+            db.RemoveProduct(iD);
+            NotifyPropertyChanged("Product");
+            MessageBox.Show("Product Slettet");
+
+
+        }
+        public bool RemoveProductCanExecute(object parameter)
+        {
+            return true;
+        }
         #endregion
 
         #region EditProductExecute
+
+        public void EditProductExecute(object parameter)
+        {
+
+            Products.Add(currentProduct.Clone());
+            db.RemoveProduct(iD);
+            NotifyPropertyChanged("Product");
+            MessageBox.Show("Product redigeret");
+
+
+        }
+        public bool EditProductCanExecute(object parameter)
+        {
+
+            if (FirstErrorMessage != null)
+                return false;
+            else
+                return true;
+        }
+
+
+
         #endregion
     }
 }
