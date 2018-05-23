@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,11 +12,9 @@ using System.Windows.Input;
 
 namespace FoxtrotProject.ViewModel
 {
-    class ProductViewModel : ViewModel
+    class ProductViewModel : ViewModel, IDataErrorInfo
     {
-      
-
-        private Database db = new Database();
+        #region Product
 
         public ObservableCollection<ProductGroup> ProductGroups { get; set; }
 
@@ -85,15 +84,22 @@ namespace FoxtrotProject.ViewModel
         }
 
 
-        
+        #endregion
+
+        //private Database db = new Database();
+
         public ProductViewModel()
         {
-            db = new Database();
+            //db = new Database();
             currentProduct = new Product();
             Products = new ObservableCollection<Product>();
             SaveProductCommand = new WpfCommand(SaveProductExecute, SaveProductCanExecute);
         }
 
+
+        #region SaveProductCommand 
+
+            
         public ICommand SaveProductCommand { get; set; }
 
         public void SaveProductExecute(object parameter)
@@ -115,7 +121,10 @@ namespace FoxtrotProject.ViewModel
 
 
 
+        #endregion
 
+
+        #region IDataErrorInfo
         public string FirstErrorMessage
         {
             get
@@ -143,21 +152,21 @@ namespace FoxtrotProject.ViewModel
                 string message;
                 switch (propertyName)
                 {
-                 
 
-                case "Name":
+
+                    case "Name":
                         if (String.IsNullOrEmpty(Name))
                             return PropertyIsEmptyErrorMessage("Navn");
                         break;
 
 
-                case "Description":
+                    case "Description":
                         if (String.IsNullOrEmpty(Description))
                             return PropertyIsEmptyErrorMessage("Description");
                         break;
 
 
-                case "Price":
+                    case "Price":
                         if (String.IsNullOrEmpty(Price))
                             return PropertyIsEmptyErrorMessage("Price");
 
@@ -168,21 +177,27 @@ namespace FoxtrotProject.ViewModel
                         if (message != null)
                             return message;
 
-                        currentProduct.Price =  price;
+                        currentProduct.Price = price;
                         break;
 
 
-                case "Category":
+                    case "Category":
                         if (String.IsNullOrEmpty(Category))
                             return PropertyIsEmptyErrorMessage("Category");
                         break;
-                   
+
                 }
 
                 return null;
             }
         }
 
-       
+        #endregion
+
+        #region RemoveProductExecute
+        #endregion
+
+        #region EditProductExecute
+        #endregion
     }
 }

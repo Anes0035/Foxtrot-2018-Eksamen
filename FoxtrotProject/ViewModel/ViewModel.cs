@@ -5,11 +5,14 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using FoxtrotProject.Model;
 
 namespace FoxtrotProject.ViewModel
 {
     abstract class ViewModel : INotifyPropertyChanged
     {
+        protected static Database db = new Database();
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
