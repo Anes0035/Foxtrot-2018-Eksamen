@@ -13,6 +13,28 @@ namespace FoxtrotProject.ViewModel
     {
         protected static Database db = new Database();
 
+        protected static PropertyTranslator Translator = new PropertyTranslator();
+
+        protected string ValidateNumericParse<T>(string value, string propertyName, out T numericValue) where T : IComparable
+        {
+            var typeConverter = TypeDescriptor.GetConverter(typeof(T));
+
+            if (typeConverter != null && typeConverter.IsValid(value))
+            {
+                numericValue = (T)typeConverter.ConvertFromString(value);
+                return null;
+            }
+
+            numericValue = default(T);
+            return String.Format("{0} feltet indeholder ulovelige tegn", Translator.GetTranslation(propertyName));
+        }
+
+        protected string PropertyIsEmptyErrorMessage(string propertyName)
+        {
+            return string.Format("{0} feltet er tomt", Translator.GetTranslation(propertyName));
+        }
+
+        #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
@@ -22,45 +44,6 @@ namespace FoxtrotProject.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
-        protected string ValidateNumericParse<T>(string value, string propertyName, out T numericValue) where T : IComparable
-        {
-            try
-            {
-                numericValue = (T) TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(value);
-                return String.Format("{0} feltet indeholder ulovelige tegn", propertyName);
-            }
-            catch
-            {
-                numericValue = default(T);
-                return null;
-            }
-            
-        }
-
-        protected string ValidateIntegerParse(string value, string propertyName, out int integerValue)
-        {
-            string message = null;
-
-            if (!Int32.TryParse(value, out integerValue))
-                message = string.Format("{0} feltet indeholder ulovlige tegn", propertyName);
-
-            return message;
-        }
-
-        protected string ValidateDoubleParse(string value, string propertyName, out double doubleValue)
-        {
-            string message = null;
-
-            if (!Double.TryParse(value, out doubleValue))
-                message = string.Format("{0} feltet indeholder ulovlige tegn", propertyName);
-
-            return message;
-        }
-
-        protected string PropertyIsEmptyErrorMessage(string propertyName)
-        {
-            return string.Format("{0} feltet er tomt", propertyName);
-        }
+        #endregion
     }
 }

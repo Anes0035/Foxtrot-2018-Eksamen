@@ -119,48 +119,42 @@ namespace FoxtrotProject.ViewModel
                 string message;
                 switch (propertyName)
                 {
+                    case "ContactPerson":
+                    case "Address":
+                    case "Name":
+                        if (String.IsNullOrEmpty((string)GetType().GetProperty(propertyName).GetValue(this)))
+                            return PropertyIsEmptyErrorMessage(propertyName);
+                        break;
                     case "CVR":
                         if (String.IsNullOrEmpty(CVR))
                             return PropertyIsEmptyErrorMessage(propertyName);
 
                         int cVR;
-                        message = ValidateIntegerParse(CVR, propertyName, out cVR);
+                        message = ValidateNumericParse<int>(CVR, propertyName, out cVR);
 
                         if (message != null)
                             return message;
 
                         customer.CVR = cVR;
                         break;
-                    case "Name":
-                        if (String.IsNullOrEmpty(Name))
-                            return PropertyIsEmptyErrorMessage("Navn");
-                        break;
-                    case "Address":
-                        if (String.IsNullOrEmpty(Address))
-                            return PropertyIsEmptyErrorMessage("Adresse");
-                        break;
                     case "TelephoneNumber":
                         if (String.IsNullOrEmpty(TelephoneNumber))
-                            return PropertyIsEmptyErrorMessage("Tlf. Nummer");
+                            return PropertyIsEmptyErrorMessage(propertyName);
 
                         int telephoneNumber;
-                        message = ValidateIntegerParse(TelephoneNumber, propertyName, out telephoneNumber);
+                        message = ValidateNumericParse<int>(TelephoneNumber, propertyName, out telephoneNumber);
 
                         if (message != null)
                             return message;
 
                         customer.TelephoneNumber = telephoneNumber;
                         break;
-                    case "ContactPerson":
-                        if (String.IsNullOrEmpty(ContactPerson))
-                            return PropertyIsEmptyErrorMessage("Kontakt Person");
-                        break;
                     case "GrossIncome":
                         if (String.IsNullOrEmpty(GrossIncome))
-                            return PropertyIsEmptyErrorMessage("Årlig Omsætning");
+                            return PropertyIsEmptyErrorMessage(propertyName);
 
                         double grossIncome;
-                        message = ValidateDoubleParse(GrossIncome, "Årlig Omsætning", out grossIncome);
+                        message = ValidateNumericParse<double>(GrossIncome, propertyName, out grossIncome);
 
                         if (message != null)
                             return message;
@@ -173,8 +167,6 @@ namespace FoxtrotProject.ViewModel
             }
         }
         #endregion
-
-        private Database db;
 
         public CustomerViewModel()
         {
