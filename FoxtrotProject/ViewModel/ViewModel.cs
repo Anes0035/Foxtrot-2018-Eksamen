@@ -31,7 +31,7 @@ namespace FoxtrotProject.ViewModel
 
         protected string PropertyIsEmptyErrorMessage(string propertyName)
         {
-            return string.Format("{0} feltet er tomt", Translator.GetTranslation(propertyName);
+            return string.Format("{0} feltet er tomt", Translator.GetTranslation(propertyName));
         }
 
         #region INotifyPropertyChanged
