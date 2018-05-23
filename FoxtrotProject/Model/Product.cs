@@ -19,6 +19,7 @@ namespace FoxtrotProject.Model
 
         public string Category { get; set; }
 
+        public Product SelectedProduct { get; set; }
         public Product()
         {
 
@@ -50,6 +51,7 @@ namespace FoxtrotProject.Model
                   ID = i;
               }
           } 
+
 
 
      

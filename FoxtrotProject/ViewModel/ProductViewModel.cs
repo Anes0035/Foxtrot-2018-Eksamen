@@ -32,7 +32,7 @@ namespace FoxtrotProject.ViewModel
         private Product currentProduct = new Product();
 
 
-        private int iD;
+     
 
         public int ID
         {
@@ -92,7 +92,17 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
+        private Product selectedproduct;
 
+        public Product SelectedProduct
+        {
+            get { return selectedproduct; }
+            set
+            {
+                selectedproduct = value;
+                NotifyPropertyChanged();
+            }
+        }
         #endregion
 
         //private Database db = new Database();
@@ -108,7 +118,7 @@ namespace FoxtrotProject.ViewModel
             SaveProductCommand = new WpfCommand(SaveProductExecute, SaveProductCanExecute);
             
 
-         //   RemoveProductCommand = new WpfCommand(RemoveProductExecute, RemoveProductCanExecute);
+            RemoveProductCommand = new WpfCommand(RemoveProductExecute, RemoveProductCanExecute);
 
         }
 
@@ -215,9 +225,10 @@ namespace FoxtrotProject.ViewModel
 
         public void RemoveProductExecute(object parameter)
         {
-            
+            ID = selectedproduct.ID;
+           
             Products.Remove(currentProduct.Clone());
-            db.RemoveProduct(iD);
+            db.RemoveProduct(selectedproduct);
             NotifyPropertyChanged("Product");
             MessageBox.Show("Product Slettet");
 

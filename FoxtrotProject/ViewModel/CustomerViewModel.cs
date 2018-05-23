@@ -84,7 +84,17 @@ namespace FoxtrotProject.ViewModel
                 NotifyPropertyChanged();
             }
         }
+        private Customer selectedcustomer;
 
+        public Customer SelectedCustomer
+        {
+            get { return selectedcustomer; }
+            set
+            {
+                selectedcustomer = value;
+                NotifyPropertyChanged();
+            }
+        }
         public ObservableCollection<Customer> Customers { get; set; }
 
         
@@ -201,9 +211,9 @@ namespace FoxtrotProject.ViewModel
 
         public void RemoveCustomerExecute(object parameter)
         {
-          
+            CVR = selectedcustomer.CVR.ToString();
             Customers.Remove(customer.Clone());
-            db.RemoveCustomer(customer.Clone());
+            db.RemoveCustomer(selectedcustomer);
             NotifyPropertyChanged("customers");
             MessageBox.Show("Kunde Slettet");
 

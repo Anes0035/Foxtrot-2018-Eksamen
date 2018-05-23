@@ -90,10 +90,10 @@ namespace FoxtrotProject.Model
         {
             try
             {
-
                 OpenConnection();
-                SqlCommand command = new SqlCommand("DELETE FROM Customer", connection);
-       
+                SqlCommand command = new SqlCommand("DELETE FROM Customer WHERE CVR = @cvr", connection);
+                command.Parameters.Add(new SqlParameter("@cvr", customer.CVR));
+
                 command.ExecuteNonQuery();
             }
             catch (Exception)
@@ -206,19 +206,21 @@ namespace FoxtrotProject.Model
             }
         }
 
-        public bool RemoveProduct(int id)
+        public void RemoveProduct(Product product)
         {
             try
             {
+                
                 OpenConnection();
-                SqlCommand command = new SqlCommand("DELETE FROM Catalog WHERE Id = @id", connection);
+                SqlCommand command = new SqlCommand("DELETE FROM Catalog WHERE ProductID = @id", connection);
+                command.Parameters.Add(new SqlParameter("@id", product.ID));
                 command.ExecuteNonQuery();
-                CloseConnection();
-                return true;
+               
+                
             }
             catch (Exception)
             {
-                return false;
+                throw;
             }
             finally
             {
