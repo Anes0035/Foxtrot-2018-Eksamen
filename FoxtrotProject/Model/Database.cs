@@ -26,7 +26,7 @@ namespace FoxtrotProject.Model
         }
 
         /// Method for Adding a customer
-
+        #region Customer
         public void AddCustomer(Customer customer)
         {
           
@@ -144,8 +144,9 @@ namespace FoxtrotProject.Model
             }
      
         }
-            
-           
+
+        #endregion
+        #region Product
         public string AddProduct(Product product)
         {
         try
@@ -264,30 +265,31 @@ namespace FoxtrotProject.Model
                 CloseConnection();
             }
         }
+#endregion
 
-  
 
-
-        public string AddContract(Contract contract)
+        #region Contract
+        public void AddContract(Contract contract)
         {
             try
             {
+                OpenConnection();
                 SqlCommand command = new SqlCommand("Insert CONTRACT [dbo].[Contract]([StartDate], [Period], [Status], [Subscription], [ProductGroups], [GetDiscount]) " +
                                                                     "Values(@startDate, @period, @status, @subscription, @ProductGroups, @getDiscount)", connection);
                 command.Parameters.AddWithValue("@startDate", contract.StartDate);
                 command.Parameters.AddWithValue("@Period", contract.Period);
                 command.Parameters.AddWithValue("@status", contract.Status);
                 command.Parameters.AddWithValue("@subscription", contract.Subscription);
-                command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
-               // command.Parameters.AddWithValue("@getDiscount", contract.GetDiscount);
+                //command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
+                // command.Parameters.AddWithValue("@getDiscount", contract.GetDiscount);
                 command.ExecuteNonQuery();
-                CloseConnection();
+                
 
-                return "Successfully Inserted";
+              
             }
             catch (Exception e)
             {
-                return e.Message;
+                throw;
             }
             finally
             {
@@ -323,7 +325,7 @@ namespace FoxtrotProject.Model
 
 
         //CVR --- customer.CVR ?!?
-        public bool RemoveContract(int idContract)
+        public void RemoveContract(Contract contract)
         {
             try
             {
@@ -331,16 +333,54 @@ namespace FoxtrotProject.Model
                 SqlCommand command = new SqlCommand("DELETE FROM [dbo].[Contract] WHERE IdContract = @idContract", connection);
                 command.ExecuteNonQuery();
                 CloseConnection();
-                return true;
+                
             }
             catch (Exception)
             {
-                return false;
+                throw;
             }
             finally
             {
                 CloseConnection();
             }
         }
+
+        public ObservableCollection<Contract> Contracts()
+        {
+            ObservableCollection<Contract> contracts = new ObservableCollection<Contract>();
+            OpenConnection();
+
+            try
+            {
+                SqlCommand command = new SqlCommand("Select * FROM Contract", connection);
+                SqlDataReader sqlDataReader = command.ExecuteReader();
+
+                while (sqlDataReader.Read())
+                {
+                    Contract contract = new Contract();
+                    Subscription subscription = new Subscription();
+
+                    contract.StartDate = (DateTime)sqlDataReader["StartDate"];
+                    contract.Status = (string)sqlDataReader["Status"];
+                    contract.Discount = (int)sqlDataReader["Discount"];
+                    subscription.Status = (bool)sqlDataReader["SubscriptionStatus"];
+                    contract.ID = (int)sqlDataReader["ContractID"];
+                    contracts.Add(contract);
+
+                }
+                return contracts;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+        }
     }
-}
+#endregion
+    }
+
