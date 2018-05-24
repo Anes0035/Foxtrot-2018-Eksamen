@@ -125,10 +125,18 @@ namespace FoxtrotProject.ViewModel
      
         public void SaveContractExecute(object parameter)
         {
-            Contracts.Add(contract.Clone());
-            db.AddContract(contract.Clone());
-            NotifyPropertyChanged("contracts");
-            MessageBox.Show("Kontrakt Oprettet");
+            if(db.ContractExist(contract))
+            {
+                Contracts.Add(contract.Clone());
+                db.AddContract(contract.Clone());
+                NotifyPropertyChanged("contracts");
+                MessageBox.Show("Kontrakt Oprettet");
+            }
+            else
+            {
+                MessageBox.Show("Fejl! Aftale eksisterer allerede!");
+            }
+           
         }
         public bool SaveContractCanExecute(object paramter)
         {

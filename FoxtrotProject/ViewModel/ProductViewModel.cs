@@ -16,6 +16,7 @@ namespace FoxtrotProject.ViewModel
     {
         #region Product
 
+       
         public ObservableCollection<ProductGroup> ProductGroups { get; set; }
 
         private ObservableCollection<Product> products;
@@ -130,10 +131,17 @@ namespace FoxtrotProject.ViewModel
 
         public void SaveProductExecute(object parameter)
         {
-            Products.Add(currentProduct.Clone());
-            db.AddProduct(currentProduct.Clone());
-            NotifyPropertyChanged("products");
-            MessageBox.Show("Product Oprettet");
+            if (db.ProductExist(currentProduct))
+            {
+                Products.Add(currentProduct.Clone());
+                db.AddProduct(currentProduct.Clone());
+                NotifyPropertyChanged("products");
+                MessageBox.Show("Product Oprettet");
+            }
+           else
+            {
+                MessageBox.Show("Produktet eksisterer allerede!");
+            }
 
         }
 
@@ -226,10 +234,10 @@ namespace FoxtrotProject.ViewModel
         public void RemoveProductExecute(object parameter)
         {
             ID = selectedproduct.ID;
-           
+          
             Products.Remove(currentProduct.Clone());
             db.RemoveProduct(selectedproduct);
-            NotifyPropertyChanged("Product");
+            NotifyPropertyChanged("product");
             MessageBox.Show("Product Slettet");
 
 

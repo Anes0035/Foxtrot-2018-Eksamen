@@ -185,19 +185,31 @@ namespace FoxtrotProject.ViewModel
             Customers = db.Customers();
             SaveCustomerCommand = new WpfCommand(SaveCustomerExecute, SaveCustomerCanExecute);
             RemoveCustomerCommand = new WpfCommand(RemoveCustomerExecute, RemoveCustomerCanExecute);
-            
+            EditCustomerCommand = new WpfCommand(EditCustomerExecute, EditCustomerCanExecute);
         }
 
         #region SaveCustomerCommand
         public ICommand SaveCustomerCommand { get; set; }
 
         public ICommand RemoveCustomerCommand { get; set; }
+
+        public ICommand EditCustomerCommand { get; set; }
         public void SaveCustomerExecute(object parameter)
         {
-            Customers.Add(customer.Clone());
-            db.AddCustomer(customer.Clone());
-            NotifyPropertyChanged("customers");
-            MessageBox.Show("Kunde Oprettet");
+
+            if (db.CustomerExist(customer))
+            {
+                Customers.Add(customer.Clone());
+                db.AddCustomer(customer.Clone());
+                NotifyPropertyChanged("customers");
+                MessageBox.Show("Kunde Oprettet");
+            }
+            else
+            {
+                MessageBox.Show("Fejl! Kunde eksisterer allerede!");
+            }
+                
+            
 
         }
 

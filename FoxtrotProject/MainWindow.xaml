@@ -99,7 +99,7 @@
                             <Label Grid.Row="3" Content="Abonnoment:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
                             <CheckBox IsChecked="{Binding Subscription}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                             <Label Grid.Row="4" Content="Produkt grupper:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                            <ComboBox SelectedItem="{Binding}" Grid.Row="4" Grid.Column="1" IsEditable="True" IsTextSearchEnabled="True" Margin="10,5,10,0" VerticalAlignment="Top" Width="120">
+                            <ComboBox  Grid.Row="4" Grid.Column="1" IsEditable="True" IsTextSearchEnabled="True" Margin="10,5,10,0" VerticalAlignment="Top" Width="120">
                                 <ComboBoxItem>
                                     <CheckBox>
                                         <StackPanel>
