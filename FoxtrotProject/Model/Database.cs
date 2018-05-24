@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -27,11 +28,11 @@ namespace FoxtrotProject.Model
 
         string s = @"SELECT COUNT(*) FROM Customer WHERE CVR = @cvr";
         string t = @"SELECT COUNT(*) FROM Contract WHERE ContractID = @contractid";
-        string r = @"SELECT COUNT(*) FROM Product WHERE ProductID = @productid";
-
+        string r = @"SELECT COUNT(*) FROM Catalog WHERE ProductID = @productid";
+         
         /// Method for Adding a customer
         #region Customer
-        public bool CustomerExist(Customer customer)
+        public bool AddCustomer(Customer customer)
         {
 
             SqlCommand command = new SqlCommand(s, connection);
@@ -67,33 +68,33 @@ namespace FoxtrotProject.Model
 
 
         }
-        public void AddCustomer(Customer customer)
-        {
+        //public void AddCustomer(Customer customer)
+        //{
 
 
-            try
-            {
-                OpenConnection();
-                SqlCommand command = new SqlCommand("Insert INTO Customer(CVR, Name, Address, PhoneNumber, ContactPerson, GrossIncome) Values(@cvr, @name, @address, @phonenumber, @contactperson, @grossincome)", connection);
-                command.Parameters.AddWithValue("@cvr", customer.CVR);
-                command.Parameters.AddWithValue("@name", customer.Name);
-                command.Parameters.AddWithValue("@address", customer.Address);
-                command.Parameters.AddWithValue("@phonenumber", customer.TelephoneNumber);
-                command.Parameters.AddWithValue("@contactperson", customer.ContactPerson);
-                command.Parameters.AddWithValue("@grossincome", customer.GrossIncome);
-                command.ExecuteNonQuery();
+        //    try
+        //    {
+        //        OpenConnection();
+        //        SqlCommand command = new SqlCommand("Insert INTO Customer(CVR, Name, Address, PhoneNumber, ContactPerson, GrossIncome) Values(@cvr, @name, @address, @phonenumber, @contactperson, @grossincome)", connection);
+        //        command.Parameters.AddWithValue("@cvr", customer.CVR);
+        //        command.Parameters.AddWithValue("@name", customer.Name);
+        //        command.Parameters.AddWithValue("@address", customer.Address);
+        //        command.Parameters.AddWithValue("@phonenumber", customer.TelephoneNumber);
+        //        command.Parameters.AddWithValue("@contactperson", customer.ContactPerson);
+        //        command.Parameters.AddWithValue("@grossincome", customer.GrossIncome);
+        //        command.ExecuteNonQuery();
 
-            }
-            catch (Exception)
-            {
-                //////MessageBox.Show("Fejl under oprettelse af kunde");
+        //    }
+        //    catch (Exception)
+        //    {
+        //        //////MessageBox.Show("Fejl under oprettelse af kunde");
 
-            }
-            finally
-            {
-                CloseConnection();
-            }
-        }
+        //    }
+        //    finally
+        //    {
+        //        CloseConnection();
+        //    }
+        //}
 
 
         /// Method for editing a customers details ( Not Finished ) 
@@ -133,8 +134,8 @@ namespace FoxtrotProject.Model
                 OpenConnection();
                 SqlCommand command = new SqlCommand("DELETE FROM Customer WHERE CVR = @cvr", connection);
                 command.Parameters.Add(new SqlParameter("@cvr", customer.CVR));
-
                 command.ExecuteNonQuery();
+
             }
             catch (Exception)
             {
@@ -143,18 +144,16 @@ namespace FoxtrotProject.Model
             }
             finally
             {
+                
                 CloseConnection();
             }
+         
         }
         public ObservableCollection<Customer> Customers()
         {
-
+         
+            OpenConnection();
             ObservableCollection<Customer> customers = new ObservableCollection<Customer>();
-           
-
-        
-                OpenConnection();
-
             try
             {
                 SqlCommand command = new SqlCommand("Select * FROM Customer", connection);
@@ -170,6 +169,7 @@ namespace FoxtrotProject.Model
                     customer.ContactPerson = (string)sqlDataReader["ContactPerson"];
                     //customer.GrossIncome = (int)sqlDataReader["GrossIncome"];
                     customers.Add(customer);
+                    
 
                 }
                 return customers;
@@ -188,7 +188,7 @@ namespace FoxtrotProject.Model
         #endregion
         #region Product
 
-        public bool ProductExist(Product product)
+        public bool AddProduct(Product product)
         {
 
             SqlCommand command = new SqlCommand(r, connection);
@@ -199,10 +199,10 @@ namespace FoxtrotProject.Model
             if (records == 0)
             {
                 command.Parameters.Clear();
-                r = @"Insert INTO Catalog([ProductID], [ProductName1], [ProductDescriptionLong], [Price], [ProductGroup])  
-                                                                Values(@id, @name, @description, @price, @category)";
-                command = new SqlCommand(s, connection);
-
+                r = @"Insert INTO Catalog(CompanyID, ProductID, ProductName1, ProductDesreptionLong, Price, ProductGroup)  
+                                                                Values(@companyid @id, @name, @description, @price, @category)";
+                command = new SqlCommand(r, connection);
+                command.Parameters.AddWithValue("@companyid", 38168);
                 command.Parameters.AddWithValue("@id", product.ID);
                 command.Parameters.AddWithValue("@name", product.Name);
                 command.Parameters.AddWithValue("@description", product.Description);
@@ -221,33 +221,33 @@ namespace FoxtrotProject.Model
 
             }
         }
-            public string AddProduct(Product product)
-        {
-        try
-        {
+        //    public string AddProduct(Product product)
+        //{
+        //try
+        //{
                
-            SqlCommand command = new SqlCommand("Insert INTO Catalog([ProductID], [ProductName1], [ProductDescriptionLong], [Price], [ProductGroup]) " +
-                                                                "Values(@id, @name, @description, @price, @category)", connection);
-            command.Parameters.AddWithValue("@id", product.ID);
-            command.Parameters.AddWithValue("@name", product.Name);
-            command.Parameters.AddWithValue("@description", product.Description);
-            command.Parameters.AddWithValue("@price", product.Price);
-            command.Parameters.AddWithValue("@category", product.Category);
-            command.ExecuteNonQuery();
-            CloseConnection();
+        //    SqlCommand command = new SqlCommand("Insert INTO Catalog([ProductID], [ProductName1], [ProductDescriptionLong], [Price], [ProductGroup]) " +
+        //                                                        "Values(@id, @name, @description, @price, @category)", connection);
+        //    command.Parameters.AddWithValue("@id", product.ID);
+        //    command.Parameters.AddWithValue("@name", product.Name);
+        //    command.Parameters.AddWithValue("@description", product.Description);
+        //    command.Parameters.AddWithValue("@price", product.Price);
+        //    command.Parameters.AddWithValue("@category", product.Category);
+        //    command.ExecuteNonQuery();
+        //    CloseConnection();
                           
-            return "Successfully Inserted";               
-            }
-            catch (Exception e)
-            {
-                return e.Message;
-            }
-            finally
-            {
-                CloseConnection();
-            }
+        //    return "Successfully Inserted";               
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return e.Message;
+        //    }
+        //    finally
+        //    {
+        //        CloseConnection();
+        //    }
 
-        }           
+        //}           
         
         //public void GetAllProducts()
         //{
@@ -290,6 +290,7 @@ namespace FoxtrotProject.Model
                 SqlCommand command = new SqlCommand("DELETE FROM Catalog WHERE ProductID = @id", connection);
                 command.Parameters.Add(new SqlParameter("@id", product.ID));
                 command.ExecuteNonQuery();
+                
                
                 
             }
@@ -305,10 +306,7 @@ namespace FoxtrotProject.Model
 
         public ObservableCollection<Product> Products() 
         {
-
             ObservableCollection<Product> _products = new ObservableCollection<Product>();
-
-
             try
             {
                 connection.Open();
@@ -343,7 +341,7 @@ namespace FoxtrotProject.Model
 
 
         #region Contract
-        public bool ContractExist(Contract contract)
+        public bool AddContract(Contract contract)
         {
 
             SqlCommand command = new SqlCommand(t, connection);
@@ -378,36 +376,36 @@ namespace FoxtrotProject.Model
 
             }
         }
-        public void AddContract(Contract contract)
-        {
+        //public void AddContract(Contract contract)
+        //{
          
-            try
-            {
-                OpenConnection();
-                SqlCommand command = new SqlCommand("Insert CONTRACT [dbo].[Contract]([ContractID][StartDate], [Period], [Status], [Subscription], [ProductGroups], [GetDiscount]) " +
-                                                                    "Values(@contractid, @startDate, @period, @status, @subscription, @ProductGroups, @getDiscount)", connection);
-                command.Parameters.AddWithValue("@startDate", contract.StartDate);
-                command.Parameters.AddWithValue("@Period", contract.Period);
-                command.Parameters.AddWithValue("@status", contract.Status);
-                command.Parameters.AddWithValue("@subscription", contract.Subscription);
-                command.Parameters.AddWithValue("@contractid", contract.ID);
-                //command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
-                // command.Parameters.AddWithValue("@getDiscount", contract.GetDiscount);
-                command.ExecuteNonQuery();
+        //    try
+        //    {
+        //        OpenConnection();
+        //        SqlCommand command = new SqlCommand("Insert CONTRACT [dbo].[Contract]([ContractID][StartDate], [Period], [Status], [Subscription], [ProductGroups], [GetDiscount]) " +
+        //                                                            "Values(@contractid, @startDate, @period, @status, @subscription, @ProductGroups, @getDiscount)", connection);
+        //        command.Parameters.AddWithValue("@startDate", contract.StartDate);
+        //        command.Parameters.AddWithValue("@Period", contract.Period);
+        //        command.Parameters.AddWithValue("@status", contract.Status);
+        //        command.Parameters.AddWithValue("@subscription", contract.Subscription);
+        //        command.Parameters.AddWithValue("@contractid", contract.ID);
+        //        //command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
+        //        // command.Parameters.AddWithValue("@getDiscount", contract.GetDiscount);
+        //        command.ExecuteNonQuery();
                 
 
               
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            finally
-            {
-                CloseConnection();
-            }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw;
+        //    }
+        //    finally
+        //    {
+        //        CloseConnection();
+        //    }
 
-        }
+        //}
 
         public bool UpdateContract(Contract contract)
         {

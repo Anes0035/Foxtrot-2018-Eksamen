@@ -95,7 +95,16 @@ namespace FoxtrotProject.ViewModel
                 NotifyPropertyChanged();
             }
         }
-        public ObservableCollection<Customer> Customers { get; set; }
+        private ObservableCollection<Customer> customers;
+        public ObservableCollection<Customer> Customers
+        {
+            get { return customers; }
+            set
+            {
+                customers = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         
 
@@ -194,13 +203,14 @@ namespace FoxtrotProject.ViewModel
         public ICommand RemoveCustomerCommand { get; set; }
 
         public ICommand EditCustomerCommand { get; set; }
+
+        // Save customer to ObservableCollection and Database.
+        
         public void SaveCustomerExecute(object parameter)
         {
-
-            if (db.CustomerExist(customer))
+            if (db.AddCustomer(customer))
             {
-                Customers.Add(customer.Clone());
-                db.AddCustomer(customer.Clone());
+               Customers.Add(customer.Clone());
                 NotifyPropertyChanged("customers");
                 MessageBox.Show("Kunde Oprettet");
             }
@@ -212,7 +222,7 @@ namespace FoxtrotProject.ViewModel
             
 
         }
-
+        // Checking if every value is filled out correctly
         public bool SaveCustomerCanExecute(object parameter)
         {
             if (FirstErrorMessage != null)
@@ -221,19 +231,29 @@ namespace FoxtrotProject.ViewModel
                 return true;
         }
 
+        // Removing customer from Collection and Database
         public void RemoveCustomerExecute(object parameter)
         {
-            CVR = selectedcustomer.CVR.ToString();
-            Customers.Remove(customer.Clone());
-            db.RemoveCustomer(selectedcustomer);
-            NotifyPropertyChanged("customers");
-            MessageBox.Show("Kunde Slettet");
-
+      
+                customer.CVR = selectedcustomer.CVR;
+                db.RemoveCustomer(selectedcustomer);
+                Customers.Remove(selectedcustomer);
+                NotifyPropertyChanged("customers");
+                MessageBox.Show("Kunde Slettet");
+           
         }
 
         public bool RemoveCustomerCanExecute(object parameter)
         {
+            if (selectedcustomer == null)
+            {
+                return false;
+            }
+            else
+            {
                 return true;
+            }
+          
         }
 
         public void EditCustomerExecute(object parameter)

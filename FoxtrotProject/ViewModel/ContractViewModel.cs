@@ -125,10 +125,9 @@ namespace FoxtrotProject.ViewModel
      
         public void SaveContractExecute(object parameter)
         {
-            if(db.ContractExist(contract))
+            if(db.AddContract(contract))
             {
                 Contracts.Add(contract.Clone());
-                db.AddContract(contract.Clone());
                 NotifyPropertyChanged("contracts");
                 MessageBox.Show("Kontrakt Oprettet");
             }

@@ -33,7 +33,7 @@ namespace FoxtrotProject.ViewModel
         private Product currentProduct = new Product();
 
 
-     
+    
 
         public int ID
         {
@@ -131,10 +131,9 @@ namespace FoxtrotProject.ViewModel
 
         public void SaveProductExecute(object parameter)
         {
-            if (db.ProductExist(currentProduct))
+            if (db.AddProduct(currentProduct))
             {
                 Products.Add(currentProduct.Clone());
-                db.AddProduct(currentProduct.Clone());
                 NotifyPropertyChanged("products");
                 MessageBox.Show("Product Oprettet");
             }
@@ -233,10 +232,10 @@ namespace FoxtrotProject.ViewModel
 
         public void RemoveProductExecute(object parameter)
         {
-            ID = selectedproduct.ID;
-          
-            Products.Remove(currentProduct.Clone());
+
+           currentProduct.ID = selectedproduct.ID;
             db.RemoveProduct(selectedproduct);
+            Products.Remove(selectedproduct);
             NotifyPropertyChanged("product");
             MessageBox.Show("Product Slettet");
 
@@ -244,7 +243,14 @@ namespace FoxtrotProject.ViewModel
         }
         public bool RemoveProductCanExecute(object parameter)
         {
-            return true;
+            if (selectedproduct == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
         #endregion
 
