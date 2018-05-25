@@ -57,7 +57,7 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-        private string description;
+       
 
         public string Description
         {
@@ -255,8 +255,8 @@ namespace FoxtrotProject.ViewModel
         public void EditProductExecute(object parameter)
         {
             ID = selectedproduct.ID;
-            Name = selectedproduct.Name.ToString();
-            Description = selectedproduct.Description.ToString();
+            Name = selectedproduct.Name;
+            Description = selectedproduct.Description;
             Price = selectedproduct.Price.ToString();
             Category = selectedproduct.Category;
         }

@@ -74,6 +74,7 @@ namespace FoxtrotProject
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            txtProductID.Text = string.Empty;
             txtPName.Text = string.Empty;
             txtDescription.Text = string.Empty;
             txtPrice.Text = null;
