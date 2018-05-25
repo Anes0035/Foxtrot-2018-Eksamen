@@ -84,8 +84,27 @@ namespace FoxtrotProject.ViewModel
                 NotifyPropertyChanged();
             }
         }
+        private Customer selectedcustomer;
 
-        public ObservableCollection<Customer> Customers { get; set; }
+        public Customer SelectedCustomer
+        {
+            get { return selectedcustomer; }
+            set
+            {
+                selectedcustomer = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private ObservableCollection<Customer> customers;
+        public ObservableCollection<Customer> Customers
+        {
+            get { return customers; }
+            set
+            {
+                customers = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         
 
@@ -175,22 +194,35 @@ namespace FoxtrotProject.ViewModel
             Customers = db.Customers();
             SaveCustomerCommand = new WpfCommand(SaveCustomerExecute, SaveCustomerCanExecute);
             RemoveCustomerCommand = new WpfCommand(RemoveCustomerExecute, RemoveCustomerCanExecute);
-            
+            EditCustomerCommand = new WpfCommand(EditCustomerExecute, EditCustomerCanExecute);
         }
 
         #region SaveCustomerCommand
         public ICommand SaveCustomerCommand { get; set; }
 
         public ICommand RemoveCustomerCommand { get; set; }
+
+        public ICommand EditCustomerCommand { get; set; }
+
+        // Save customer to ObservableCollection and Database.
+        
         public void SaveCustomerExecute(object parameter)
         {
-            Customers.Add(customer.Clone());
-            db.AddCustomer(customer.Clone());
-            NotifyPropertyChanged("customers");
-            MessageBox.Show("Kunde Oprettet");
+            if (db.AddCustomer(customer))
+            {
+               Customers.Add(customer.Clone());
+                NotifyPropertyChanged("customers");
+                MessageBox.Show("Kunde Oprettet");
+            }
+            else
+            {
+                MessageBox.Show("Fejl! Kunde eksisterer allerede!");
+            }
+                
+            
 
         }
-
+        // Checking if every value is filled out correctly
         public bool SaveCustomerCanExecute(object parameter)
         {
             if (FirstErrorMessage != null)
@@ -199,19 +231,29 @@ namespace FoxtrotProject.ViewModel
                 return true;
         }
 
+        // Removing customer from Collection and Database
         public void RemoveCustomerExecute(object parameter)
         {
-          
-            Customers.Remove(customer.Clone());
-            db.RemoveCustomer(customer.Clone());
-            NotifyPropertyChanged("customers");
-            MessageBox.Show("Kunde Slettet");
-
+      
+                customer.CVR = selectedcustomer.CVR;
+                db.RemoveCustomer(selectedcustomer);
+                Customers.Remove(selectedcustomer);
+                NotifyPropertyChanged("customers");
+                MessageBox.Show("Kunde Slettet");
+           
         }
 
         public bool RemoveCustomerCanExecute(object parameter)
         {
+            if (selectedcustomer == null)
+            {
+                return false;
+            }
+            else
+            {
                 return true;
+            }
+          
         }
 
         public void EditCustomerExecute(object parameter)

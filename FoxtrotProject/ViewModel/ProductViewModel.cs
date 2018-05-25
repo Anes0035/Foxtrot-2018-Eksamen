@@ -16,14 +16,24 @@ namespace FoxtrotProject.ViewModel
     {
         #region Product
 
+       
         public ObservableCollection<ProductGroup> ProductGroups { get; set; }
 
-        public ObservableCollection<Product> Products { get; set; }
+        private ObservableCollection<Product> products;
+        public ObservableCollection<Product> Products
+        {
+            get { return products; }
+            set
+            {
+                products = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private Product currentProduct = new Product();
 
 
-        private int iD;
+    
 
         public int ID
         {
@@ -83,17 +93,34 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
+        private Product selectedproduct;
 
+        public Product SelectedProduct
+        {
+            get { return selectedproduct; }
+            set
+            {
+                selectedproduct = value;
+                NotifyPropertyChanged();
+            }
+        }
         #endregion
 
         //private Database db = new Database();
 
         public ProductViewModel()
         {
-            //db = new Database();
+
+            db = new Database();
             currentProduct = new Product();
-            Products = new ObservableCollection<Product>();
+
+            Products = db.Products();
+
             SaveProductCommand = new WpfCommand(SaveProductExecute, SaveProductCanExecute);
+            
+
+            RemoveProductCommand = new WpfCommand(RemoveProductExecute, RemoveProductCanExecute);
+
         }
 
 
@@ -104,10 +131,16 @@ namespace FoxtrotProject.ViewModel
 
         public void SaveProductExecute(object parameter)
         {
-            Products.Add(currentProduct.Clone());
-            db.AddProduct(currentProduct.Clone());
-            NotifyPropertyChanged("products");
-            MessageBox.Show("Product Oprettet");
+            if (db.AddProduct(currentProduct))
+            {
+                Products.Add(currentProduct.Clone());
+                NotifyPropertyChanged("products");
+                MessageBox.Show("Product Oprettet");
+            }
+           else
+            {
+                MessageBox.Show("Produktet eksisterer allerede!");
+            }
 
         }
 
@@ -171,8 +204,8 @@ namespace FoxtrotProject.ViewModel
                             return PropertyIsEmptyErrorMessage("Price");
 
 
-                        decimal price;
-                        message = ValidateNumericParse<decimal>(Price, propertyName, out price);
+                        double price;
+                        message = ValidateNumericParse<double>(Price, propertyName, out price);
 
                         if (message != null)
                             return message;
@@ -199,17 +232,25 @@ namespace FoxtrotProject.ViewModel
 
         public void RemoveProductExecute(object parameter)
         {
-            
-            Products.Remove(currentProduct.Clone());
-            db.RemoveProduct(iD);
-            NotifyPropertyChanged("Product");
+
+           currentProduct.ID = selectedproduct.ID;
+            db.RemoveProduct(selectedproduct);
+            Products.Remove(selectedproduct);
+            NotifyPropertyChanged("product");
             MessageBox.Show("Product Slettet");
 
 
         }
         public bool RemoveProductCanExecute(object parameter)
         {
-            return true;
+            if (selectedproduct == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
         #endregion
 
@@ -218,10 +259,10 @@ namespace FoxtrotProject.ViewModel
         public void EditProductExecute(object parameter)
         {
 
-            Products.Add(currentProduct.Clone());
-            db.RemoveProduct(iD);
-            NotifyPropertyChanged("Product");
-            MessageBox.Show("Product redigeret");
+            //Products.Add(currentProduct.Clone());
+            //db.RemoveProduct(iD);
+            //NotifyPropertyChanged("Product");
+            //MessageBox.Show("Product redigeret");
 
 
         }

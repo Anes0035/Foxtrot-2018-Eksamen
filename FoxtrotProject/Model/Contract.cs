@@ -8,26 +8,63 @@ namespace FoxtrotProject.Model
 {
     class Contract
     {
+
+        public int ID { get; set; }
         public DateTime StartDate { get; set; }
 
         public int Period { get; set; }
 
-        public bool Status { get; set; }
+        public string Status { get; set; }
 
-        public List<ProductGroup> ProductGroups { get; set; }
+        public Contract SelectedContract {get;set;}
 
-        private List<Tuple<ProductGroup, int>> ProductGroupWithDiscount;
+    public List<ProductGroup> ContractGroups { get; set; }
 
+        private List<Tuple<ProductGroup, int>> ContractGroupWithDiscount;
+
+        
         public Subscription Subscription { get; set; }
-
+        public int Discount { get; set; }
         public int? GetDiscount(ProductGroup productGroup)
         {
-            foreach(Tuple<ProductGroup, int> discount in ProductGroupWithDiscount)
+            foreach(Tuple<ProductGroup, int> discount in ContractGroupWithDiscount)
             {
                 if (productGroup == discount.Item1)
                     return discount.Item2;
             }
             return null;
+        }
+        public Contract()
+        {
+
+        }
+        public Contract(int iD)
+        {
+            ID = iD;
+        }
+
+        public Contract Clone()
+        {
+            return new Contract() { ID = ID, Period = Period, Status = Status, Subscription = Subscription, Discount = Discount, StartDate = StartDate};
+        }
+
+        public Contract(List<Contract> contracts, string name, string description, double price, string category)
+        {
+            AutoAssignId(contracts);
+            ID = ID;
+            Period = Period;
+            Status = Status;
+            Subscription = Subscription;
+            Discount = Discount;
+            StartDate = StartDate;
+        }
+
+        private void AutoAssignId(List<Contract> contracts)
+        {
+            for (int i = 1; contracts.Where(p => p.ID == i).Any(); i++)
+            {
+                ID = i;
+            }
         }
 
     }
