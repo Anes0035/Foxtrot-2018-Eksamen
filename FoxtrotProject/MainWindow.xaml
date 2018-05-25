@@ -56,7 +56,7 @@
                     <TextBox x:Name="txtGrossIncome" Text="{Binding GrossIncome, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
                     <Label x:Name="lblGrossIncomeError" Content="{Binding ElementName=txtGrossIncome, Path=(Validation.Errors)/ErrorContent}" Grid.Row="6" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0" Height="27" Grid.ColumnSpan="2"/>
                     <Button Grid.Row="7" Grid.Column="1" Command="{Binding SaveCustomerCommand}" Content="Gem Kunde" VerticalAlignment="Top" Margin="5,10,5,0" Height="25" Width="Auto"/>
-                    <Button Grid.Row="7" Content="Vis Kunde" Grid.Column="3" HorizontalAlignment="Right" Height="25" Margin="0,45,10,-34" VerticalAlignment="Top" Width="75"/>
+                    <Button Grid.Row="7" Content="Vis Kunde" Grid.Column="3" HorizontalAlignment="Right" Height="25" Margin="0,45,10,-34" VerticalAlignment="Top" Width="75" Command="{Binding EditCustomerCommand}" />
                     <DataGrid x:Name="lstCustomers" AutoGenerateColumns="False" ItemsSource="{Binding Customers, Mode=TwoWay}" SelectedItem="{Binding SelectedCustomer,  UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" HorizontalAlignment="Right" Height="Auto" Margin="0,10,10,0" Grid.Row="1" Grid.RowSpan="7" Width="300">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="CVR" Width="Auto" Binding="{Binding CVR}"/>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,38 +26,42 @@ namespace FoxtrotProject.Model
 
         }
 
-         public Product(int iD)
-          {
-              ID = iD;
-          }
+        public Product(int iD)
+        {
+            ID = iD;
+        }
 
         public Product Clone()
         {
             return new Product() { ID = ID, Name = Name, Description = Description, Price = Price, Category = Category };
         }
 
-          public Product(List<Product> products, string name, string description, double price, string category)
-          {
-              AutoAssignId(products);
-              name = Name;
-              description = Description;
-              price = Price;
-              category = Category;
-          }
+        public Product(ObservableCollection<Product> products, string name, string description, double price, string category)
+        {
+            AutoAssignId(products);
+            name = Name;
+            description = Description;
+            price = Price;
+            category = Category;
+        }
 
-          private void AutoAssignId(List<Product> products)
-          {
-              for(int i = 1; products.Where(p => p.ID == i).Any(); i++)
-              {
-                  ID = i;
-              }
-          } 
+        public void AutoAssignId(ObservableCollection<Product> products)
+        {
+            int counter = 0;
+            do
+            {
+                counter++;
+                ID = counter;
+            }
+            while (products.Where(p => p.ID == counter).Any());
+
+        }
 
 
 
-     
 
-          
+
+
     }
 
 }

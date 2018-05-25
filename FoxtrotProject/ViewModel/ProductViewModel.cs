@@ -16,7 +16,7 @@ namespace FoxtrotProject.ViewModel
     {
         #region Product
 
-       
+
         public ObservableCollection<ProductGroup> ProductGroups { get; set; }
 
         private ObservableCollection<Product> products;
@@ -30,10 +30,10 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-        private Product currentProduct = new Product();
+        private Product currentProduct;
 
 
-    
+
 
         public int ID
         {
@@ -117,7 +117,7 @@ namespace FoxtrotProject.ViewModel
             Products = db.Products();
 
             SaveProductCommand = new WpfCommand(SaveProductExecute, SaveProductCanExecute);
-            
+
 
             RemoveProductCommand = new WpfCommand(RemoveProductExecute, RemoveProductCanExecute);
 
@@ -126,18 +126,19 @@ namespace FoxtrotProject.ViewModel
 
         #region SaveProductCommand 
 
-            
+
         public ICommand SaveProductCommand { get; set; }
 
         public void SaveProductExecute(object parameter)
         {
+            currentProduct.AutoAssignId(products);
             if (db.AddProduct(currentProduct))
             {
                 Products.Add(currentProduct.Clone());
                 NotifyPropertyChanged("products");
                 MessageBox.Show("Product Oprettet");
             }
-           else
+            else
             {
                 MessageBox.Show("Produktet eksisterer allerede!");
             }
@@ -233,7 +234,7 @@ namespace FoxtrotProject.ViewModel
         public void RemoveProductExecute(object parameter)
         {
 
-           currentProduct.ID = selectedproduct.ID;
+            currentProduct.ID = selectedproduct.ID;
             db.RemoveProduct(selectedproduct);
             Products.Remove(selectedproduct);
             NotifyPropertyChanged("product");

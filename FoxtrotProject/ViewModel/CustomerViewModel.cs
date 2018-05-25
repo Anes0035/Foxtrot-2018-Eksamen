@@ -106,7 +106,7 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-        
+
 
         #endregion
 
@@ -205,12 +205,12 @@ namespace FoxtrotProject.ViewModel
         public ICommand EditCustomerCommand { get; set; }
 
         // Save customer to ObservableCollection and Database.
-        
+
         public void SaveCustomerExecute(object parameter)
         {
             if (db.AddCustomer(customer))
             {
-               Customers.Add(customer.Clone());
+                Customers.Add(customer.Clone());
                 NotifyPropertyChanged("customers");
                 MessageBox.Show("Kunde Oprettet");
             }
@@ -218,8 +218,8 @@ namespace FoxtrotProject.ViewModel
             {
                 MessageBox.Show("Fejl! Kunde eksisterer allerede!");
             }
-                
-            
+
+
 
         }
         // Checking if every value is filled out correctly
@@ -234,13 +234,13 @@ namespace FoxtrotProject.ViewModel
         // Removing customer from Collection and Database
         public void RemoveCustomerExecute(object parameter)
         {
-      
-                customer.CVR = selectedcustomer.CVR;
-                db.RemoveCustomer(selectedcustomer);
-                Customers.Remove(selectedcustomer);
-                NotifyPropertyChanged("customers");
-                MessageBox.Show("Kunde Slettet");
-           
+
+            customer.CVR = selectedcustomer.CVR;
+            db.RemoveCustomer(selectedcustomer);
+            Customers.Remove(selectedcustomer);
+            NotifyPropertyChanged("customers");
+            MessageBox.Show("Kunde Slettet");
+
         }
 
         public bool RemoveCustomerCanExecute(object parameter)
@@ -253,18 +253,31 @@ namespace FoxtrotProject.ViewModel
             {
                 return true;
             }
-          
+
         }
 
         public void EditCustomerExecute(object parameter)
         {
-           
+            CVR = selectedcustomer.CVR.ToString();
+            Name = selectedcustomer.Name;
+            Address = selectedcustomer.Address;
+            TelephoneNumber = selectedcustomer.TelephoneNumber.ToString();
+            ContactPerson = selectedcustomer.ContactPerson;
+            GrossIncome = selectedcustomer.GrossIncome.ToString();
         }
 
         public bool EditCustomerCanExecute(object parameter)
         {
-            
-            return true;
+            if (selectedcustomer == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+
         }
         #endregion
 
