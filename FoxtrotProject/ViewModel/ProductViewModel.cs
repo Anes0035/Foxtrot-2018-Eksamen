@@ -30,7 +30,7 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-        private Product currentProduct;
+        public Product currentProduct;
 
 
 
@@ -113,51 +113,12 @@ namespace FoxtrotProject.ViewModel
 
             db = new Database();
             currentProduct = new Product();
-
             Products = db.Products();
 
             SaveProductCommand = new WpfCommand(SaveProductExecute, SaveProductCanExecute);
-
-
             RemoveProductCommand = new WpfCommand(RemoveProductExecute, RemoveProductCanExecute);
-
+            EditProductCommand = new WpfCommand(EditProductExecute, EditProductCanExecute);
         }
-
-
-        #region SaveProductCommand 
-
-
-        public ICommand SaveProductCommand { get; set; }
-
-        public void SaveProductExecute(object parameter)
-        {
-            currentProduct.AutoAssignId(products);
-            if (db.AddProduct(currentProduct))
-            {
-                Products.Add(currentProduct.Clone());
-                NotifyPropertyChanged("products");
-                MessageBox.Show("Product Oprettet");
-            }
-            else
-            {
-                MessageBox.Show("Produktet eksisterer allerede!");
-            }
-
-        }
-
-        public bool SaveProductCanExecute(object parameter)
-        {
-            if (FirstErrorMessage != null)
-                return false;
-            else
-                return true;
-        }
-
-
-
-        #endregion
-
-
         #region IDataErrorInfo
         public string FirstErrorMessage
         {
@@ -228,16 +189,49 @@ namespace FoxtrotProject.ViewModel
 
         #endregion
 
+        #region SaveProductCommand 
+
+
+        public ICommand SaveProductCommand { get; set; }
+
+        public void SaveProductExecute(object parameter)
+        {
+            currentProduct.AutoAssignId(products);
+            if (db.AddProduct(currentProduct))
+            {
+                Products.Add(currentProduct.Clone());
+                NotifyPropertyChanged("Products");
+                MessageBox.Show("Product Oprettet");
+            }
+            else
+            {
+                MessageBox.Show("Produktet eksisterer allerede!");
+            }
+
+        }
+
+        public bool SaveProductCanExecute(object parameter)
+        {
+            if (FirstErrorMessage != null)
+                return false;
+            else
+                return true;
+        }
+
+
+
+        #endregion      
+
         #region RemoveProductExecute
         public ICommand RemoveProductCommand { get; set; }
-
+       
         public void RemoveProductExecute(object parameter)
         {
 
             currentProduct.ID = selectedproduct.ID;
             db.RemoveProduct(selectedproduct);
             Products.Remove(selectedproduct);
-            NotifyPropertyChanged("product");
+            NotifyPropertyChanged("Product");
             MessageBox.Show("Product Slettet");
 
 
@@ -256,28 +250,24 @@ namespace FoxtrotProject.ViewModel
         #endregion
 
         #region EditProductExecute
+        public ICommand EditProductCommand { get; set; }
 
         public void EditProductExecute(object parameter)
         {
-
-            //Products.Add(currentProduct.Clone());
-            //db.RemoveProduct(iD);
-            //NotifyPropertyChanged("Product");
-            //MessageBox.Show("Product redigeret");
-
-
+            ID = selectedproduct.ID;
+            Name = selectedproduct.Name.ToString();
+            Description = selectedproduct.Description.ToString();
+            Price = selectedproduct.Price.ToString();
+            Category = selectedproduct.Category;
         }
         public bool EditProductCanExecute(object parameter)
         {
 
-            if (FirstErrorMessage != null)
+            if (selectedproduct == null)
                 return false;
             else
                 return true;
         }
-
-
-
         #endregion
     }
 }

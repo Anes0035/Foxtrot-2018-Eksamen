@@ -166,7 +166,7 @@
 
                     <Label Content="Navn:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Margin="10,5,10,0" VerticalAlignment="Top" Width="100"/>
                     <TextBox x:Name="txtPName" Grid.Column="1" Grid.Row="1" Height="23" Margin="5,5,10,0" TextWrapping="Wrap" 
-                                     Text="{Binding Name,ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
+                                     Text="{Binding Name, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
                     <Label Grid.Column="2" Grid.Row="1" Margin="5" x:Name="lbl_NameP_Error" Content="{Binding ElementName=txtPName, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
 
 
@@ -187,20 +187,22 @@
 
 
 
-
-                    <Button Content="Gem" Grid.Column="1" Grid.Row="5" Margin="36,90,37,147" Command="{Binding SaveProductCommand}"/>
-                    <Button Content="UpDate" Grid.Column="3" Grid.Row="5" Margin="10,90,234,147" Name="Btn_UpDate_Product"/>
-                    <Button Grid.Column="3" Grid.Row="5" Name="Btn_Delete_Product" Content="Slet" Margin="221,90,10,147" RenderTransformOrigin="0.5,0.5" Command="{Binding RemoveProductCommand}"/>
+                    <Button Content="Clear" Grid.Column="1" Grid.Row="5" Margin="36,10,37,222" RenderTransformOrigin="0.34,-0.059" Click="Button_Click"/>                   
+                    <Button Content="Gem Product" Grid.Column="1" Grid.Row="5" Margin="36,90,37,147" Command="{Binding SaveProductCommand}"/>
+                    <Button Content="Vis Produkt"  Grid.Column="3" Grid.Row="5" Margin="95,90,118,147" Command="{Binding EditProductCommand}"/>
+                    <Button Grid.Column="3" Grid.Row="5" Name="Btn_Delete_Product" Content="Slet" Margin="192,90,10,147" RenderTransformOrigin="0.5,0.5" Command="{Binding RemoveProductCommand}"/>
 
                     <TextBox Name="TxtBox_Search_Product" Text="Søge : Id" GotFocus="TxtBox_Search_Product_GotFocus" 
                              Grid.Column="3" Grid.Row="0" Foreground="#55000000" Margin="10,5,95,7" />
-                    <Button Content="Søg" Name="Btn_Search_Product" Grid.Column="3" HorizontalAlignment="Left" Margin="236,5,0,0" VerticalAlignment="Top" Width="80" Height="23"/>
+                    <Button Content="Søg" Name="Btn_Search_Product" Grid.Column="3" HorizontalAlignment="Left" Margin="221,5,0,0" VerticalAlignment="Top" Width="74" Height="23"/>
 
+                  
 
-                    <DataGrid x:Name="ListProducts" ItemsSource="{Binding Products, Mode=TwoWay}" SelectedItem="{Binding SelectedProduct}" AutoGenerateColumns="False" Grid.Column="3" Grid.Row="1" Margin="10,5,10,187" Grid.RowSpan="5">
+                    <DataGrid x:Name="lstProducts" ItemsSource="{Binding Products, Mode=TwoWay}" SelectedItem="{Binding SelectedProduct, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" Grid.Column="3" Grid.Row="1" Margin="10,5,10,187" Grid.RowSpan="5">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Product Id" Width="Auto" Binding="{Binding ID}"/>
                             <DataGridTextColumn Header="Name" Width="Auto" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Beskrivelse" Width="Auto" Binding="{Binding Description}"/>
                             <DataGridTextColumn Header="Price" Width="Auto" Binding="{Binding Price}"/>
                             <DataGridTextColumn Header="Kategori" Width="*" Binding="{Binding Category}"/>
                         </DataGrid.Columns>

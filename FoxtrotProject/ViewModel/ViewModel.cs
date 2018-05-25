@@ -18,15 +18,17 @@ namespace FoxtrotProject.ViewModel
         protected string ValidateNumericParse<T>(string value, string propertyName, out T numericValue) where T : IComparable
         {
             var typeConverter = TypeDescriptor.GetConverter(typeof(T));
-
-            if (typeConverter != null && typeConverter.IsValid(value))
+            try
             {
                 numericValue = (T)typeConverter.ConvertFromString(value);
                 return null;
             }
+            catch (Exception)
+            {
+                numericValue = default(T);
+                return String.Format("{0} feltet indeholder ulovelige tegn", Translator.GetTranslation(propertyName));
+            }
 
-            numericValue = default(T);
-            return String.Format("{0} feltet indeholder ulovelige tegn", Translator.GetTranslation(propertyName));
         }
 
         protected string PropertyIsEmptyErrorMessage(string propertyName)
