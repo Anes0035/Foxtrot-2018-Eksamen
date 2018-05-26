@@ -215,6 +215,7 @@ namespace FoxtrotProject.ViewModel
             {
                 Customers.Add(customer.Clone());
                 NotifyPropertyChanged("customers");
+                db.LogAdd(1);
                 MessageBox.Show("Kunde Oprettet");
             }
             else
@@ -242,6 +243,7 @@ namespace FoxtrotProject.ViewModel
             db.RemoveCustomer(selectedcustomer);
             Customers.Remove(selectedcustomer);
             NotifyPropertyChanged("customers");
+            db.LogAdd(2);
             MessageBox.Show("Kunde Slettet");
 
         }
@@ -267,6 +269,7 @@ namespace FoxtrotProject.ViewModel
             TelephoneNumber = selectedcustomer.TelephoneNumber.ToString();
             ContactPerson = selectedcustomer.ContactPerson;
             GrossIncome = selectedcustomer.GrossIncome.ToString();
+            //db.LogAdd(3);
         }
 
         public bool EditCustomerCanExecute(object parameter)

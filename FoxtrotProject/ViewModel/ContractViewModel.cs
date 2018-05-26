@@ -101,8 +101,8 @@ namespace FoxtrotProject.ViewModel
         {
             contract = new Contract();
             ProductGroupCount = new Dictionary<ProductGroup, int>();
-            Contracts = db.Contracts();
-            contractManager.onAddContract += new EventHandler<ContractEventArgs>(CountProductGroup);
+            //Contracts = db.Contracts();
+            //contractManager.onAddContract += new EventHandler<ContractEventArgs>(CountProductGroup);
             SaveContractCommand = new WpfCommand(SaveContractExecute, SaveContractCanExecute);
             RemoveContractCommand = new WpfCommand(RemoveContractExecute, RemoveContractCanExecute);
         }
@@ -129,6 +129,7 @@ namespace FoxtrotProject.ViewModel
             {
                 Contracts.Add(contract.Clone());
                 NotifyPropertyChanged("contracts");
+                db.LogAdd(7);
                 MessageBox.Show("Kontrakt Oprettet");
             }
             else
@@ -148,6 +149,7 @@ namespace FoxtrotProject.ViewModel
             Contracts.Remove(contract.Clone());
             db.RemoveContract(selectedcontract);
             NotifyPropertyChanged("contracts");
+            db.LogAdd(8);
             MessageBox.Show("Kontrakt Slettet");
         }
         public bool RemoveContractCanExecute(object paramter)
@@ -157,7 +159,7 @@ namespace FoxtrotProject.ViewModel
 
         public void UpdateContractExecute(object parameter)
         {
-
+            //db.LogAdd(9);
         }
         public bool UpdateContractCanExecute(object paramter)
         {

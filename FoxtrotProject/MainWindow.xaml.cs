@@ -24,12 +24,17 @@ namespace FoxtrotProject
     {
         CustomerViewModel customerViewModel;
         ProductViewModel productViewModel;
+        ContractViewModel contractViewModel;
+        LogViewModel logViewModel;
         public MainWindow()
         {
             InitializeComponent();
             customerViewModel = new CustomerViewModel();
             productViewModel = new ProductViewModel();
-            DataContext = new { customerViewModel, productViewModel };
+            contractViewModel = new ContractViewModel();
+            logViewModel = new LogViewModel();
+            DataContext = new { customerViewModel, productViewModel, contractViewModel, logViewModel };
+            cbxProductGroup.DataContext = productViewModel.ProductGroups;
         }
 
         private void txtSearchCustomer_GotFocus(object sender, RoutedEventArgs e)
@@ -42,24 +47,7 @@ namespace FoxtrotProject
 
                    
 
-        private void Button_Vis_Log_Click_1(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.DefaultExt = ".txt";
-            dlg.Filter = "DataLog(.txt)|*.txt";
-            Nullable<bool> result = dlg.ShowDialog();
-
-            if (result == true)
-            {
-                string filename = dlg.FileName;
-                TextBox_Log_File.Text = filename;
-
-                Paragraph parag = new Paragraph();
-                parag.Inlines.Add(System.IO.File.ReadAllText(filename));
-            
-            }
-
-        }
+     
 
                 
 
@@ -82,6 +70,9 @@ namespace FoxtrotProject
 
         }
 
-      
+        private void cbxProductGroup_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

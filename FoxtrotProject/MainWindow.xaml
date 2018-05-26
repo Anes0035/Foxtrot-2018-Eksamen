@@ -97,10 +97,10 @@
                             <DatePicker SelectedDate="{Binding StartDate}" x:Name="dpStartDate" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="5,10,10,0" VerticalAlignment="Top"/>
                             <Label Grid.Row="2" Content="Periode(i måneder):" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="115"/>
                             <TextBox Text="{Binding Period}" x:Name="txtPeriod" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
-                            <Label Grid.Row="3" Content="Abonnoment:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
+                            <Label Grid.Row="3" Content="Abonnement:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
                             <CheckBox IsChecked="{Binding Subscription}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                             <Label Grid.Row="4" Content="Produkt grupper:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                            <ComboBox  Grid.Row="4" Grid.Column="1" IsEditable="True" IsTextSearchEnabled="True" Margin="10,5,10,0" VerticalAlignment="Top" Width="120">
+                            <ComboBox  x:Name="cbxProductGroup" Grid.Row="4" Grid.Column="1" IsEditable="True" IsTextSearchEnabled="True" Margin="10,5,10,0" VerticalAlignment="Top" Width="120" SelectionChanged="cbxProductGroup_SelectionChanged">
                                 <ComboBoxItem>
                                     <CheckBox>
                                         <StackPanel>
@@ -188,7 +188,7 @@
 
 
 
-                    <Button Content="Clear" Grid.Column="1" Grid.Row="5" Margin="36,10,37,222" RenderTransformOrigin="0.34,-0.059" Click="Button_Click"/>                   
+                    <Button Content="Clear" Grid.Column="1" Grid.Row="5" Margin="36,10,37,222" RenderTransformOrigin="0.34,-0.059" Click="Button_Click"/>
                     <Button Content="Gem Product" Grid.Column="1" Grid.Row="5" Margin="36,90,37,147" Command="{Binding SaveProductCommand}"/>
                     <Button Content="Vis Produkt"  Grid.Column="3" Grid.Row="5" Margin="95,90,118,147" Command="{Binding EditProductCommand}"/>
                     <Button Grid.Column="3" Grid.Row="5" Name="Btn_Delete_Product" Content="Slet" Margin="192,90,10,147" RenderTransformOrigin="0.5,0.5" Command="{Binding RemoveProductCommand}"/>
@@ -197,7 +197,7 @@
                              Grid.Column="3" Grid.Row="0" Foreground="#55000000" Margin="10,5,95,7" />
                     <Button Content="Søg" Name="Btn_Search_Product" Grid.Column="3" HorizontalAlignment="Left" Margin="221,5,0,0" VerticalAlignment="Top" Width="74" Height="23"/>
 
-                  
+
 
                     <DataGrid x:Name="lstProducts" ItemsSource="{Binding Products, Mode=TwoWay}" SelectedItem="{Binding SelectedProduct, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" Grid.Column="3" Grid.Row="1" Margin="10,5,10,187" Grid.RowSpan="5">
                         <DataGrid.Columns>
@@ -245,15 +245,9 @@
 
 
             <TabItem Header="Log">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" MinHeight="30"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Button Grid.Row="0" Content="Vis Log" Name="Button_Vis_Log" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10,10,512,10" Width="104" Height="20" Click="Button_Vis_Log_Click_1"/>
-                    <TextBox Name="TextBox_Log_File" Grid.Row="1" Height="390" Margin="5"/>
-                </Grid>
+               
             </TabItem>
+
 
         </TabControl>
 

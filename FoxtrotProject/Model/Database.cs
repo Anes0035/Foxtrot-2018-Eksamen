@@ -156,267 +156,419 @@ namespace FoxtrotProject.Model
 
         }
 
-        #endregion
-        #region Product
+            #endregion
+            #region Product
 
-        public bool AddProduct(Product product)
-        {
-
-            SqlCommand command = new SqlCommand(r, connection);
-            command.Parameters.AddWithValue("@name", product.Name);
-            OpenConnection();
-            int records = (int)command.ExecuteScalar();
-
-            if (records == 0)
+            public bool AddProduct(Product product)
             {
-                command.Parameters.Clear();
-                command = new SqlCommand(@"Insert INTO Catalog(CompanyID, ProductID, ProductName1, ProductDesreptionLong, Price, ProductGroup, Discount)  
+
+                SqlCommand command = new SqlCommand(r, connection);
+                command.Parameters.AddWithValue("@name", product.Name);
+                OpenConnection();
+                int records = (int)command.ExecuteScalar();
+
+                if (records == 0)
+                {
+                    command.Parameters.Clear();
+                    command = new SqlCommand(@"Insert INTO Catalog(CompanyID, ProductID, ProductName1, ProductDesreptionLong, Price, ProductGroup, Discount)  
                                                                 Values(@companyid, @productid, @name, @description, @price, @productgroup, @discount)", connection);
-                command.Parameters.AddWithValue("@companyid", 38168);
-                command.Parameters.AddWithValue("@productid", product.ID);
-                command.Parameters.AddWithValue("@name", product.Name);
-                command.Parameters.AddWithValue("@description", product.Description);
-                command.Parameters.AddWithValue("@price", product.Price);
-                command.Parameters.AddWithValue("@productgroup", product.Category);
-                command.Parameters.AddWithValue("@discount", 1);
-                command.ExecuteNonQuery();
+                    command.Parameters.AddWithValue("@companyid", 38168);
+                    command.Parameters.AddWithValue("@productid", product.ID);
+                    command.Parameters.AddWithValue("@name", product.Name);
+                    command.Parameters.AddWithValue("@description", product.Description);
+                    command.Parameters.AddWithValue("@price", product.Price);
+                    command.Parameters.AddWithValue("@productgroup", product.Category);
+                    command.Parameters.AddWithValue("@discount", 1);
+                    command.ExecuteNonQuery();
 
-                CloseConnection();
-                return true;
-            }
-            else
-            {
-                CloseConnection();
-                return false;
+                    CloseConnection();
+                    return true;
+                }
+                else
+                {
+                    CloseConnection();
+                    return false;
 
 
-            }
-        }
-
-        public bool EditProduct(Product product)
-        {
-
-            OpenConnection();
-            try
-            {
-                SqlCommand command = new SqlCommand("UPDATE Catalog SET [ProductID] = @id, [ProductName1] = @name, [ProductDescriptionLong] = @description, [Price] = @price, [ProductGroup] = @category");
-                command.Parameters.AddWithValue("@id", product.ID);
-                command.Parameters.AddWithValue("@name", product.Name);
-                command.Parameters.AddWithValue("@description", product.Description);
-                command.Parameters.AddWithValue("@price", product.Price);
-                command.Parameters.AddWithValue("@category", product.Category);
-                command.ExecuteNonQuery();
-                CloseConnection();
-
-                return true;
+                }
             }
 
-            catch (Exception)
-            {
-                return false;
-            }
-            finally
-            {
-                CloseConnection();
-            }
-        }
-
-        public void RemoveProduct(Product product)
-        {
-            try
+            public bool EditProduct(Product product)
             {
 
                 OpenConnection();
-                SqlCommand command = new SqlCommand("DELETE FROM Catalog WHERE ProductID = @id", connection);
-                command.Parameters.Add(new SqlParameter("@id", product.ID));
-                command.ExecuteNonQuery();
-
-
-
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                CloseConnection();
-            }
-        }
-
-        public ObservableCollection<Product> Products()
-        {
-            ObservableCollection<Product> _products = new ObservableCollection<Product>();
-            try
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand("Select * FROM Catalog", connection);
-                SqlDataReader sqlDataReader = command.ExecuteReader();
-
-                while (sqlDataReader.Read())
+                try
                 {
-                    Product product = new Product();
+                    SqlCommand command = new SqlCommand("UPDATE Catalog SET [ProductID] = @id, [ProductName1] = @name, [ProductDescriptionLong] = @description, [Price] = @price, [ProductGroup] = @category");
+                    command.Parameters.AddWithValue("@id", product.ID);
+                    command.Parameters.AddWithValue("@name", product.Name);
+                    command.Parameters.AddWithValue("@description", product.Description);
+                    command.Parameters.AddWithValue("@price", product.Price);
+                    command.Parameters.AddWithValue("@category", product.Category);
+                    command.ExecuteNonQuery();
+                    CloseConnection();
 
-                    product.ID = (int)sqlDataReader["ProductID"];
-                    product.Name = (string)sqlDataReader["ProductName1"];
-                    product.Description = sqlDataReader["ProductDesreptionLong"] != DBNull.Value ? (string)sqlDataReader["ProductDesreptionLong"] : null;
-                    product.Price = (double)sqlDataReader["Price"];
-                    product.Category = (string)sqlDataReader["ProductGroup"];
-                    _products.Add(product);
+                    return true;
                 }
 
-                return _products;
-
+                catch (Exception)
+                {
+                    return false;
+                }
+                finally
+                {
+                    CloseConnection();
+                }
             }
-            catch (Exception)
+
+            public void RemoveProduct(Product product)
             {
-                throw;
+                try
+                {
+
+                    OpenConnection();
+                    SqlCommand command = new SqlCommand("DELETE FROM Catalog WHERE ProductID = @id", connection);
+                    command.Parameters.Add(new SqlParameter("@id", product.ID));
+                    command.ExecuteNonQuery();
+
+
+
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    CloseConnection();
+                }
             }
-            finally
+
+            public ObservableCollection<Product> Products()
             {
-                CloseConnection();
+                ObservableCollection<Product> _products = new ObservableCollection<Product>();
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("Select * FROM Catalog", connection);
+                    SqlDataReader sqlDataReader = command.ExecuteReader();
+
+                    while (sqlDataReader.Read())
+                    {
+                        Product product = new Product();
+
+                        product.ID = (int)sqlDataReader["ProductID"];
+                        product.Name = (string)sqlDataReader["ProductName1"];
+                        product.Description = sqlDataReader["ProductDesreptionLong"] != DBNull.Value ? (string)sqlDataReader["ProductDesreptionLong"] : null;
+                        product.Price = (double)sqlDataReader["Price"];
+                        product.Category = (string)sqlDataReader["ProductGroup"];
+                        _products.Add(product);
+                    }
+
+                    return _products;
+
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    CloseConnection();
+                }
             }
-        }
-        #endregion
+            #endregion
 
 
-        #region Contract
-        public bool AddContract(Contract contract)
-        {
-
-            SqlCommand command = new SqlCommand(t, connection);
-            command.Parameters.AddWithValue("@contractid", contract.ID);
-            OpenConnection();
-            int records = (int)command.ExecuteScalar();
-
-            if (records == 0)
+            #region Contract
+            public bool AddContract(Contract contract)
             {
-                command.Parameters.Clear();
-                command = new SqlCommand(@"Insert INTO Contract([ContractID], [StartDate], [Period], [Price], [Status], [Subscription], [ProductGroups], [GetDiscount])  
+
+                SqlCommand command = new SqlCommand(t, connection);
+                command.Parameters.AddWithValue("@contractid", contract.ID);
+                OpenConnection();
+                int records = (int)command.ExecuteScalar();
+
+                if (records == 0)
+                {
+                    command.Parameters.Clear();
+                    command = new SqlCommand(@"Insert INTO Contract([ContractID], [StartDate], [Period], [Price], [Status], [Subscription], [ProductGroups], [GetDiscount])  
                                                                 Values(@contractid, @startDate, @period, @status, @subscription, @ProductGroups, @getDiscount))", connection);
 
-                command.Parameters.AddWithValue("@startDate", contract.StartDate);
-                command.Parameters.AddWithValue("@Period", contract.Period);
-                command.Parameters.AddWithValue("@status", contract.Status);
-                command.Parameters.AddWithValue("@subscription", contract.Subscription);
-                command.Parameters.AddWithValue("@contractid", contract.ID);
-                //command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
-                // command.Parameters.AddWithValue("@getDiscount", contract.GetDiscount);
-                command.ExecuteNonQuery();
+                    command.Parameters.AddWithValue("@startDate", contract.StartDate);
+                    command.Parameters.AddWithValue("@Period", contract.Period);
+                    command.Parameters.AddWithValue("@status", contract.Status);
+                    command.Parameters.AddWithValue("@subscription", contract.Subscription);
+                    command.Parameters.AddWithValue("@contractid", contract.ID);
+                    //command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
+                    // command.Parameters.AddWithValue("@getDiscount", contract.GetDiscount);
+                    command.ExecuteNonQuery();
 
-                CloseConnection();
-                return true;
+                    CloseConnection();
+                    return true;
+                }
+                else
+                {
+                    CloseConnection();
+                    return false;
+
+
+                }
             }
-            else
-            {
-                CloseConnection();
-                return false;
+            //public void AddContract(Contract contract)
+            //{
 
-
-            }
-        }
-        //public void AddContract(Contract contract)
-        //{
-
-        //    try
-        //    {
-        //        OpenConnection();
-        //        SqlCommand command = new SqlCommand("Insert CONTRACT [dbo].[Contract]([ContractID][StartDate], [Period], [Status], [Subscription], [ProductGroups], [GetDiscount]) " +
-        //                                                            "Values(@contractid, @startDate, @period, @status, @subscription, @ProductGroups, @getDiscount)", connection);
-        //        command.Parameters.AddWithValue("@startDate", contract.StartDate);
-        //        command.Parameters.AddWithValue("@Period", contract.Period);
-        //        command.Parameters.AddWithValue("@status", contract.Status);
-        //        command.Parameters.AddWithValue("@subscription", contract.Subscription);
-        //        command.Parameters.AddWithValue("@contractid", contract.ID);
-        //        //command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
-        //        // command.Parameters.AddWithValue("@getDiscount", contract.GetDiscount);
-        //        command.ExecuteNonQuery();
+            //    try
+            //    {
+            //        OpenConnection();
+            //        SqlCommand command = new SqlCommand("Insert CONTRACT [dbo].[Contract]([ContractID][StartDate], [Period], [Status], [Subscription], [ProductGroups], [GetDiscount]) " +
+            //                                                            "Values(@contractid, @startDate, @period, @status, @subscription, @ProductGroups, @getDiscount)", connection);
+            //        command.Parameters.AddWithValue("@startDate", contract.StartDate);
+            //        command.Parameters.AddWithValue("@Period", contract.Period);
+            //        command.Parameters.AddWithValue("@status", contract.Status);
+            //        command.Parameters.AddWithValue("@subscription", contract.Subscription);
+            //        command.Parameters.AddWithValue("@contractid", contract.ID);
+            //        //command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
+            //        // command.Parameters.AddWithValue("@getDiscount", contract.GetDiscount);
+            //        command.ExecuteNonQuery();
 
 
 
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw;
-        //    }
-        //    finally
-        //    {
-        //        CloseConnection();
-        //    }
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        throw;
+            //    }
+            //    finally
+            //    {
+            //        CloseConnection();
+            //    }
 
-        //}
+            //}
 
-        public bool UpdateContract(Contract contract)
-        {
-            OpenConnection();
-            try
-            {
-                SqlCommand command = new SqlCommand("UPDATE [dbo].[Contract] SET [Status] = @status, [Subscription] = @subscription");
-                command.Parameters.AddWithValue("@status", contract.Status);
-                command.Parameters.AddWithValue("@subscription", contract.Subscription);
-
-                command.ExecuteNonQuery();
-                CloseConnection();
-
-                return true;
-            }
-
-            catch (Exception)
-            {
-                return false;
-            }
-            finally
-            {
-                CloseConnection();
-            }
-        }
-
-
-        //CVR --- customer.CVR ?!?
-        public void RemoveContract(Contract contract)
-        {
-            try
+            public bool UpdateContract(Contract contract)
             {
                 OpenConnection();
-                SqlCommand command = new SqlCommand("DELETE FROM [dbo].[Contract] WHERE IdContract = @idContract", connection);
-                command.ExecuteNonQuery();
-                CloseConnection();
+                try
+                {
+                    SqlCommand command = new SqlCommand("UPDATE [dbo].[Contract] SET [Status] = @status, [Subscription] = @subscription");
+                    command.Parameters.AddWithValue("@status", contract.Status);
+                    command.Parameters.AddWithValue("@subscription", contract.Subscription);
+
+                    command.ExecuteNonQuery();
+                    CloseConnection();
+
+                    return true;
+                }
+
+                catch (Exception)
+                {
+                    return false;
+                }
+                finally
+                {
+                    CloseConnection();
+                }
+            }
+
+
+            //CVR --- customer.CVR ?!?
+            public void RemoveContract(Contract contract)
+            {
+                try
+                {
+                    OpenConnection();
+                    SqlCommand command = new SqlCommand("DELETE FROM [dbo].[Contract] WHERE IdContract = @idContract", connection);
+                    command.ExecuteNonQuery();
+                    CloseConnection();
+
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    CloseConnection();
+                }
+            }
+
+            public ObservableCollection<Contract> Contracts()
+            {
+                ObservableCollection<Contract> contracts = new ObservableCollection<Contract>();
+                OpenConnection();
+
+                try
+                {
+                    SqlCommand command = new SqlCommand("Select * FROM Contract", connection);
+                    SqlDataReader sqlDataReader = command.ExecuteReader();
+
+                    while (sqlDataReader.Read())
+                    {
+                        Contract contract = new Contract();
+                        Subscription subscription = new Subscription();
+
+                        contract.StartDate = (DateTime)sqlDataReader["StartDate"];
+                        contract.Status = (string)sqlDataReader["Status"];
+                        contract.Discount = (int)sqlDataReader["Discount"];
+                        subscription.Status = (bool)sqlDataReader["SubscriptionStatus"];
+                        contract.ID = (int)sqlDataReader["ContractID"];
+                        contracts.Add(contract);
+
+                    }
+                    return contracts;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    CloseConnection();
+                }
 
             }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                CloseConnection();
-            }
-        }
+      
+        #endregion
 
-        public ObservableCollection<Contract> Contracts()
+        public void LogAdd(int i)
         {
-            ObservableCollection<Contract> contracts = new ObservableCollection<Contract>();
             OpenConnection();
 
+            if (i == 1)
+            {
+                LogWriter logwriter = new LogWriter();
+                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
+		values (@logtime, @logmessage)", connection);
+
+                command.Parameters.AddWithValue("@logtime", logwriter.dt);
+                command.Parameters.AddWithValue("@logmessage", "Kunde Oprettet");
+                command.ExecuteNonQuery();
+
+                CloseConnection();
+            }
+            else if (i == 2)
+            {
+                LogWriter logwriter = new LogWriter();
+                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
+		values (@logtime, @logmessage)", connection);
+
+                command.Parameters.AddWithValue("@logtime", logwriter.dt);
+                command.Parameters.AddWithValue("@logmessage", "Kunde Slettet");
+                command.ExecuteNonQuery();
+
+                CloseConnection();
+            }
+
+            else if (i == 3)
+            {
+                LogWriter logwriter = new LogWriter();
+                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
+		values (@logtime, @logmessage)", connection);
+
+                command.Parameters.AddWithValue("@logtime", logwriter.dt);
+                command.Parameters.AddWithValue("@logmessage", "Kunde Rettet");
+                command.ExecuteNonQuery();
+
+                CloseConnection();
+            }
+            else if (i == 4)
+            {
+                LogWriter logwriter = new LogWriter();
+                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
+		values (@logtime, @logmessage)", connection);
+
+                command.Parameters.AddWithValue("@logtime", logwriter.dt);
+                command.Parameters.AddWithValue("@logmessage", "Produkt Oprettet");
+                command.ExecuteNonQuery();
+
+                CloseConnection();
+            }
+            else if (i == 5)
+            {
+                LogWriter logwriter = new LogWriter();
+                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
+		values (@logtime, @logmessage)", connection);
+
+                command.Parameters.AddWithValue("@logtime", logwriter.dt);
+                command.Parameters.AddWithValue("@logmessage", "Produkt Slettet");
+                command.ExecuteNonQuery();
+
+                CloseConnection();
+            }
+            else if (i == 6)
+            {
+                LogWriter logwriter = new LogWriter();
+                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
+		values (@logtime, @logmessage)", connection);
+
+                command.Parameters.AddWithValue("@logtime", logwriter.dt);
+                command.Parameters.AddWithValue("@logmessage", "Produkt Rettet");
+                command.ExecuteNonQuery();
+
+                CloseConnection();
+            }
+
+            else if (i == 7)
+            {
+                LogWriter logwriter = new LogWriter();
+                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
+		values (@logtime, @logmessage)", connection);
+
+                command.Parameters.AddWithValue("@logtime", logwriter.dt);
+                command.Parameters.AddWithValue("@logmessage", "Aftale Oprettet");
+                command.ExecuteNonQuery();
+
+                CloseConnection();
+            }
+            else if (i == 8)
+            {
+                LogWriter logwriter = new LogWriter();
+                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
+		values (@logtime, @logmessage)", connection);
+
+                command.Parameters.AddWithValue("@logtime", logwriter.dt);
+                command.Parameters.AddWithValue("@logmessage", "Aftale Slettet");
+                command.ExecuteNonQuery();
+
+                CloseConnection();
+            }
+            else if (i == 9)
+            {
+                LogWriter logwriter = new LogWriter();
+                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
+		values (@logtime, @logmessage)", connection);
+
+                command.Parameters.AddWithValue("@logtime", logwriter.dt);
+                command.Parameters.AddWithValue("@logmessage", "Aftale Rettet");
+                command.ExecuteNonQuery();
+
+                CloseConnection();
+            }
+
+        }
+        public ObservableCollection<LogReader> Logs()
+        {
+            ObservableCollection<LogReader> _logs = new ObservableCollection<LogReader>();
             try
             {
-                SqlCommand command = new SqlCommand("Select * FROM Contract", connection);
+                LogWriter logwriter = new LogWriter();
+                connection.Open();
+                SqlCommand command = new SqlCommand("Select * FROM Log", connection);
                 SqlDataReader sqlDataReader = command.ExecuteReader();
 
                 while (sqlDataReader.Read())
                 {
-                    Contract contract = new Contract();
-                    Subscription subscription = new Subscription();
+                    LogReader logReader = new LogReader();
 
-                    contract.StartDate = (DateTime)sqlDataReader["StartDate"];
-                    contract.Status = (string)sqlDataReader["Status"];
-                    contract.Discount = (int)sqlDataReader["Discount"];
-                    subscription.Status = (bool)sqlDataReader["SubscriptionStatus"];
-                    contract.ID = (int)sqlDataReader["ContractID"];
-                    contracts.Add(contract);
-
+                  logReader.DT = (DateTime)sqlDataReader["LogTime"];
+                     logReader.Message = (string)sqlDataReader["LogMessage"];
+              
+                    _logs.Add(logReader);
                 }
-                return contracts;
+
+                return _logs;
+
             }
             catch (Exception)
             {
@@ -426,9 +578,9 @@ namespace FoxtrotProject.Model
             {
                 CloseConnection();
             }
-
-        }
+        
     }
-    #endregion
+    }
 }
+
 

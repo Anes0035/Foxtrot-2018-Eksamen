@@ -201,7 +201,8 @@ namespace FoxtrotProject.ViewModel
             {
                 Products.Add(currentProduct.Clone());
                 NotifyPropertyChanged("Products");
-                MessageBox.Show("Product Oprettet");
+                db.LogAdd(4);
+                MessageBox.Show("Produkt Oprettet");
             }
             else
             {
@@ -232,7 +233,8 @@ namespace FoxtrotProject.ViewModel
             db.RemoveProduct(selectedproduct);
             Products.Remove(selectedproduct);
             NotifyPropertyChanged("Product");
-            MessageBox.Show("Product Slettet");
+            db.LogAdd(5);
+            MessageBox.Show("Produkt Slettet");
 
 
         }
@@ -259,6 +261,7 @@ namespace FoxtrotProject.ViewModel
             Description = selectedproduct.Description;
             Price = selectedproduct.Price.ToString();
             Category = selectedproduct.Category;
+            //db.LogAdd(6);
         }
         public bool EditProductCanExecute(object parameter)
         {
