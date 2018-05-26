@@ -195,14 +195,17 @@ namespace FoxtrotProject.ViewModel
             SaveCustomerCommand = new WpfCommand(SaveCustomerExecute, SaveCustomerCanExecute);
             RemoveCustomerCommand = new WpfCommand(RemoveCustomerExecute, RemoveCustomerCanExecute);
             EditCustomerCommand = new WpfCommand(EditCustomerExecute, EditCustomerCanExecute);
+            ClearCustomerCommand = new WpfCommand(ClearCustomerExecute, ClearCustomerCanExecute);
         }
 
-        #region SaveCustomerCommand
+        #region CustomerCommand
         public ICommand SaveCustomerCommand { get; set; }
 
         public ICommand RemoveCustomerCommand { get; set; }
 
         public ICommand EditCustomerCommand { get; set; }
+
+        public ICommand ClearCustomerCommand { get; set; }
 
         // Save customer to ObservableCollection and Database.
 
@@ -278,6 +281,21 @@ namespace FoxtrotProject.ViewModel
             }
 
 
+        }
+
+        public void ClearCustomerExecute(object parameter)
+        {
+            CVR = "";
+            Name = "";
+            Address = "";
+            TelephoneNumber = "";
+            ContactPerson = "";
+            GrossIncome = "";
+               }
+        public bool ClearCustomerCanExecute(object parameter)
+        {
+            return true;
+           
         }
         #endregion
 
