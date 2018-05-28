@@ -16,6 +16,7 @@ namespace FoxtrotProject.ViewModel
     {
         #region Product
 
+        ProductManager productManager;
 
         public ObservableCollection<ProductGroup> ProductGroups { get; set; }
 
@@ -45,7 +46,7 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-        private string name;
+      
 
         public string Name
         {
@@ -81,7 +82,7 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-        private string category;
+       
 
         public string Category
         {
@@ -110,14 +111,20 @@ namespace FoxtrotProject.ViewModel
 
         public ProductViewModel()
         {
-
+            productManager = new ProductManager();
             db = new Database();
             currentProduct = new Product();
-            Products = db.Products();
+            productManager.products = db.Products();
+            products = new ObservableCollection<Product>(productManager.products);
+            InitializeSearchOptions();
 
             SaveProductCommand = new WpfCommand(SaveProductExecute, SaveProductCanExecute);
             RemoveProductCommand = new WpfCommand(RemoveProductExecute, RemoveProductCanExecute);
             EditProductCommand = new WpfCommand(EditProductExecute, EditProductCanExecute);
+
+            SearchProductCommand = new WpfCommand(SearchProductExecute, SearchProductCanExecute);
+
+
         }
         #region IDataErrorInfo
         public string FirstErrorMessage
@@ -270,6 +277,71 @@ namespace FoxtrotProject.ViewModel
                 return false;
             else
                 return true;
+        }
+        #endregion
+
+        #region SearchProductCommand
+        public ICommand SearchProductCommand { get; set; }
+
+        public ObservableCollection<string> SearchOptions { get; set; }
+
+        public string SelectedSearchOption { get; set; }
+
+        private void InitializeSearchOptions()
+        {
+            SearchOptions = new ObservableCollection<string>();
+            SearchOptions.Add("Starter med");
+            SearchOptions.Add("Indeholder");
+            SelectedSearchOption = SearchOptions[0];
+        }
+
+        public string SearchProduct { get; set; }
+        public void SearchProductExecute(object parameter)
+        {
+            try
+            {
+                products = new ObservableCollection<Product>(productManager.products);
+
+                switch (SelectedSearchOption)
+                {
+                    case "Starter med":
+                        foreach (Product p in products.ToList())
+                        {
+
+                            if (!p.ID.ToString().ToLower().StartsWith(SearchProduct.ToLower()) && !p.Name.ToString().ToLower().StartsWith(SearchProduct.ToLower())
+                               && (p.Description != null ? !p.Description.ToString().ToLower().StartsWith(SearchProduct.ToLower()) : true))
+                            {
+                                products.Remove(p);
+
+                            }
+
+                        }
+                        break;
+                    case "Indeholder":
+                        foreach (Product p in products.ToList())
+                        {
+
+                            if (!p.ID.ToString().ToLower().Contains(SearchProduct.ToLower()) && !p.Name.ToString().ToLower().Contains(SearchProduct.ToLower())
+                               && (p.Description != null ? !p.Description.ToString().ToLower().Contains(SearchProduct.ToLower()) : true))
+                            {
+                                products.Remove(p);
+
+                            }
+
+                        }
+                        break;
+                }
+
+                NotifyPropertyChanged("products");
+            }
+            catch (Exception ex )
+            {
+                MessageBox.Show("Error"+ex);
+            }
+        }
+        public bool SearchProductCanExecute(object parameter)
+        {
+            return true;
         }
         #endregion
     }

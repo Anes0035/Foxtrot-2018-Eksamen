@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FoxtrotProject.ViewModel"
         mc:Ignorable="d"
-       Title="MainWindow" Height="500" Width="700">
+       Title="MainWindow" Height="500" Width="900">
     <!--<Window.Resources>
         <local:CustomerViewModel x:Key="CustomerViewModel"/>
         <local:ProductViewModel x:Key="ProductViewModel"/>
@@ -189,13 +189,14 @@
 
 
                     <Button Content="Clear" Grid.Column="1" Grid.Row="5" Margin="36,10,37,222" RenderTransformOrigin="0.34,-0.059" Click="Button_Click"/>
-                    <Button Content="Gem Product" Grid.Column="1" Grid.Row="5" Margin="36,90,37,147" Command="{Binding SaveProductCommand}"/>
-                    <Button Content="Vis Produkt"  Grid.Column="3" Grid.Row="5" Margin="95,90,118,147" Command="{Binding EditProductCommand}"/>
-                    <Button Grid.Column="3" Grid.Row="5" Name="Btn_Delete_Product" Content="Slet" Margin="192,90,10,147" RenderTransformOrigin="0.5,0.5" Command="{Binding RemoveProductCommand}"/>
+                    <Button Content="Gem Product" Grid.Column="1" Grid.Row="5" Margin="36,90,37,100" Height="35" Command="{Binding SaveProductCommand}"/>
+                    <Button Content="Vis Produkt"  Grid.Column="3" Grid.Row="5" Margin="95,90,118,147" Width="90" Command="{Binding EditProductCommand}"/>
+                    <Button Grid.Column="3" Grid.Row="5" Name="Btn_Delete_Product" Content="Slet" Margin="192,90,10,147" Width="90" RenderTransformOrigin="0.5,0.5" Command="{Binding RemoveProductCommand}"/>
 
-                    <TextBox Name="TxtBox_Search_Product" Text="Søge : Id" GotFocus="TxtBox_Search_Product_GotFocus" 
-                             Grid.Column="3" Grid.Row="0" Foreground="#55000000" Margin="10,5,95,7" />
-                    <Button Content="Søg" Name="Btn_Search_Product" Grid.Column="3" HorizontalAlignment="Left" Margin="221,5,0,0" VerticalAlignment="Top" Width="74" Height="23"/>
+                    <TextBox Name="TxtBox_Search_Product" Text="{Binding SearchProduct}" GotFocus="TxtBox_Search_Product_GotFocus" 
+                             Grid.Column="3" Grid.Row="0" Foreground="#55000000" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                             Width="200" Height="25"/>
+                    <Button Content="Søg" Name="Btn_Search_Product" Command="{Binding SearchProductCommand}" Grid.Column="3" HorizontalAlignment="Left" Margin="320,5,0,0" VerticalAlignment="Top" Width="74" Height="25"/>
 
 
 
@@ -208,6 +209,7 @@
                             <DataGridTextColumn Header="Kategori" Width="*" Binding="{Binding Category}"/>
                         </DataGrid.Columns>
                     </DataGrid>
+                    <ComboBox Grid.Column="3" HorizontalAlignment="Left" ItemsSource="{Binding SearchOptions, Mode=TwoWay}" SelectedItem="{Binding SelectedSearchOption, UpdateSourceTrigger=PropertyChanged}" Margin="215,5,0,0" VerticalAlignment="Top" Width="100" Height="25"/>
 
                 </Grid>
             </TabItem>
