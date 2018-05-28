@@ -60,15 +60,15 @@ namespace FoxtrotProject
             txt.GotFocus -= TxtBox_Search_Product_GotFocus;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            txtProductID.Text = string.Empty;
-            txtPName.Text = string.Empty;
-            txtDescription.Text = string.Empty;
-            txtPrice.Text = null;
-            txtProductCategory.Text = string.Empty;
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    txtProductID.Text = string.Empty;
+        //    txtPName.Text = string.Empty;
+        //    txtDescription.Text = string.Empty;
+        //    txtPrice.Text = null;
+        //    txtProductCategory.Text = string.Empty;
 
-        }
+        //}
 
         private void cbxProductGroup_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

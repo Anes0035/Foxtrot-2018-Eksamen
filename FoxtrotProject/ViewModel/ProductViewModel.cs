@@ -115,6 +115,7 @@ namespace FoxtrotProject.ViewModel
             db = new Database();
             currentProduct = new Product();
             productManager.products = db.Products();
+
             products = new ObservableCollection<Product>(productManager.products);
             InitializeSearchOptions();
 
@@ -124,7 +125,7 @@ namespace FoxtrotProject.ViewModel
 
             SearchProductCommand = new WpfCommand(SearchProductExecute, SearchProductCanExecute);
 
-
+            ClearProductCommand = new WpfCommand(ClearProductExecute, ClearProductCanExecute);
         }
         #region IDataErrorInfo
         public string FirstErrorMessage
@@ -344,5 +345,31 @@ namespace FoxtrotProject.ViewModel
             return true;
         }
         #endregion
+
+
+        #region  ClearProductCommand
+        public ICommand ClearProductCommand { get; set; }
+        public void ClearProductExecute(object parameter)
+        {         
+
+            ID = 0;
+            Name = "";
+            Description = "";
+            Price = "";
+            Category = "";
+
+            //txtProductID.Text = string.Empty;
+            //txtPName.Text = string.Empty;
+            //txtDescription.Text = string.Empty;
+            //txtPrice.Text = null;
+            //txtProductCategory.Text = string.Empty;
+        }
+        public bool ClearProductCanExecute(object parameter)
+        {
+            return true;
+
+        }
+        #endregion
+
     }
 }

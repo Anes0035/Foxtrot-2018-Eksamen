@@ -120,11 +120,11 @@ namespace FoxtrotProject.Model
             }
 
         }
-        public ObservableCollection<Customer> Customers()
+        public List<Customer> Customers()
         {
 
             OpenConnection();
-            ObservableCollection<Customer> customers = new ObservableCollection<Customer>();
+            List<Customer> customers = new List<Customer>();
             try
             {
                 SqlCommand command = new SqlCommand("Select * FROM Customer", connection);
@@ -244,9 +244,9 @@ namespace FoxtrotProject.Model
                 }
             }
 
-            public ObservableCollection<Product> Products()
+            public List<Product> Products()
             {
-                ObservableCollection<Product> _products = new ObservableCollection<Product>();
+                List<Product> _products = new List<Product>();
                 try
                 {
                     connection.Open();
@@ -487,10 +487,10 @@ namespace FoxtrotProject.Model
             else if (i == 5)
             {
                 LogWriter logwriter = new LogWriter();
-                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
-		values (@logtime, @logmessage)", connection);
+                SqlCommand command = new SqlCommand(@"insert into Log (Time , LogMessage)
+		values (@time, @logmessage)", connection);
 
-                command.Parameters.AddWithValue("@logtime", logwriter.dt);
+                command.Parameters.AddWithValue("@time", logwriter.dt);
                 command.Parameters.AddWithValue("@logmessage", "Produkt Slettet");
                 command.ExecuteNonQuery();
 
@@ -499,7 +499,7 @@ namespace FoxtrotProject.Model
             else if (i == 6)
             {
                 LogWriter logwriter = new LogWriter();
-                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
+                SqlCommand command = new SqlCommand(@"insert into Log (Time , LogMessage)
 		values (@logtime, @logmessage)", connection);
 
                 command.Parameters.AddWithValue("@logtime", logwriter.dt);

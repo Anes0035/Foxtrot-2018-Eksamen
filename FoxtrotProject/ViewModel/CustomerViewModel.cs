@@ -13,11 +13,12 @@ using System.Reflection;
 
 namespace FoxtrotProject.ViewModel
 {
-    class CustomerViewModel : ViewModel, IDataErrorInfo, INotifyPropertyChanged
+    class CustomerViewModel : ViewModel, IDataErrorInfo
     {
 
         #region Customer
         public Customer customer { get; set; }
+        CustomerManager customerManager;
 
         public string Name
         {
@@ -189,26 +190,25 @@ namespace FoxtrotProject.ViewModel
 
         public CustomerViewModel()
         {
+            customerManager = new CustomerManager();
             db = new Database();
             customer = new Customer();
-            Customers = db.Customers();
+            customerManager.customers = db.Customers();
+
+            customers = new ObservableCollection<Customer>(customerManager.customers);
+           // Customers = db.Customers();
             SaveCustomerCommand = new WpfCommand(SaveCustomerExecute, SaveCustomerCanExecute);
             RemoveCustomerCommand = new WpfCommand(RemoveCustomerExecute, RemoveCustomerCanExecute);
             EditCustomerCommand = new WpfCommand(EditCustomerExecute, EditCustomerCanExecute);
             ClearCustomerCommand = new WpfCommand(ClearCustomerExecute, ClearCustomerCanExecute);
+
+            SearchCustomerCommand = new WpfCommand(SearchCustomerExecute, SearchCustomerCanExecute);
+
         }
 
-        #region CustomerCommand
+
+        #region SaveCustomerCommand
         public ICommand SaveCustomerCommand { get; set; }
-
-        public ICommand RemoveCustomerCommand { get; set; }
-
-        public ICommand EditCustomerCommand { get; set; }
-
-        public ICommand ClearCustomerCommand { get; set; }
-
-        // Save customer to ObservableCollection and Database.
-
         public void SaveCustomerExecute(object parameter)
         {
             if (db.AddCustomer(customer))
@@ -234,6 +234,13 @@ namespace FoxtrotProject.ViewModel
             else
                 return true;
         }
+
+
+        #endregion
+
+        #region RemoveCustomerCommand
+          public ICommand RemoveCustomerCommand { get; set; }
+
 
         // Removing customer from Collection and Database
         public void RemoveCustomerExecute(object parameter)
@@ -261,6 +268,15 @@ namespace FoxtrotProject.ViewModel
 
         }
 
+        #endregion
+
+        #region EditCustomerCommand
+
+        public ICommand EditCustomerCommand { get; set; }       
+
+        // Save customer to ObservableCollection and Database.
+
+      
         public void EditCustomerExecute(object parameter)
         {
             CVR = selectedcustomer.CVR.ToString();
@@ -286,6 +302,11 @@ namespace FoxtrotProject.ViewModel
 
         }
 
+        #endregion
+
+        #region  ClearCustomerCommand
+
+        public ICommand ClearCustomerCommand { get; set; }
         public void ClearCustomerExecute(object parameter)
         {
             CVR = "";
@@ -294,13 +315,53 @@ namespace FoxtrotProject.ViewModel
             TelephoneNumber = "";
             ContactPerson = "";
             GrossIncome = "";
-               }
+        }
         public bool ClearCustomerCanExecute(object parameter)
         {
             return true;
-           
+
         }
         #endregion
 
+        #region  SearchCustomerCommand
+
+        public ICommand SearchCustomerCommand { get; set; }
+        public string SearchCustomer { get; set; }
+        public void SearchCustomerExecute(object parameter)
+        {
+            try
+            {               
+
+                customers = new ObservableCollection<Customer>(customerManager.customers);
+               
+                foreach (Customer c in customers.ToList())
+                {
+                    
+
+                    if (!c.CVR.ToString().ToLower().StartsWith(SearchCustomer.ToLower()) &&
+                        !c.Name.ToString().ToLower().StartsWith(SearchCustomer.ToLower()) &&
+                        !c.Address.ToString().ToLower().StartsWith(SearchCustomer.ToLower())                        )
+                    {
+                        customers.Remove(c);
+                    }
+                }
+
+
+                    NotifyPropertyChanged("customers");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error" + ex);
+            }
+
+
+
+        }
+        public bool SearchCustomerCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        #endregion
     }
 }
