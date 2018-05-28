@@ -561,8 +561,8 @@ namespace FoxtrotProject.Model
                 {
                     LogReader logReader = new LogReader();
 
-                  logReader.DT = (DateTime)sqlDataReader["LogTime"];
-                     logReader.Message = (string)sqlDataReader["LogMessage"];
+                  logReader.dt = (DateTime)sqlDataReader["LogTime"];
+                     logReader.message = (string)sqlDataReader["LogMessage"];
               
                     _logs.Add(logReader);
                 }

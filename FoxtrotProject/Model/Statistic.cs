@@ -21,7 +21,7 @@ namespace FoxtrotProject.Model
 
         private void CountProductGroup(object sender, ContractEventArgs e)
         {
-            foreach (ProductGroup pg in e.contract.ProductGroups)
+            foreach (ProductGroup pg in e.contract.ContractGroups)
             {
                 if (!ProductGroupCount.ContainsKey(pg))
                     ProductGroupCount.Add(pg, 1);

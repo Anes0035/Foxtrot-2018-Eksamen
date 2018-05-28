@@ -11,8 +11,8 @@ namespace FoxtrotProject.Model
     class LogReader
     {
 
-        public DateTime DT { get; set; }
-        public string Message { get; set; }
+        public DateTime dt { get; set; }
+        public string message { get; set; }
 
         private StreamReader reader;
         public LogReader()

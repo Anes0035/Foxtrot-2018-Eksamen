@@ -21,18 +21,18 @@ namespace FoxtrotProject.ViewModel
 
         public DateTime DT
         {
-            get { return logReader.DT; }
+            get { return logReader.dt; }
             set {
-                logReader.DT = value;
+                logReader.dt = value;
                 NotifyPropertyChanged();
             }
         }
 
         public string Message
         {
-            get { return logReader.Message; }
+            get { return logReader.message; }
             set {
-                logReader.Message = value;
+                logReader.message = value;
                 NotifyPropertyChanged();
             }
         }
