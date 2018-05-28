@@ -14,5 +14,7 @@ namespace FoxtrotProject.Model
         {
             products = new List<Product>();
         }
+
+
     }
 }
