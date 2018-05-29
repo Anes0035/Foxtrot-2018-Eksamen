@@ -34,14 +34,18 @@ namespace FoxtrotProject.Model
         #region Customer
         public bool AddCustomer(Customer customer)
         {
-
+            
             SqlCommand command = new SqlCommand(s, connection);
             command.Parameters.AddWithValue("@cvr", customer.CVR);
+
             OpenConnection();
             int records = (int)command.ExecuteScalar();
 
+            CloseConnection();
+
             if (records == 0)
             {
+                OpenConnection();
                 command.Parameters.Clear();
                 command = new SqlCommand(@"insert into Customer (CVR , Name, Address, PhoneNumber, ContactPerson, GrossIncome)
 		values (@cvr, @name, @address, @phonenumber, @contactperson, @grossincome)", connection);
@@ -77,7 +81,7 @@ namespace FoxtrotProject.Model
             try
             {
                 OpenConnection();
-                SqlCommand command = new SqlCommand("UPDATE Customer SET CVR = @cvr, Name = @name, Address = @address, PhoneNumber = @phonenumber, ContactPerson = @contactperson, GrossIncome = @grossincome ");
+                SqlCommand command = new SqlCommand("UPDATE Customer SET CVR = @cvr, Name = @name, Address = @address, PhoneNumber = @phonenumber, ContactPerson = @contactperson, GrossIncome = @grossincome "+ "WHERE CVR = @cvr", connection);
                 command.Parameters.AddWithValue("@cvr", customer.CVR);
                 command.Parameters.AddWithValue("@name", customer.Name);
                 command.Parameters.AddWithValue("@address", customer.Address);
@@ -85,13 +89,14 @@ namespace FoxtrotProject.Model
                 command.Parameters.AddWithValue("@contactperson", customer.ContactPerson);
                 command.Parameters.AddWithValue("@grossincome", customer.GrossIncome);
                 command.ExecuteNonQuery();
+                CloseConnection();
             }
             catch (Exception)
             {
                 message = "Fejl under redigering af kunde";
                 LogAdd(message);
                 // Create an Exception if customer isnt in the database
-                throw;
+                
             }
             finally
             {
@@ -143,7 +148,7 @@ namespace FoxtrotProject.Model
                     customer.Address = (string)sqlDataReader["Address"];
                     customer.TelephoneNumber = (int)sqlDataReader["PhoneNumber"];
                     customer.ContactPerson = (string)sqlDataReader["ContactPerson"];
-                    //customer.GrossIncome = (int)sqlDataReader["GrossIncome"];
+                    customer.GrossIncome = (int)sqlDataReader["GrossIncome"];
                     customers.Add(customer);
 
 

@@ -17,7 +17,7 @@ namespace FoxtrotProject.Model
 
         public string ContactPerson { get; set; }
 
-        public double GrossIncome { get; set; }
+        public int GrossIncome { get; set; }
 
         public int CVR { get; set; }
 

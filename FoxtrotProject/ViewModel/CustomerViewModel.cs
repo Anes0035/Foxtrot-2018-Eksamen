@@ -175,8 +175,8 @@ namespace FoxtrotProject.ViewModel
                         if (String.IsNullOrEmpty(GrossIncome))
                             return PropertyIsEmptyErrorMessage(propertyName);
 
-                        double grossIncome;
-                        message = ValidateNumericParse<double>(GrossIncome, propertyName, out grossIncome);
+                        int grossIncome;
+                        message = ValidateNumericParse<int>(GrossIncome, propertyName, out grossIncome);
 
                         if (message != null)
                             return message;
@@ -198,7 +198,6 @@ namespace FoxtrotProject.ViewModel
             customerManager.customers = db.Customers();
 
             customers = new ObservableCollection<Customer>(customerManager.customers);
-           // Customers = db.Customers();
             SaveCustomerCommand = new WpfCommand(SaveCustomerExecute, SaveCustomerCanExecute);
             RemoveCustomerCommand = new WpfCommand(RemoveCustomerExecute, RemoveCustomerCanExecute);
             EditCustomerCommand = new WpfCommand(EditCustomerExecute, EditCustomerCanExecute);
@@ -213,17 +212,35 @@ namespace FoxtrotProject.ViewModel
         public ICommand SaveCustomerCommand { get; set; }
         public void SaveCustomerExecute(object parameter)
         {
-            if (db.AddCustomer(customer))
+            if (selectedcustomer == null)
             {
-                message = "Kunde Oprettet";
+                if (db.AddCustomer(customer))
+                {
+                    message = "Kunde Oprettet";
+                    Customers.Add(customer.Clone());
+                    NotifyPropertyChanged("customers");
+                    db.LogAdd(message);
+                    MessageBox.Show("Kunde Oprettet");
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Fejl! Kunde eksisterer allerede!");
+                   
+                }
+            }
+            else if (selectedcustomer != null)
+            {
+                
+                message = "Kunde Rettet";
+                db.EditCustomer(customer.Clone());
+                Customers.Remove(selectedcustomer);
                 Customers.Add(customer.Clone());
+               
                 NotifyPropertyChanged("customers");
                 db.LogAdd(message);
-                MessageBox.Show("Kunde Oprettet");
-            }
-            else
-            {
-                MessageBox.Show("Fejl! Kunde eksisterer allerede!");
+                MessageBox.Show("Kunde Rettet");
+               
             }
 
 
@@ -289,6 +306,7 @@ namespace FoxtrotProject.ViewModel
             TelephoneNumber = selectedcustomer.TelephoneNumber.ToString();
             ContactPerson = selectedcustomer.ContactPerson;
             GrossIncome = selectedcustomer.GrossIncome.ToString();
+           
             //db.LogAdd(message);
         }
 
