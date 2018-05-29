@@ -10,6 +10,7 @@ namespace FoxtrotProject.Model
     {
 
         public int ID { get; set; }
+
         public DateTime StartDate { get; set; }
 
         public int Period { get; set; }
@@ -18,25 +19,15 @@ namespace FoxtrotProject.Model
 
         public Contract SelectedContract {get;set;}
 
-    public List<ProductGroup> ContractGroups { get; set; }
-
-        private List<Tuple<ProductGroup, int>> ContractGroupWithDiscount;
-
+        public List<ProductGroup> ContractGroups { get; set; }
         
         public Subscription Subscription { get; set; }
+
         public int Discount { get; set; }
-        public int? GetDiscount(ProductGroup productGroup)
-        {
-            foreach(Tuple<ProductGroup, int> discount in ContractGroupWithDiscount)
-            {
-                if (productGroup == discount.Item1)
-                    return discount.Item2;
-            }
-            return null;
-        }
+
         public Contract()
         {
-
+            Subscription = new Subscription();
         }
         public Contract(int iD)
         {

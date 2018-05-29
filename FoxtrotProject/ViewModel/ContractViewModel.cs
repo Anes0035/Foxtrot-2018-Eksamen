@@ -81,19 +81,19 @@ namespace FoxtrotProject.ViewModel
         }
 
 
-        public Subscription Subscription
+        public bool Subscription
         {
-            get { return contract.Subscription; }
+            get { return contract.Subscription.Status; }
             set
             {
-                contract.Subscription = value;
+                contract.Subscription.Status = value;
                 NotifyPropertyChanged();
             }
         }
         #endregion
 
         #region ProductGroups
-        public ObservableCollection<ProductGroup> AllProductGroups { get; set; }
+        private ObservableCollection<ProductGroup> AllProductGroups { get; set; }
 
         public ObservableCollection<string> ProductGroupNames
         {

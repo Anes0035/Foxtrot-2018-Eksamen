@@ -75,7 +75,7 @@
                             <TextBox Grid.Row="0" Grid.Column="3" Text="" Foreground="#55000000" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,80,0" Width="250" Height="25"/>
                             <Button Grid.Row="0" Grid.Column="3" Content="Søg" HorizontalAlignment="Right" Margin="0,5,20,0" VerticalAlignment="Top"  Height="25" Width="40"/>
 
-                            <DataGrid x:Name="lstContracts" ItemsSource="{Binding Contracts}" SelectedItem="{Binding SelectedProduct, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGrid x:Name="lstContracts" ItemsSource="{Binding Contracts}" 
                                       AutoGenerateColumns="False" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Margin="10,10,0,0" Height="300" Width="500" 
                                       Grid.RowSpan="5">
                                 <DataGrid.Columns>
@@ -115,7 +115,8 @@
                             <CheckBox IsChecked="{Binding Subscription}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
 
                             <Label Grid.Row="4" Content="Produkt grupper:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="27" Width="100"/>
-                            <ComboBox  x:Name="cbxProductGroup" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ProductGroupNames, Mode=TwoWay}" IsEditable="True" IsTextSearchEnabled="True" Margin="10,5,10,0" VerticalAlignment="Top" Width="120" SelectionChanged="cbxProductGroup_SelectionChanged"/>
+                            <ComboBox  x:Name="cbxProductGroup" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ProductGroupNames}"
+                                       IsEditable="True" IsTextSearchEnabled="True" Margin="10,5,10,0" VerticalAlignment="Top" Width="120"/>
 
                             <DataGrid x:Name="lstProductGroups" ItemsSource="{Binding ProductsGroups, Mode=TwoWay}" 
                                       AutoGenerateColumns="False" Grid.Column="3" Grid.Row="1" Margin="0,5,20,0" VerticalAlignment="Top" HorizontalAlignment="Right" 
