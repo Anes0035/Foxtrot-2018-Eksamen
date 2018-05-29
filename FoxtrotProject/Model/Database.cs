@@ -25,7 +25,7 @@ namespace FoxtrotProject.Model
         {
             connection.Close();
         }
-
+        string message;
         readonly string s = @"SELECT COUNT(*) FROM Customer WHERE CVR = @cvr";
         readonly string t = @"SELECT COUNT(*) FROM Contract WHERE ContractID = @contractid";
         readonly string r = @"SELECT COUNT(*) FROM Catalog WHERE ProductName1 = @name";
@@ -59,6 +59,8 @@ namespace FoxtrotProject.Model
             }
             else
             {
+                message = "Fejl - Kunde Eksisterer Allerede";
+                LogAdd(message);
                 CloseConnection();
                 return false;
 
@@ -86,7 +88,8 @@ namespace FoxtrotProject.Model
             }
             catch (Exception)
             {
-
+                message = "Fejl under redigering af kunde";
+                LogAdd(message);
                 // Create an Exception if customer isnt in the database
                 throw;
             }
@@ -110,6 +113,8 @@ namespace FoxtrotProject.Model
             }
             catch (Exception)
             {
+                message = "Fejl under sletning af kunde";
+                LogAdd(message);
                 // Create an exception if no Customer is selected
                 throw;
             }
@@ -186,6 +191,8 @@ namespace FoxtrotProject.Model
                 }
                 else
                 {
+                message = "Fejl under oprettelsen af produkt";
+                LogAdd(message);
                     CloseConnection();
                     return false;
 
@@ -213,6 +220,8 @@ namespace FoxtrotProject.Model
 
                 catch (Exception)
                 {
+                message = "Fejl under redigering af produkt";
+                LogAdd(message);
                     return false;
                 }
                 finally
@@ -236,6 +245,7 @@ namespace FoxtrotProject.Model
                 }
                 catch (Exception)
                 {
+                message = "Fejl under sletning af produkt";
                     throw;
                 }
                 finally
@@ -309,43 +319,15 @@ namespace FoxtrotProject.Model
                 }
                 else
                 {
+                message = "Fejl under oprettelse af Aftale";
+                LogAdd(message);
                     CloseConnection();
                     return false;
 
 
                 }
             }
-            //public void AddContract(Contract contract)
-            //{
-
-            //    try
-            //    {
-            //        OpenConnection();
-            //        SqlCommand command = new SqlCommand("Insert CONTRACT [dbo].[Contract]([ContractID][StartDate], [Period], [Status], [Subscription], [ProductGroups], [GetDiscount]) " +
-            //                                                            "Values(@contractid, @startDate, @period, @status, @subscription, @ProductGroups, @getDiscount)", connection);
-            //        command.Parameters.AddWithValue("@startDate", contract.StartDate);
-            //        command.Parameters.AddWithValue("@Period", contract.Period);
-            //        command.Parameters.AddWithValue("@status", contract.Status);
-            //        command.Parameters.AddWithValue("@subscription", contract.Subscription);
-            //        command.Parameters.AddWithValue("@contractid", contract.ID);
-            //        //command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
-            //        // command.Parameters.AddWithValue("@getDiscount", contract.GetDiscount);
-            //        command.ExecuteNonQuery();
-
-
-
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        throw;
-            //    }
-            //    finally
-            //    {
-            //        CloseConnection();
-            //    }
-
-            //}
-
+          
             public bool UpdateContract(Contract contract)
             {
                 OpenConnection();
@@ -363,6 +345,8 @@ namespace FoxtrotProject.Model
 
                 catch (Exception)
                 {
+                message = "Fejl under redigering af aftale";
+                LogAdd(message);
                     return false;
                 }
                 finally
@@ -385,6 +369,8 @@ namespace FoxtrotProject.Model
                 }
                 catch (Exception)
                 {
+                message = "Fejl under sletning af produkt";
+                LogAdd(message);
                     throw;
                 }
                 finally
@@ -431,118 +417,25 @@ namespace FoxtrotProject.Model
       
         #endregion
 
-        public void LogAdd(int i)
+        public void LogAdd(string message)
         {
             OpenConnection();
-
-            if (i == 1)
+            try
             {
                 LogWriter logwriter = new LogWriter();
                 SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
 		values (@logtime, @logmessage)", connection);
 
                 command.Parameters.AddWithValue("@logtime", logwriter.dt);
-                command.Parameters.AddWithValue("@logmessage", "Kunde Oprettet");
+                command.Parameters.AddWithValue("@logmessage", message);
                 command.ExecuteNonQuery();
-
-                CloseConnection();
             }
-            else if (i == 2)
+            catch (Exception)
             {
-                LogWriter logwriter = new LogWriter();
-                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
-		values (@logtime, @logmessage)", connection);
-
-                command.Parameters.AddWithValue("@logtime", logwriter.dt);
-                command.Parameters.AddWithValue("@logmessage", "Kunde Slettet");
-                command.ExecuteNonQuery();
-
-                CloseConnection();
+                throw;
             }
-
-            else if (i == 3)
+            finally
             {
-                LogWriter logwriter = new LogWriter();
-                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
-		values (@logtime, @logmessage)", connection);
-
-                command.Parameters.AddWithValue("@logtime", logwriter.dt);
-                command.Parameters.AddWithValue("@logmessage", "Kunde Rettet");
-                command.ExecuteNonQuery();
-
-                CloseConnection();
-            }
-            else if (i == 4)
-            {
-                LogWriter logwriter = new LogWriter();
-                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
-		values (@logtime, @logmessage)", connection);
-
-                command.Parameters.AddWithValue("@logtime", logwriter.dt);
-                command.Parameters.AddWithValue("@logmessage", "Produkt Oprettet");
-                command.ExecuteNonQuery();
-
-                CloseConnection();
-            }
-            else if (i == 5)
-            {
-                LogWriter logwriter = new LogWriter();
-                SqlCommand command = new SqlCommand(@"insert into Log (Time , LogMessage)
-		values (@time, @logmessage)", connection);
-
-                command.Parameters.AddWithValue("@time", logwriter.dt);
-                command.Parameters.AddWithValue("@logmessage", "Produkt Slettet");
-                command.ExecuteNonQuery();
-
-                CloseConnection();
-            }
-            else if (i == 6)
-            {
-                LogWriter logwriter = new LogWriter();
-                SqlCommand command = new SqlCommand(@"insert into Log (Time , LogMessage)
-		values (@logtime, @logmessage)", connection);
-
-                command.Parameters.AddWithValue("@logtime", logwriter.dt);
-                command.Parameters.AddWithValue("@logmessage", "Produkt Rettet");
-                command.ExecuteNonQuery();
-
-                CloseConnection();
-            }
-
-            else if (i == 7)
-            {
-                LogWriter logwriter = new LogWriter();
-                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
-		values (@logtime, @logmessage)", connection);
-
-                command.Parameters.AddWithValue("@logtime", logwriter.dt);
-                command.Parameters.AddWithValue("@logmessage", "Aftale Oprettet");
-                command.ExecuteNonQuery();
-
-                CloseConnection();
-            }
-            else if (i == 8)
-            {
-                LogWriter logwriter = new LogWriter();
-                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
-		values (@logtime, @logmessage)", connection);
-
-                command.Parameters.AddWithValue("@logtime", logwriter.dt);
-                command.Parameters.AddWithValue("@logmessage", "Aftale Slettet");
-                command.ExecuteNonQuery();
-
-                CloseConnection();
-            }
-            else if (i == 9)
-            {
-                LogWriter logwriter = new LogWriter();
-                SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
-		values (@logtime, @logmessage)", connection);
-
-                command.Parameters.AddWithValue("@logtime", logwriter.dt);
-                command.Parameters.AddWithValue("@logmessage", "Aftale Rettet");
-                command.ExecuteNonQuery();
-
                 CloseConnection();
             }
 

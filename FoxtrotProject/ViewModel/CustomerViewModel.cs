@@ -18,6 +18,8 @@ namespace FoxtrotProject.ViewModel
 
         #region Customer
         public Customer customer { get; set; }
+
+        string message;
         CustomerManager customerManager;
 
         public string Name
@@ -213,9 +215,10 @@ namespace FoxtrotProject.ViewModel
         {
             if (db.AddCustomer(customer))
             {
+                message = "Kunde Oprettet";
                 Customers.Add(customer.Clone());
                 NotifyPropertyChanged("customers");
-                db.LogAdd(1);
+                db.LogAdd(message);
                 MessageBox.Show("Kunde Oprettet");
             }
             else
@@ -245,12 +248,12 @@ namespace FoxtrotProject.ViewModel
         // Removing customer from Collection and Database
         public void RemoveCustomerExecute(object parameter)
         {
-
+            message = "Kunde Slettet!";
             customer.CVR = selectedcustomer.CVR;
             db.RemoveCustomer(selectedcustomer);
             Customers.Remove(selectedcustomer);
             NotifyPropertyChanged("customers");
-            db.LogAdd(2);
+            db.LogAdd(message);
             MessageBox.Show("Kunde Slettet");
 
         }
@@ -279,13 +282,14 @@ namespace FoxtrotProject.ViewModel
       
         public void EditCustomerExecute(object parameter)
         {
+            //message = "Kunde Redigeret";
             CVR = selectedcustomer.CVR.ToString();
             Name = selectedcustomer.Name;
             Address = selectedcustomer.Address;
             TelephoneNumber = selectedcustomer.TelephoneNumber.ToString();
             ContactPerson = selectedcustomer.ContactPerson;
             GrossIncome = selectedcustomer.GrossIncome.ToString();
-            //db.LogAdd(3);
+            //db.LogAdd(message);
         }
 
         public bool EditCustomerCanExecute(object parameter)

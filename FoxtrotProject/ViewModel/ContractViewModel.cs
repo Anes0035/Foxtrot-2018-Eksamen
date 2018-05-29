@@ -14,7 +14,7 @@ namespace FoxtrotProject.ViewModel
     {
         public Contract contract { get; set; }
         private Contract currentContract;
-
+        public string message;
         private ContractManager contractManager;
 
         private Dictionary<ProductGroup, int> ProductGroupCount;
@@ -127,9 +127,10 @@ namespace FoxtrotProject.ViewModel
         {
             if(db.AddContract(contract))
             {
+                message = "Aftale oprettet";
                 Contracts.Add(contract.Clone());
                 NotifyPropertyChanged("contracts");
-                db.LogAdd(7);
+                db.LogAdd(message);
                 MessageBox.Show("Kontrakt Oprettet");
             }
             else
@@ -144,12 +145,13 @@ namespace FoxtrotProject.ViewModel
         }
         public void RemoveContractExecute(object parameter)
         {
-           
+
+            message = "Aftale slettet";
             ID = selectedcontract.ID;
             Contracts.Remove(contract.Clone());
             db.RemoveContract(selectedcontract);
             NotifyPropertyChanged("contracts");
-            db.LogAdd(8);
+            db.LogAdd(message);
             MessageBox.Show("Kontrakt Slettet");
         }
         public bool RemoveContractCanExecute(object paramter)
@@ -159,7 +161,8 @@ namespace FoxtrotProject.ViewModel
 
         public void UpdateContractExecute(object parameter)
         {
-            //db.LogAdd(9);
+            message = "Aftale redigeret";
+            //db.LogAdd(message);
         }
         public bool UpdateContractCanExecute(object paramter)
         {

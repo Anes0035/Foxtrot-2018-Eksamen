@@ -16,6 +16,7 @@ namespace FoxtrotProject.ViewModel
     {
         #region Product
 
+        public string message;
         ProductManager productManager;
 
         public ObservableCollection<ProductGroup> ProductGroups { get; set; }
@@ -207,9 +208,10 @@ namespace FoxtrotProject.ViewModel
             currentProduct.AutoAssignId(products);
             if (db.AddProduct(currentProduct))
             {
+                message = "Produkt oprettet";
                 Products.Add(currentProduct.Clone());
                 NotifyPropertyChanged("Products");
-                db.LogAdd(4);
+               db.LogAdd(message);
                 MessageBox.Show("Produkt Oprettet");
             }
             else
@@ -236,12 +238,12 @@ namespace FoxtrotProject.ViewModel
        
         public void RemoveProductExecute(object parameter)
         {
-
+            message = "Produkt slettet";
             currentProduct.ID = selectedproduct.ID;
             db.RemoveProduct(selectedproduct);
             Products.Remove(selectedproduct);
             NotifyPropertyChanged("Product");
-            db.LogAdd(5);
+            db.LogAdd(message);
             MessageBox.Show("Produkt Slettet");
 
 
@@ -264,12 +266,13 @@ namespace FoxtrotProject.ViewModel
 
         public void EditProductExecute(object parameter)
         {
+            message = "Produkt redigeret";
             ID = selectedproduct.ID;
             Name = selectedproduct.Name;
             Description = selectedproduct.Description;
             Price = selectedproduct.Price.ToString();
             Category = selectedproduct.Category;
-            //db.LogAdd(6);
+            db.LogAdd(message);
         }
         public bool EditProductCanExecute(object parameter)
         {
