@@ -175,8 +175,8 @@ namespace FoxtrotProject.ViewModel
                         if (String.IsNullOrEmpty(GrossIncome))
                             return PropertyIsEmptyErrorMessage(propertyName);
 
-                        int grossIncome;
-                        message = ValidateNumericParse<int>(GrossIncome, propertyName, out grossIncome);
+                        double grossIncome;
+                        message = ValidateNumericParse<double>(GrossIncome, propertyName, out grossIncome);
 
                         if (message != null)
                             return message;

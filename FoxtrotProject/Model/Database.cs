@@ -148,7 +148,7 @@ namespace FoxtrotProject.Model
                     customer.Address = (string)sqlDataReader["Address"];
                     customer.TelephoneNumber = (int)sqlDataReader["PhoneNumber"];
                     customer.ContactPerson = (string)sqlDataReader["ContactPerson"];
-                    customer.GrossIncome = (int)sqlDataReader["GrossIncome"];
+                    customer.GrossIncome = (double)sqlDataReader["GrossIncome"];
                     customers.Add(customer);
 
 
