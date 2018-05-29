@@ -15,27 +15,14 @@ namespace FoxtrotProject.ViewModel
     {
         public ICommand ShowLogCommand { get; set; }
 
-        public LogReader logReader { get; set;}
+        public LogReader logReader { get; set; }
 
         public LogWriter logWriter { get; set; }
 
-        public DateTime DT
-        {
-            get { return logReader.dt; }
-            set {
-                logReader.dt = value;
-                NotifyPropertyChanged();
-            }
-        }
+        public LogManager logManager { get; set; }
 
-        public string Message
-        {
-            get { return logReader.message; }
-            set {
-                logReader.message = value;
-                NotifyPropertyChanged();
-            }
-        }
+        public Database db { get; set; }
+
         private ObservableCollection<LogReader> logs;
         public ObservableCollection<LogReader> Logs
         {
@@ -46,23 +33,46 @@ namespace FoxtrotProject.ViewModel
                 NotifyPropertyChanged();
             }
         }
+        public DateTime Dt
+        {
+            get { return logReader.Dt ; }
+            set
+            {
+                logReader.Dt = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string Message
+        {
+            get { return logReader.Message; }
+            set
+            {
+                logReader.Message = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
         public LogViewModel()
         {
+            logManager = new LogManager();
 
             db = new Database();
             logReader = new LogReader();
-            Logs = db.Logs();
+            logManager.logs = db.Logs();
+            logs = new ObservableCollection<LogReader>(logManager.logs);
 
         }
-        public void ShowLogExecute(object parameter)
-        {
-            Logs = db.Logs();
-            MessageBox.Show("Log hentet!");
-        }
+        //public void ShowLogExecute(object parameter)
+        //{
+        //    Logs = db.Logs();
+        //    MessageBox.Show("Log hentet!");
+        //}
 
-        public bool ShowLogCanExecute(object parameter)
-        {
-            return true;
-        }
+        //public bool ShowLogCanExecute(object parameter)
+        //{
+        //    return true;
+        //}
     }
 }

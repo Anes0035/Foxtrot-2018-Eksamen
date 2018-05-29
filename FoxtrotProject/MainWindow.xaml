@@ -248,7 +248,20 @@
 
 
             <TabItem Header="Log">
-
+                <Grid DataContext="{Binding logViewModel}" Background="MintCream">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.2*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListView ItemsSource="{Binding Logs, Mode=TwoWay}" Margin="260,40,361,83" Grid.ColumnSpan="2">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Time" Width="Auto" DisplayMemberBinding="{Binding Dt}" />
+                                <GridViewColumn Header="Message" Width="Auto" DisplayMemberBinding="{Binding Message}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
             </TabItem>
 
 

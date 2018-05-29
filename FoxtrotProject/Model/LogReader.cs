@@ -10,9 +10,9 @@ namespace FoxtrotProject.Model
 {
     class LogReader
     {
+        public DateTime Dt { get; set; }
 
-        public DateTime dt { get; set; }
-        public string message { get; set; }
+        public string Message { get; set; }
 
         private StreamReader reader;
         public LogReader()
@@ -22,7 +22,7 @@ namespace FoxtrotProject.Model
 
         public void ReadDateEntry(string entry)
         {
-            
+
             using (StreamReader reader = File.OpenText(@"C:\Users\ChristianTerp\Log\DataLog.txt"))
             {
                 string line = null;
@@ -30,13 +30,18 @@ namespace FoxtrotProject.Model
                 while ((line = reader.ReadLine()) != null)
                 {
                     line = reader.ReadLine();
-                    
-                }               
+
+                }
             }
         }
-        public List<String> ReadLog()
+
+
+        public LogReader(List<LogReader> logs, DateTimeOffset dt, string message)
         {
-            throw new NotImplementedException();
+
+
+            dt = Dt;
+            message = Message;
         }
     }
 }

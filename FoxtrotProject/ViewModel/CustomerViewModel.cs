@@ -298,15 +298,13 @@ namespace FoxtrotProject.ViewModel
       
         public void EditCustomerExecute(object parameter)
         {
-            string message = "Kunde Redigeret";
+        
             CVR = selectedcustomer.CVR.ToString();
             Name = selectedcustomer.Name;
             Address = selectedcustomer.Address;
             TelephoneNumber = selectedcustomer.TelephoneNumber.ToString();
             ContactPerson = selectedcustomer.ContactPerson;
             GrossIncome = selectedcustomer.GrossIncome.ToString();
-           
-            db.LogAdd(message);
         }
 
         public bool EditCustomerCanExecute(object parameter)

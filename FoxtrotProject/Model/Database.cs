@@ -153,7 +153,7 @@ namespace FoxtrotProject.Model
                     customer.Address = (string)sqlDataReader["Address"];
                     customer.TelephoneNumber = (int)sqlDataReader["PhoneNumber"];
                     customer.ContactPerson = (string)sqlDataReader["ContactPerson"];
-                    customer.GrossIncome = (int)sqlDataReader["GrossIncome"];
+                    customer.GrossIncome = (double)sqlDataReader["GrossIncome"];
                     customers.Add(customer);
 
 
@@ -477,9 +477,9 @@ namespace FoxtrotProject.Model
             }
 
         }
-        public ObservableCollection<LogReader> Logs()
+        public List<LogReader> Logs()
         {
-            ObservableCollection<LogReader> _logs = new ObservableCollection<LogReader>();
+            List<LogReader> logs = new List<LogReader>();
             try
             {
                 OpenConnection();
@@ -492,13 +492,13 @@ namespace FoxtrotProject.Model
                 {
                     LogReader logReader = new LogReader();
 
-                    logReader.dt = (DateTime)sqlDataReader["LogTime"];
-                    logReader.message = (string)sqlDataReader["LogMessage"];
+                    logReader.Dt = (DateTime)sqlDataReader["LogTime"];
+                    logReader.Message = (string)sqlDataReader["LogMessage"];
 
-                    _logs.Add(logReader);
+                    logs.Add(logReader);
                 }
 
-                return _logs;
+                return logs;
 
             }
             catch (Exception)

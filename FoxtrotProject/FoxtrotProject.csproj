@@ -65,6 +65,10 @@
     </ApplicationDefinition>
     <Compile Include="Model\ContractEventArgs.cs" />
     <Compile Include="Model\ContractManager.cs" />
+    <Compile Include="Model\CustomerManager.cs" />
+    <Compile Include="Model\LogManager.cs" />
+    <Compile Include="Model\ProductManager.cs" />
+    <Compile Include="Model\ProductSearchFunction.cs" />
     <Compile Include="ViewModel\ContractViewModel.cs" />
     <Compile Include="ViewModel\CustomerViewModel.cs" />
     <Compile Include="ViewModel\LogViewModel.cs" />
