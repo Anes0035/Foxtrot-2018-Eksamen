@@ -240,7 +240,7 @@ namespace FoxtrotProject.ViewModel
                 NotifyPropertyChanged("customers");
                 db.LogAdd(message);
                 MessageBox.Show("Kunde Rettet");
-               
+                customer.SelectedCustomer = null;
             }
 
 
