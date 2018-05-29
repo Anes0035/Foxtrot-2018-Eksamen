@@ -292,11 +292,29 @@ namespace FoxtrotProject.Model
                     CloseConnection();
                 }
             }
-            #endregion
+
+        public ObservableCollection<ProductGroup> GetProductGroups()
+        {
+            ObservableCollection<ProductGroup> productGroups = new ObservableCollection<ProductGroup>();
+
+            List<Product> products = Products();
+
+            foreach (Product p in products)
+            {
+                List<ProductGroup> productGroup = productGroups.Where(pg => pg.Name == p.Category).ToList();
+                if (productGroup.Any())
+                    productGroup.First().Products.Add(p);
+                else
+                    productGroups.Add(new ProductGroup { Name = p.Category, Products = new List<Product> { p } });
+            }
+
+            return productGroups;
+        }
+        #endregion
 
 
-            #region Contract
-            public bool AddContract(Contract contract)
+        #region Contract
+        public bool AddContract(Contract contract)
             {
 
                 SqlCommand command = new SqlCommand(t, connection);
