@@ -16,7 +16,7 @@ namespace FoxtrotProject.ViewModel
         Aktiv,
         Inaktiv
     }
-
+  
     class ContractViewModel : ViewModel, IDataErrorInfo
     {
 
@@ -114,7 +114,7 @@ namespace FoxtrotProject.ViewModel
         #endregion
 
         private Contract selectedContract;
-
+        public string message;
         public Contract SelectedContract
         {
             get { return selectedContract; }
@@ -154,18 +154,34 @@ namespace FoxtrotProject.ViewModel
         public void SaveContractExecute(object parameter)
         {
             Contracts.Add(contract.Clone());
-            /* if(db.AddContract(contract))
-             {
-                 Contracts.Add(contract.Clone());
-                 NotifyPropertyChanged("contracts");
-                 db.LogAdd(7);
-                 MessageBox.Show("Kontrakt Oprettet");
-             }
-             else
-             {
-                 MessageBox.Show("Fejl! Aftale eksisterer allerede!");
-             }
-            */
+            if (selectedContract == null)
+            {
+                if (db.AddContract(contract))
+                {
+                    message = "Aftale oprettet";
+                    db.AddContract(contract.Clone());
+                    Contracts.Add(contract.Clone());
+                    NotifyPropertyChanged("contracts");
+                    db.LogAdd(message);
+                    MessageBox.Show("Aftale Oprettet");
+                }
+                else
+                {
+                    MessageBox.Show("Fejl! Aftale eksisterer allerede!");
+                }
+
+            }
+            else if (selectedContract != null)
+            {
+                message = "Aftale redigeret";
+                db.UpdateContract(contract.Clone());
+                Contracts.Remove(selectedContract);
+                Contracts.Add(contract.Clone());
+                NotifyPropertyChanged("contracts");
+                db.LogAdd(message);
+                MessageBox.Show("Aftale redigeret");
+            }
+
         }
         public bool SaveContractCanExecute(object paramter)
         {
@@ -198,7 +214,13 @@ namespace FoxtrotProject.ViewModel
 
         public void UpdateContractExecute(object parameter)
         {
-            //db.LogAdd(9);
+            contract.ID = selectedContract.ID;
+            contract.Period = selectedContract.Period;
+            contract.StartDate = selectedContract.StartDate;
+            contract.Status = selectedContract.Status;
+            contract.Subscription = selectedContract.Subscription;
+            contract.ContractGroups = selectedContract.ContractGroups;
+            contract.Discount = selectedContract.Discount;
         }
         public bool UpdateContractCanExecute(object paramter)
         {

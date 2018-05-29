@@ -85,8 +85,11 @@ namespace FoxtrotProject.ViewModel
             {
                 cVR = value;
                 NotifyPropertyChanged();
+
             }
         }
+
+
         private Customer selectedcustomer;
 
         public Customer SelectedCustomer
@@ -175,8 +178,8 @@ namespace FoxtrotProject.ViewModel
                         if (String.IsNullOrEmpty(GrossIncome))
                             return PropertyIsEmptyErrorMessage(propertyName);
 
-                        double grossIncome;
-                        message = ValidateNumericParse<double>(GrossIncome, propertyName, out grossIncome);
+                        int grossIncome;
+                        message = ValidateNumericParse<int>(GrossIncome, propertyName, out grossIncome);
 
                         if (message != null)
                             return message;
@@ -221,22 +224,22 @@ namespace FoxtrotProject.ViewModel
                     NotifyPropertyChanged("customers");
                     db.LogAdd(message);
                     MessageBox.Show("Kunde Oprettet");
-                    
+
                 }
                 else
                 {
                     MessageBox.Show("Fejl! Kunde eksisterer allerede!");
-                   
+
                 }
             }
             else if (selectedcustomer != null)
             {
-                
+
                 message = "Kunde Rettet";
                 db.EditCustomer(customer.Clone());
                 Customers.Remove(selectedcustomer);
                 Customers.Add(customer.Clone());
-               
+
                 NotifyPropertyChanged("customers");
                 db.LogAdd(message);
                 MessageBox.Show("Kunde Rettet");
@@ -259,7 +262,7 @@ namespace FoxtrotProject.ViewModel
         #endregion
 
         #region RemoveCustomerCommand
-          public ICommand RemoveCustomerCommand { get; set; }
+        public ICommand RemoveCustomerCommand { get; set; }
 
 
         // Removing customer from Collection and Database
@@ -292,22 +295,22 @@ namespace FoxtrotProject.ViewModel
 
         #region EditCustomerCommand
 
-        public ICommand EditCustomerCommand { get; set; }       
+        public ICommand EditCustomerCommand { get; set; }
 
-        // Save customer to ObservableCollection and Database.
 
-      
+
+
         public void EditCustomerExecute(object parameter)
         {
-            //message = "Kunde Redigeret";
+
             CVR = selectedcustomer.CVR.ToString();
             Name = selectedcustomer.Name;
             Address = selectedcustomer.Address;
             TelephoneNumber = selectedcustomer.TelephoneNumber.ToString();
             ContactPerson = selectedcustomer.ContactPerson;
             GrossIncome = selectedcustomer.GrossIncome.ToString();
-           
-            //db.LogAdd(message);
+
+
         }
 
         public bool EditCustomerCanExecute(object parameter)
@@ -352,24 +355,24 @@ namespace FoxtrotProject.ViewModel
         public void SearchCustomerExecute(object parameter)
         {
             try
-            {               
+            {
 
                 customers = new ObservableCollection<Customer>(customerManager.customers);
-               
+
                 foreach (Customer c in customers.ToList())
                 {
-                    
+
 
                     if (!c.CVR.ToString().ToLower().StartsWith(SearchCustomer.ToLower()) &&
                         !c.Name.ToString().ToLower().StartsWith(SearchCustomer.ToLower()) &&
-                        !c.Address.ToString().ToLower().StartsWith(SearchCustomer.ToLower())                        )
+                        !c.Address.ToString().ToLower().StartsWith(SearchCustomer.ToLower()))
                     {
                         customers.Remove(c);
                     }
                 }
 
 
-                    NotifyPropertyChanged("customers");
+                NotifyPropertyChanged("customers");
             }
             catch (Exception ex)
             {
