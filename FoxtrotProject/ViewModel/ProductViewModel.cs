@@ -47,7 +47,7 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-      
+
 
         public string Name
         {
@@ -59,7 +59,7 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-       
+
 
         public string Description
         {
@@ -83,7 +83,7 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-       
+
 
         public string Category
         {
@@ -205,20 +205,35 @@ namespace FoxtrotProject.ViewModel
 
         public void SaveProductExecute(object parameter)
         {
-            currentProduct.AutoAssignId(products);
-            if (db.AddProduct(currentProduct))
+            if (selectedproduct == null)
             {
-                message = "Produkt oprettet";
-                Products.Add(currentProduct.Clone());
-                NotifyPropertyChanged("Products");
-               db.LogAdd(message);
-                MessageBox.Show("Produkt Oprettet");
-            }
-            else
-            {
-                MessageBox.Show("Produktet eksisterer allerede!");
+                currentProduct.AutoAssignId(products);
+                if (db.AddProduct(currentProduct))
+                {
+                    message = "Produkt oprettet";
+                    Products.Add(currentProduct.Clone());
+                    NotifyPropertyChanged("products");
+                    db.LogAdd(message);
+                    MessageBox.Show("Produkt Oprettet");
+                }
+                else
+                {
+                    MessageBox.Show("Produktet eksisterer allerede!");
+                }
             }
 
+            if (selectedproduct != null)
+            {
+                message = "Produkt redigeret";
+                db.EditProduct(currentProduct.Clone());
+                Products.Remove(selectedproduct);
+                Products.Add(currentProduct.Clone());
+
+                NotifyPropertyChanged("products");
+                db.LogAdd(message);
+                MessageBox.Show("Produkt rettet");
+                currentProduct.SelectedProduct = null;
+            }
         }
 
         public bool SaveProductCanExecute(object parameter)
@@ -235,7 +250,7 @@ namespace FoxtrotProject.ViewModel
 
         #region RemoveProductExecute
         public ICommand RemoveProductCommand { get; set; }
-       
+
         public void RemoveProductExecute(object parameter)
         {
             message = "Produkt slettet";
@@ -266,13 +281,13 @@ namespace FoxtrotProject.ViewModel
 
         public void EditProductExecute(object parameter)
         {
-            message = "Produkt redigeret";
+
             ID = selectedproduct.ID;
             Name = selectedproduct.Name;
             Description = selectedproduct.Description;
             Price = selectedproduct.Price.ToString();
             Category = selectedproduct.Category;
-            db.LogAdd(message);
+
         }
         public bool EditProductCanExecute(object parameter)
         {
@@ -338,9 +353,9 @@ namespace FoxtrotProject.ViewModel
 
                 NotifyPropertyChanged("products");
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
-                MessageBox.Show("Error"+ex);
+                MessageBox.Show("Error" + ex);
             }
         }
         public bool SearchProductCanExecute(object parameter)
@@ -353,7 +368,7 @@ namespace FoxtrotProject.ViewModel
         #region  ClearProductCommand
         public ICommand ClearProductCommand { get; set; }
         public void ClearProductExecute(object parameter)
-        {         
+        {
 
             ID = 0;
             Name = "";
