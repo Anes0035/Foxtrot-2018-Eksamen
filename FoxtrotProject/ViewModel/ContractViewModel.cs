@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,163 +11,199 @@ using System.Windows.Input;
 
 namespace FoxtrotProject.ViewModel
 {
-    class ContractViewModel : ViewModel
+    enum Activity
     {
-        public Contract contract { get; set; }
-        private Contract currentContract;
-        public string message;
+        Aktiv,
+        Inaktiv
+    }
+
+    class ContractViewModel : ViewModel, IDataErrorInfo
+    {
+
         private ContractManager contractManager;
 
-        private Dictionary<ProductGroup, int> ProductGroupCount;
+        #region Contract
+        public ObservableCollection<Contract> Contracts { get; set; }
 
-        private DateTime startDate;
-
-        
-        public DateTime StartDate
-        {
-            get { return currentContract.StartDate; }
-            set
-            {
-                currentContract.StartDate = value;
-                NotifyPropertyChanged();
-            }
-        }
-        private int iD;
+        private Contract contract;
 
         public int ID
         {
-            get { return iD; }
-            set { iD = value; }
-        }
-
-        private int period;
-
-        public int Period
-        {
-            get { return currentContract.Period; }
+            get { return contract.ID; }
             set
             {
-                currentContract.Period = value;
+                contract.ID = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private DateTime startDate;
+
+        public DateTime StartDate
+        {
+            get { return contract.StartDate; }
+            set
+            {
+                contract.StartDate = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private string status;
+        private string period;
 
-        public string Status
+        public string Period
         {
-            get { return currentContract.Status; }
+            get { return period; }
             set
             {
-                currentContract.Status = value;
+                period = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private int discount;
+        public Activity status;
 
-        public int Discount
+        public Activity Status
         {
-            get { return discount; }
-            set { discount = value; }
+            get { return status; }
+            set
+            {
+                status = value;
+                NotifyPropertyChanged();
+            }
         }
-        
-        private Subscription subscription;
+
+        private ObservableCollection<ProductGroup> productGroups;
+
+        public ObservableCollection<ProductGroup> ProductGroups
+        {
+            get { return productGroups; }
+            set { productGroups = value; }
+        }
+
 
         public Subscription Subscription
         {
-            get { return currentContract.Subscription; }
+            get { return contract.Subscription; }
             set
             {
-                currentContract.Subscription = value;
+                contract.Subscription = value;
                 NotifyPropertyChanged();
             }
         }
+        #endregion
 
-        public ObservableCollection<Contract> Contracts { get; set; }
+        #region ProductGroups
+        public ObservableCollection<ProductGroup> AllProductGroups { get; set; }
 
-        private Contract selectedcontract;
+        public ObservableCollection<string> ProductGroupNames
+        {
+            get { return GetProductGroupNames(); }
+        }
+
+        public ObservableCollection<string> GetProductGroupNames()
+        {
+            ObservableCollection<string> productGroupNames = new ObservableCollection<string>();
+
+            foreach (ProductGroup pg in AllProductGroups)
+            {
+                productGroupNames.Add(pg.Name);
+            }
+
+            return productGroupNames;
+        }
+        #endregion
+
+        private Contract selectedContract;
 
         public Contract SelectedContract
         {
-            get { return selectedcontract; }
+            get { return selectedContract; }
             set
             {
-                selectedcontract = value;
+                selectedContract = value;
                 NotifyPropertyChanged();
             }
         }
+
+
 
         public ContractViewModel()
         {
             contract = new Contract();
-            ProductGroupCount = new Dictionary<ProductGroup, int>();
-            //Contracts = db.Contracts();
-            //contractManager.onAddContract += new EventHandler<ContractEventArgs>(CountProductGroup);
+            contractManager = new ContractManager();
+            AllProductGroups = db.GetProductGroups();
             SaveContractCommand = new WpfCommand(SaveContractExecute, SaveContractCanExecute);
             RemoveContractCommand = new WpfCommand(RemoveContractExecute, RemoveContractCanExecute);
         }
-        public ICommand SaveContractCommand { get; set; }
-        public ICommand RemoveContractCommand { get; set; }
-        public ICommand UpdateContractCommand { get; set; }
 
-
-        private void CountProductGroup(object sender, ContractEventArgs e)
+        #region ErrorHandling
+        public string Error
         {
-            foreach (ProductGroup pg in e.contract.ContractGroups)
+            get
             {
-                if (!ProductGroupCount.ContainsKey(pg))
-                    ProductGroupCount.Add(pg, 1);
-                else
-                    ProductGroupCount[pg]++;
+                return null;
             }
         }
 
-     
+        public string this[string columnName] => throw new NotImplementedException();
+        #endregion
+
+        #region SaveContractCommand
+        public ICommand SaveContractCommand { get; set; }
+
         public void SaveContractExecute(object parameter)
         {
-            if(db.AddContract(contract))
-            {
-                message = "Aftale oprettet";
-                Contracts.Add(contract.Clone());
-                NotifyPropertyChanged("contracts");
-                db.LogAdd(message);
-                MessageBox.Show("Kontrakt Oprettet");
-            }
-            else
-            {
-                MessageBox.Show("Fejl! Aftale eksisterer allerede!");
-            }
-           
+            Contracts.Add(contract.Clone());
+            /* if(db.AddContract(contract))
+             {
+                 Contracts.Add(contract.Clone());
+                 NotifyPropertyChanged("contracts");
+                 db.LogAdd(7);
+                 MessageBox.Show("Kontrakt Oprettet");
+             }
+             else
+             {
+                 MessageBox.Show("Fejl! Aftale eksisterer allerede!");
+             }
+            */
         }
         public bool SaveContractCanExecute(object paramter)
         {
             return true;
         }
+        #endregion
+
+        #region RemoveContractCommand
+        public ICommand RemoveContractCommand { get; set; }
+
         public void RemoveContractExecute(object parameter)
         {
-
-            message = "Aftale slettet";
-            ID = selectedcontract.ID;
+            /*
+            ID = selectedContract.ID;
             Contracts.Remove(contract.Clone());
-            db.RemoveContract(selectedcontract);
+            db.RemoveContract(selectedContract);
             NotifyPropertyChanged("contracts");
-            db.LogAdd(message);
+            db.LogAdd(8);
             MessageBox.Show("Kontrakt Slettet");
+            */
         }
         public bool RemoveContractCanExecute(object paramter)
         {
             return true;
         }
+        #endregion
+
+        #region UpdateContractCommand
+        public ICommand UpdateContractCommand { get; set; }
 
         public void UpdateContractExecute(object parameter)
         {
-            message = "Aftale redigeret";
-            //db.LogAdd(message);
+            //db.LogAdd(9);
         }
         public bool UpdateContractCanExecute(object paramter)
         {
             return true;
         }
+        #endregion
     }
 }
