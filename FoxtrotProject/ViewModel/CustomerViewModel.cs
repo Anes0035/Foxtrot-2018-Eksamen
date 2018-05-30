@@ -13,7 +13,7 @@ using System.Reflection;
 
 namespace FoxtrotProject.ViewModel
 {
-    class CustomerViewModel : ViewModel, IDataErrorInfo
+    class CustomerViewModel : ViewModel
     {
 
         #region Customer
@@ -113,27 +113,13 @@ namespace FoxtrotProject.ViewModel
         #endregion
 
         #region IDataErrorInfo
-        public string FirstErrorMessage
-        {
-            get
-            {
-                PropertyInfo[] properties = GetType().GetProperties();
-                foreach (PropertyInfo p in properties)
-                {
-                    if (this[p.Name] != null)
-                        return this[p.Name];
-                }
 
-                return null;
-            }
-        }
-
-        public string Error
+        public override string Error
         {
             get { return null; }
         }
 
-        public string this[string propertyName]
+        public override string this[string propertyName]
         {
             get
             {

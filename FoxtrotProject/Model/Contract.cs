@@ -15,11 +15,11 @@ namespace FoxtrotProject.Model
 
         public int Period { get; set; }
 
-        public string Status { get; set; }
+        public bool Status { get; set; }
 
         public Contract SelectedContract {get;set;}
 
-        public List<ProductGroup> ContractGroups { get; set; }
+        public List<ProductGroup> ProductGroups { get; set; }
         
         public Subscription Subscription { get; set; }
 
@@ -28,6 +28,7 @@ namespace FoxtrotProject.Model
         public Contract()
         {
             Subscription = new Subscription();
+            ProductGroups = new List<ProductGroup>();
         }
         public Contract(int iD)
         {

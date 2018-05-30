@@ -16,8 +16,8 @@ namespace FoxtrotProject.ViewModel
         Aktiv,
         Inaktiv
     }
-  
-    class ContractViewModel : ViewModel, IDataErrorInfo
+
+    class ContractViewModel : ViewModel
     {
 
         private ContractManager contractManager;
@@ -36,14 +36,15 @@ namespace FoxtrotProject.ViewModel
                 NotifyPropertyChanged();
             }
         }
+
         private DateTime startDate;
 
         public DateTime StartDate
         {
-            get { return contract.StartDate; }
+            get { return startDate; }
             set
             {
-                contract.StartDate = value;
+                startDate = value;
                 NotifyPropertyChanged();
             }
         }
@@ -60,14 +61,12 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-        public Activity status;
-
-        public Activity Status
+        public bool Status
         {
-            get { return status; }
+            get { return contract.Status; }
             set
             {
-                status = value;
+                contract.Status = value;
                 NotifyPropertyChanged();
             }
         }
@@ -77,7 +76,11 @@ namespace FoxtrotProject.ViewModel
         public ObservableCollection<ProductGroup> ProductGroups
         {
             get { return productGroups; }
-            set { productGroups = value; }
+            set
+            {
+                productGroups = value;
+                NotifyPropertyChanged();
+            }
         }
 
 
@@ -93,23 +96,33 @@ namespace FoxtrotProject.ViewModel
         #endregion
 
         #region ProductGroups
-        private ObservableCollection<ProductGroup> AllProductGroups { get; set; }
 
-        public ObservableCollection<string> ProductGroupNames
+        private ObservableCollection<ProductGroup> AllProductGroups;
+
+        public ObservableCollection<ProductGroup> ShownProductGroups { get; set; }
+
+        private ProductGroup dtgSelectedProductGroup;
+
+        public ProductGroup DtgSelectedProductGroup
         {
-            get { return GetProductGroupNames(); }
+            get { return dtgSelectedProductGroup; }
+            set
+            {
+                dtgSelectedProductGroup = value;
+                NotifyPropertyChanged();
+            }
         }
 
-        public ObservableCollection<string> GetProductGroupNames()
+        private ProductGroup cbxSelectedProductGroup;
+
+        public ProductGroup CbxSelectedProductGroup
         {
-            ObservableCollection<string> productGroupNames = new ObservableCollection<string>();
-
-            foreach (ProductGroup pg in AllProductGroups)
+            get { return cbxSelectedProductGroup; }
+            set
             {
-                productGroupNames.Add(pg.Name);
+                cbxSelectedProductGroup = value;
+                NotifyPropertyChanged();
             }
-
-            return productGroupNames;
         }
         #endregion
 
@@ -130,22 +143,129 @@ namespace FoxtrotProject.ViewModel
         public ContractViewModel()
         {
             contract = new Contract();
+            productGroups = new ObservableCollection<ProductGroup>();
+            StartDate = DateTime.Now;
+
+            Contracts = new ObservableCollection<Contract>();
+
             contractManager = new ContractManager();
             AllProductGroups = db.GetProductGroups();
+            ShownProductGroups = AllProductGroups;
+            AddProductGroupCommand = new WpfCommand(AddProductGroupExecute, AddProductGroupCanExecute);
+            RemoveProductGroupCommand = new WpfCommand(RemoveProductGroupExecute, RemoveProductGroupCanExecute);
+            ClearContractCommand = new WpfCommand(ClearContractExecute, ClearContractCanExecute);
             SaveContractCommand = new WpfCommand(SaveContractExecute, SaveContractCanExecute);
             RemoveContractCommand = new WpfCommand(RemoveContractExecute, RemoveContractCanExecute);
         }
 
         #region ErrorHandling
-        public string Error
+        public override string Error
+        {
+            get { return null; }
+        }
+
+        public override string this[string propertyName]
         {
             get
             {
+                string message;
+                switch (propertyName)
+                {
+                    case "StartDate":
+                        if (StartDate < DateTime.Today)
+                            return "Kontrakten kan ikke starte i fortiden";
+
+                        contract.StartDate = StartDate;
+                        break;
+
+                    case "Period":
+                        if (string.IsNullOrEmpty((string)GetType().GetProperty(propertyName).GetValue(this)))
+                            return PropertyIsEmptyErrorMessage(propertyName);
+
+                        int period;
+                        message = ValidateNumericParse<int>(Period, propertyName, out period);
+
+                        if (message != null)
+                            return message;
+
+                        if (period < 6 || period > 24)
+                            return "Perioden skal være mellem 6 og 24 måneder";
+
+                        contract.Period = period;
+                        break;
+
+                    case "ProductGroups":
+                        if (!ProductGroups.Any())
+                            return "Der er ikke valgt nogle produkt grupper";
+
+                        contract.ProductGroups = new List<ProductGroup>(ProductGroups);
+                        break;
+                }
                 return null;
             }
         }
+        #endregion
 
-        public string this[string columnName] => throw new NotImplementedException();
+        #region AddProductGroupCommand
+        public ICommand AddProductGroupCommand { get; set; }
+
+        public void AddProductGroupExecute(object parameter)
+        {
+            ProductGroups.Add(CbxSelectedProductGroup);
+            ShownProductGroups.Remove(CbxSelectedProductGroup);
+            NotifyPropertyChanged("ShownProductGroups");
+            NotifyPropertyChanged("ProductGroups");
+        }
+
+        public bool AddProductGroupCanExecute(object parameter)
+        {
+            if (cbxSelectedProductGroup != null)
+                return true;
+            else
+                return false;
+        }
+        #endregion
+
+        #region RemoveProductGroupCommand
+
+        public ICommand RemoveProductGroupCommand { get; set; }
+
+        public void RemoveProductGroupExecute(object parameter)
+        {
+            ShownProductGroups.Add(DtgSelectedProductGroup);
+            ProductGroups.Remove(DtgSelectedProductGroup);
+            NotifyPropertyChanged("ShownProductGroups");
+            NotifyPropertyChanged("ProductGroups");
+        }
+
+        public bool RemoveProductGroupCanExecute(object parameter)
+        {
+            if (dtgSelectedProductGroup != null)
+                return true;
+            else
+                return false;
+        }
+
+        #endregion
+
+        #region ClearContractCommand
+
+        public ICommand ClearContractCommand { get; set; }
+
+        public void ClearContractExecute(object parameter)
+        {
+            ID = 0;
+            StartDate = DateTime.Today;
+            Status = false;
+            Period = null;
+            Subscription = false;
+            ProductGroups = new ObservableCollection<ProductGroup>();
+        }
+
+        public bool ClearContractCanExecute(object parameter)
+        {
+            return true;
+        }
         #endregion
 
         #region SaveContractCommand
@@ -154,6 +274,8 @@ namespace FoxtrotProject.ViewModel
         public void SaveContractExecute(object parameter)
         {
             Contracts.Add(contract.Clone());
+            NotifyPropertyChanged("Contracts");
+            /*Contracts.Add(contract.Clone());
             if (selectedContract == null)
             {
                 if (db.AddContract(contract))
@@ -161,7 +283,7 @@ namespace FoxtrotProject.ViewModel
                     message = "Aftale oprettet";
                     db.AddContract(contract.Clone());
                     Contracts.Add(contract.Clone());
-                    NotifyPropertyChanged("contracts");
+                    NotifyPropertyChanged("Contracts");
                     db.LogAdd(message);
                     MessageBox.Show("Aftale Oprettet");
                 }
@@ -177,15 +299,18 @@ namespace FoxtrotProject.ViewModel
                 db.UpdateContract(contract.Clone());
                 Contracts.Remove(selectedContract);
                 Contracts.Add(contract.Clone());
-                NotifyPropertyChanged("contracts");
+                NotifyPropertyChanged("Contracts");
                 db.LogAdd(message);
                 MessageBox.Show("Aftale redigeret");
             }
-
+            */
         }
         public bool SaveContractCanExecute(object paramter)
         {
-            return true;
+            if (FirstErrorMessage != null)
+                return false;
+            else
+                return true;
         }
         #endregion
 
@@ -219,7 +344,7 @@ namespace FoxtrotProject.ViewModel
             contract.StartDate = selectedContract.StartDate;
             contract.Status = selectedContract.Status;
             contract.Subscription = selectedContract.Subscription;
-            contract.ContractGroups = selectedContract.ContractGroups;
+            contract.ProductGroups = selectedContract.ProductGroups;
             contract.Discount = selectedContract.Discount;
         }
         public bool UpdateContractCanExecute(object paramter)

@@ -13,5 +13,15 @@ namespace FoxtrotProject.Model
         public List<Product> Products { get; set; }
 
         public string Category { get; set; }
+
+        public ProductGroup()
+        {
+            Products = new List<Product>();
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,11 +10,38 @@ using FoxtrotProject.Model;
 
 namespace FoxtrotProject.ViewModel
 {
-    abstract class ViewModel : INotifyPropertyChanged
+    abstract class ViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         protected static Database db = new Database();
 
         protected static PropertyTranslator Translator = new PropertyTranslator();
+
+        #region ErrorHandling
+        public string FirstErrorMessage
+        {
+            get
+            {
+                PropertyInfo[] properties = GetType().GetProperties();
+                foreach (PropertyInfo p in properties)
+                {
+                    if (this[p.Name] != null)
+                        return this[p.Name];
+                }
+
+                return null;
+            }
+        }
+
+        public virtual string Error
+        {
+            get { return null; }
+        }
+
+        public virtual string this[string propertyName]
+        {
+            get { return null; }
+        }
+        #endregion
 
         protected string ValidateNumericParse<T>(string value, string propertyName, out T numericValue) where T : IComparable
         {

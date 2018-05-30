@@ -341,7 +341,7 @@ namespace FoxtrotProject.Model
                 command.Parameters.AddWithValue("@status", contract.Status);
                 command.Parameters.AddWithValue("@subscription", contract.Subscription);
                 command.Parameters.AddWithValue("@contractid", contract.ID);
-                command.Parameters.AddWithValue("@productGroups", contract.ContractGroups);
+                command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
                 command.Parameters.AddWithValue("@getDiscount", contract.Discount);
                 command.ExecuteNonQuery();
 
@@ -370,7 +370,7 @@ namespace FoxtrotProject.Model
                 command.Parameters.AddWithValue("@status", contract.Status);
                 command.Parameters.AddWithValue("@subscription", contract.Subscription);
                 command.Parameters.AddWithValue("@contractid", contract.ID);
-                command.Parameters.AddWithValue("@productGroups", contract.ContractGroups);
+                command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
                command.Parameters.AddWithValue("@getDiscount", contract.Discount);
 
                 command.ExecuteNonQuery();
@@ -431,7 +431,7 @@ namespace FoxtrotProject.Model
                     Subscription subscription = new Subscription();
 
                     contract.StartDate = (DateTime)sqlDataReader["StartDate"];
-                    contract.Status = (string)sqlDataReader["Status"];
+                    contract.Status = (bool)sqlDataReader["Status"];
                     contract.Discount = (int)sqlDataReader["Discount"];
                     subscription.Status = (bool)sqlDataReader["SubscriptionStatus"];
                     contract.ID = (int)sqlDataReader["ContractID"];
