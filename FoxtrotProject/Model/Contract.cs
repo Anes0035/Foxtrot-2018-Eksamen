@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +18,6 @@ namespace FoxtrotProject.Model
 
         public bool Status { get; set; }
 
-        public Contract SelectedContract {get;set;}
-
         public List<ProductGroup> ProductGroups { get; set; }
         
         public Subscription Subscription { get; set; }
@@ -30,33 +29,22 @@ namespace FoxtrotProject.Model
             Subscription = new Subscription();
             ProductGroups = new List<ProductGroup>();
         }
-        public Contract(int iD)
-        {
-            ID = iD;
-        }
 
         public Contract Clone()
         {
-            return new Contract() { ID = ID, Period = Period, Status = Status, Subscription = Subscription, Discount = Discount, StartDate = StartDate};
+            return new Contract() { ID = ID, Period = Period, Status = Status, ProductGroups = ProductGroups, Subscription = Subscription, Discount = Discount, StartDate = StartDate};
         }
 
-        public Contract(List<Contract> contracts, string name, string description, double price, string category)
+        public void AutoAssignId(ObservableCollection<Contract> contracts)
         {
-            AutoAssignId(contracts);
-            ID = ID;
-            Period = Period;
-            Status = Status;
-            Subscription = Subscription;
-            Discount = Discount;
-            StartDate = StartDate;
-        }
-
-        private void AutoAssignId(List<Contract> contracts)
-        {
-            for (int i = 1; contracts.Where(p => p.ID == i).Any(); i++)
+            int counter = 0;
+            do
             {
-                ID = i;
+                counter++;
+                ID = counter;
             }
+            while (contracts.Where(p => p.ID == counter).Any());
+
         }
 
     }

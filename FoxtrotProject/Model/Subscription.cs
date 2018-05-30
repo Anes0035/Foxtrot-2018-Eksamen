@@ -9,5 +9,13 @@ namespace FoxtrotProject.Model
     class Subscription
     {
         public bool Status { get; set; }
+
+        public override string ToString()
+        {
+            if (Status == true)
+                return "Aktiv";
+            else
+                return "Inaktiv";
+        }
     }
 }

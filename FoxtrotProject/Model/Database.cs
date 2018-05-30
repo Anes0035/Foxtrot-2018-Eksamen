@@ -324,7 +324,6 @@ namespace FoxtrotProject.Model
         #region Contract
         public bool AddContract(Contract contract)
         {
-
             SqlCommand command = new SqlCommand(t, connection);
             command.Parameters.AddWithValue("@contractid", contract.ID);
             OpenConnection();
@@ -333,16 +332,15 @@ namespace FoxtrotProject.Model
             if (records == 0)
             {
                 command.Parameters.Clear();
-                command = new SqlCommand(@"Insert INTO Contract([ContractID], [StartDate], [Period], [Price], [Status], [Subscription], [ProductGroups], [GetDiscount])  
-                                                                Values(@contractid, @startDate, @period, @status, @subscription, @ProductGroups, @getDiscount))", connection);
+                command = new SqlCommand(@"Insert INTO Contract([ContractID], [StartDate], [Period], [Status], [SubscriptionStatus], [Discount])  
+                                                                Values(@contractid, @startDate, @period, @status, @subscription, @discount)", connection);
 
                 command.Parameters.AddWithValue("@startDate", contract.StartDate);
-                command.Parameters.AddWithValue("@Period", contract.Period);
+                command.Parameters.AddWithValue("@period", contract.Period);
                 command.Parameters.AddWithValue("@status", contract.Status);
-                command.Parameters.AddWithValue("@subscription", contract.Subscription);
+                command.Parameters.AddWithValue("@subscription", contract.Subscription.Status);
                 command.Parameters.AddWithValue("@contractid", contract.ID);
-                command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
-                command.Parameters.AddWithValue("@getDiscount", contract.Discount);
+                command.Parameters.AddWithValue("@discount", contract.Discount);
                 command.ExecuteNonQuery();
 
                 CloseConnection();
@@ -398,10 +396,9 @@ namespace FoxtrotProject.Model
             try
             {
                 OpenConnection();
-                SqlCommand command = new SqlCommand("DELETE FROM [dbo].[Contract] WHERE IdContract = @idContract", connection);
+                SqlCommand command = new SqlCommand("DELETE FROM Contract WHERE ContractID = @contractID", connection);
+                command.Parameters.Add(new SqlParameter("@contractID", contract.ID));
                 command.ExecuteNonQuery();
-                CloseConnection();
-
             }
             catch (Exception)
             {
@@ -428,12 +425,11 @@ namespace FoxtrotProject.Model
                 while (sqlDataReader.Read())
                 {
                     Contract contract = new Contract();
-                    Subscription subscription = new Subscription();
 
                     contract.StartDate = (DateTime)sqlDataReader["StartDate"];
                     contract.Status = (bool)sqlDataReader["Status"];
                     contract.Discount = (int)sqlDataReader["Discount"];
-                    subscription.Status = (bool)sqlDataReader["SubscriptionStatus"];
+                    contract.Subscription.Status = (bool)sqlDataReader["SubscriptionStatus"];
                     contract.ID = (int)sqlDataReader["ContractID"];
                     contracts.Add(contract);
 
