@@ -10,6 +10,7 @@ namespace FoxtrotProject.Model
 {
     class Product
     {
+        //Authors: Elena And Christian
         public int ID { get; set; }
 
         public string Name { get; set; }

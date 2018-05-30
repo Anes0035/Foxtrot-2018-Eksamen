@@ -43,6 +43,7 @@ namespace FoxtrotProject.ViewModel
         }
         #endregion
 
+        //Author Anes and Elena
         protected string ValidateNumericParse<T>(string value, string propertyName, out T numericValue) where T : IComparable
         {
             var typeConverter = TypeDescriptor.GetConverter(typeof(T));
@@ -58,7 +59,7 @@ namespace FoxtrotProject.ViewModel
             }
 
         }
-
+        //Author Christian
         protected string PropertyIsEmptyErrorMessage(string propertyName)
         {
             return string.Format("{0} feltet er tomt", Translator.GetTranslation(propertyName));

@@ -11,12 +11,13 @@ using System.Windows.Input;
 
 namespace FoxtrotProject.ViewModel
 {
+    //Author Christian
     enum Activity
     {
         Aktiv,
         Inaktiv
     }
-
+    //Author Christian and Kasper
     class ContractViewModel : ViewModel
     {
 
@@ -139,7 +140,7 @@ namespace FoxtrotProject.ViewModel
         }
 
 
-
+        //Author Christian and Kasper
         public ContractViewModel()
         {
             contract = new Contract();
@@ -208,7 +209,7 @@ namespace FoxtrotProject.ViewModel
 
         #region AddProductGroupCommand
         public ICommand AddProductGroupCommand { get; set; }
-
+        //Author Christian
         public void AddProductGroupExecute(object parameter)
         {
             ProductGroups.Add(CbxSelectedProductGroup);
@@ -216,7 +217,7 @@ namespace FoxtrotProject.ViewModel
             NotifyPropertyChanged("ShownProductGroups");
             NotifyPropertyChanged("ProductGroups");
         }
-
+        //Author Christian 
         public bool AddProductGroupCanExecute(object parameter)
         {
             if (cbxSelectedProductGroup != null)
@@ -229,7 +230,7 @@ namespace FoxtrotProject.ViewModel
         #region RemoveProductGroupCommand
 
         public ICommand RemoveProductGroupCommand { get; set; }
-
+        //Author Christian
         public void RemoveProductGroupExecute(object parameter)
         {
             ShownProductGroups.Add(DtgSelectedProductGroup);
@@ -249,9 +250,9 @@ namespace FoxtrotProject.ViewModel
         #endregion
 
         #region ClearContractCommand
-
+        //Author Christian
         public ICommand ClearContractCommand { get; set; }
-
+        //Author Christian 
         public void ClearContractExecute(object parameter)
         {
             ID = 0;
@@ -270,7 +271,7 @@ namespace FoxtrotProject.ViewModel
 
         #region SaveContractCommand
         public ICommand SaveContractCommand { get; set; }
-
+        //Author Christian and Kasper
         public void SaveContractExecute(object parameter)
         {
             Contracts.Add(contract.Clone());
@@ -305,6 +306,7 @@ namespace FoxtrotProject.ViewModel
             }
             */
         }
+        //Author Christian and Kasper
         public bool SaveContractCanExecute(object paramter)
         {
             if (FirstErrorMessage != null)
@@ -316,7 +318,7 @@ namespace FoxtrotProject.ViewModel
 
         #region RemoveContractCommand
         public ICommand RemoveContractCommand { get; set; }
-
+        //Author Kasper
         public void RemoveContractExecute(object parameter)
         {
             /*
@@ -328,6 +330,7 @@ namespace FoxtrotProject.ViewModel
             MessageBox.Show("Kontrakt Slettet");
             */
         }
+        //Author Kasper and Anes
         public bool RemoveContractCanExecute(object paramter)
         {
             return true;
@@ -337,6 +340,7 @@ namespace FoxtrotProject.ViewModel
         #region UpdateContractCommand
         public ICommand UpdateContractCommand { get; set; }
 
+        // Author Kasper and Anes
         public void UpdateContractExecute(object parameter)
         {
             contract.ID = selectedContract.ID;
@@ -347,6 +351,7 @@ namespace FoxtrotProject.ViewModel
             contract.ProductGroups = selectedContract.ProductGroups;
             contract.Discount = selectedContract.Discount;
         }
+        //Author Anes and Kasper
         public bool UpdateContractCanExecute(object paramter)
         {
             return true;

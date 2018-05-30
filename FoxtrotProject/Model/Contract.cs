@@ -8,6 +8,7 @@ namespace FoxtrotProject.Model
 {
     class Contract
     {
+        //author Kasper and Christian
 
         public int ID { get; set; }
 

@@ -8,6 +8,7 @@ namespace FoxtrotProject.Model
 {
     class ProductGroup
     {
+        // Author Christian
         public string Name { get; set; }
 
         public List<Product> Products { get; set; }
