@@ -10,6 +10,7 @@ namespace FoxtrotProject.Model
     class Contract
     {
         //author Kasper and Christian
+        public Customer Customer { get; set; }
 
         public int ID { get; set; }
 
@@ -25,15 +26,19 @@ namespace FoxtrotProject.Model
 
         public int Discount { get; set; }
 
-        public Contract()
+        public Contract(bool createNewInstances)
         {
-            Subscription = new Subscription();
-            ProductGroups = new List<ProductGroup>();
+            if (createNewInstances)
+            {
+                Subscription = new Subscription();
+                ProductGroups = new List<ProductGroup>();
+            }
         }
+
 
         public Contract Clone()
         {
-            return new Contract() { ID = ID, Period = Period, Status = Status, ProductGroups = ProductGroups, Subscription = Subscription, Discount = Discount, StartDate = StartDate};
+            return new Contract(false) { ID = ID, Period = Period, Status = Status, ProductGroups = ProductGroups, Subscription = Subscription, Discount = Discount, StartDate = StartDate};
         }
 
         public void AutoAssignId(ObservableCollection<Contract> contracts)
