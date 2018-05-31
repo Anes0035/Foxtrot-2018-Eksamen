@@ -175,6 +175,7 @@ namespace FoxtrotProject.ViewModel
         }
         #endregion
 
+        //Author Anes,Kasper,Elena and Christian
         public CustomerViewModel()
         {
             customerManager = new CustomerManager();
@@ -195,6 +196,7 @@ namespace FoxtrotProject.ViewModel
 
         #region SaveCustomerCommand
         public ICommand SaveCustomerCommand { get; set; }
+        // Author Kasper and Christian
         public void SaveCustomerExecute(object parameter)
         {
             string message;
@@ -232,7 +234,8 @@ namespace FoxtrotProject.ViewModel
 
 
         }
-        // Checking if every value is filled out correctly
+
+        // Author: Christian and Kasper Checking if every value is filled out correctly
         public bool SaveCustomerCanExecute(object parameter)
         {
             if (FirstErrorMessage != null)
@@ -248,7 +251,7 @@ namespace FoxtrotProject.ViewModel
           public ICommand RemoveCustomerCommand { get; set; }
 
 
-        // Removing customer from Collection and Database
+        // Author: Kasper and Christian Removing customer from Collection and Database
         public void RemoveCustomerExecute(object parameter)
         {
             string message = "Kunde Slettet!";
@@ -259,7 +262,8 @@ namespace FoxtrotProject.ViewModel
             db.LogAdd(message);
             MessageBox.Show("Kunde Slettet");
         }
-
+    
+   // Author Kasper
         public bool RemoveCustomerCanExecute(object parameter)
         {
             if (selectedcustomer == null)
@@ -281,7 +285,7 @@ namespace FoxtrotProject.ViewModel
 
         // Save customer to ObservableCollection and Database.
 
-      
+      //Author Kasper
         public void EditCustomerExecute(object parameter)
         {
         
@@ -312,6 +316,7 @@ namespace FoxtrotProject.ViewModel
         #region  ClearCustomerCommand
 
         public ICommand ClearCustomerCommand { get; set; }
+        // Author Kasper and Elena
         public void ClearCustomerExecute(object parameter)
         {
             CVR = "";
@@ -321,6 +326,7 @@ namespace FoxtrotProject.ViewModel
             ContactPerson = "";
             GrossIncome = "";
         }
+        // Author Kasper and Elena
         public bool ClearCustomerCanExecute(object parameter)
         {
             return true;
@@ -329,9 +335,10 @@ namespace FoxtrotProject.ViewModel
         #endregion
 
         #region  SearchCustomerCommand
-
+        // Author Elena
         public ICommand SearchCustomerCommand { get; set; }
         public string SearchCustomer { get; set; }
+        // Author Elena
         public void SearchCustomerExecute(object parameter)
         {
             try
@@ -362,6 +369,7 @@ namespace FoxtrotProject.ViewModel
 
 
         }
+        // Author Elena
         public bool SearchCustomerCanExecute(object parameter)
         {
             return true;

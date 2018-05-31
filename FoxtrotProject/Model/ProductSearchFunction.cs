@@ -9,6 +9,7 @@ namespace FoxtrotProject.Model
 {
     class ProductSearchFunction
     {
+        //Author Anes
         public ObservableCollection<Product> SearchProductName(ObservableCollection<Product> products, string searchString)
         {
             return (ObservableCollection<Product>) products.Where(p => p.Name.Contains(searchString));

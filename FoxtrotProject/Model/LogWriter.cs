@@ -8,6 +8,7 @@ using System.Windows.Input;
 
 namespace FoxtrotProject.Model
 {
+    //Author Christian
     class LogWriter
     {
         public DateTime dt = DateTime.Now;

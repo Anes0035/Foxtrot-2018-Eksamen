@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace FoxtrotProject.Model
 {
+    //Author Elena
     class CustomerManager
     {
         public List<Customer> customers { get; set; }

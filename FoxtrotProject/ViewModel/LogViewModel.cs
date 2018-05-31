@@ -11,6 +11,7 @@ using System.Windows.Input;
 
 namespace FoxtrotProject.ViewModel
 {
+    // Author Kasper
     class LogViewModel : ViewModel, INotifyPropertyChanged
     {
         public ICommand ShowLogCommand { get; set; }
@@ -53,7 +54,7 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-
+        // Author Kasper
         public LogViewModel()
         {
             logManager = new LogManager();
@@ -64,15 +65,6 @@ namespace FoxtrotProject.ViewModel
             logs = new ObservableCollection<LogReader>(logManager.logs);
 
         }
-        //public void ShowLogExecute(object parameter)
-        //{
-        //    Logs = db.Logs();
-        //    MessageBox.Show("Log hentet!");
-        //}
-
-        //public bool ShowLogCanExecute(object parameter)
-        //{
-        //    return true;
-        //}
+   
     }
 }

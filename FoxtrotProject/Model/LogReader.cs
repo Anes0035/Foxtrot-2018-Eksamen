@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace FoxtrotProject.Model
 {
+    // Author Kasper,Elena and Christian
     class LogReader
     {
         public DateTime Dt { get; set; }

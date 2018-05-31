@@ -8,6 +8,7 @@ namespace FoxtrotProject.Model
 {
     class Statistic
     {
+        //Author Christian and Anes
         private Dictionary<ProductGroup, int> ProductGroupCount;
 
         private ContractManager contractManager;

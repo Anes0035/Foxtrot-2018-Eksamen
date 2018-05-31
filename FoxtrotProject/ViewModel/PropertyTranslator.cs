@@ -8,6 +8,7 @@ namespace FoxtrotProject.ViewModel
 {
     class PropertyTranslator
     {
+        // Author Christian
         private Dictionary<string, string> Translations;
 
         public PropertyTranslator()

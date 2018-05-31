@@ -14,6 +14,7 @@ namespace FoxtrotProject.Model
 {
     class Database
     {
+        //Author Kasper
         private SqlConnection connection = new SqlConnection("Data Source =.; Initial Catalog = Foxtrot_SQLProject; Integrated Security = True");
 
         public void OpenConnection()
@@ -35,7 +36,7 @@ namespace FoxtrotProject.Model
         readonly string t = @"SELECT COUNT(*) FROM Contract WHERE ContractID = @contractid";
         readonly string r = @"SELECT COUNT(*) FROM Catalog WHERE ProductName1 = @name";
 
-        /// Method for Adding a customer
+        /// Author Kasper //Method for Adding a customer
         #region Customer
         public bool AddCustomer(Customer customer)
         {
@@ -173,7 +174,7 @@ namespace FoxtrotProject.Model
 
         #endregion
         #region Product
-
+        //Author Elena and Anes
         public bool AddProduct(Product product)
         {
 
@@ -210,7 +211,7 @@ namespace FoxtrotProject.Model
 
             }
         }
-
+        //Author Elena and Kasper
         public void EditProduct(Product product)
         {
 
@@ -242,7 +243,7 @@ namespace FoxtrotProject.Model
                 CloseConnection();
             }
         }
-
+        //Author Kasper
         public void RemoveProduct(Product product)
         {
             try
@@ -267,6 +268,7 @@ namespace FoxtrotProject.Model
             }
         }
 
+        //Author Kasper and Elena
         public List<Product> Products()
         {
             List<Product> _products = new List<Product>();
@@ -300,7 +302,7 @@ namespace FoxtrotProject.Model
                 CloseConnection();
             }
         }
-
+        // Author Christian
         public ObservableCollection<ProductGroup> GetProductGroups()
         {
             ObservableCollection<ProductGroup> productGroups = new ObservableCollection<ProductGroup>();
@@ -322,6 +324,7 @@ namespace FoxtrotProject.Model
 
 
         #region Contract
+        // Author Kasper
         public bool AddContract(Contract contract)
         {
             SqlCommand command = new SqlCommand(t, connection);
@@ -357,6 +360,7 @@ namespace FoxtrotProject.Model
             }
         }
 
+        // Author Kasper
         public bool UpdateContract(Contract contract)
         {
             OpenConnection();
@@ -390,7 +394,7 @@ namespace FoxtrotProject.Model
         }
 
 
-        //CVR --- customer.CVR ?!?
+        // Author Kasper
         public void RemoveContract(Contract contract)
         {
             try
@@ -412,6 +416,7 @@ namespace FoxtrotProject.Model
             }
         }
 
+        // Author Kasper and Christian
         public ObservableCollection<Contract> Contracts()
         {
             ObservableCollection<Contract> contracts = new ObservableCollection<Contract>();
@@ -448,7 +453,7 @@ namespace FoxtrotProject.Model
         }
 
         #endregion
-
+        // Author Kasper
         public void LogAdd(string message)
         {
             OpenConnection();
@@ -473,6 +478,7 @@ namespace FoxtrotProject.Model
             }
 
         }
+        //Author Kasper
         public List<LogReader> Logs()
         {
             List<LogReader> logs = new List<LogReader>();

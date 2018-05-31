@@ -22,6 +22,8 @@ namespace FoxtrotProject
     /// </summary>
     public partial class MainWindow : Window
     {
+        //Author of xaml code: Mainly Christian - Although all others have contributed to the xaml code to some extend.
+
         CustomerViewModel customerViewModel;
         ProductViewModel productViewModel;
         ContractViewModel contractViewModel;

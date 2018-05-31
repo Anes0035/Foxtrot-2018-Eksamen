@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace FoxtrotProject.Model
 {
+
+    // Author Christian and Elena
     class ContractEventArgs : EventArgs
     {
         public Contract contract { get; set; }

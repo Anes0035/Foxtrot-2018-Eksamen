@@ -110,6 +110,7 @@ namespace FoxtrotProject.ViewModel
 
         //private Database db = new Database();
 
+        // Author Elena and Kasper
         public ProductViewModel()
         {
             productManager = new ProductManager();
@@ -129,6 +130,7 @@ namespace FoxtrotProject.ViewModel
             ClearProductCommand = new WpfCommand(ClearProductExecute, ClearProductCanExecute);
         }
         #region IDataErrorInfo
+        // Author Elena
         public string FirstErrorMessage
         {
             get
@@ -143,12 +145,12 @@ namespace FoxtrotProject.ViewModel
                 return null;
             }
         }
-
+        // Author Elena
         public string Error
         {
             get { return null; }
         }
-
+        // Author Elena
         public string this[string propertyName]
         {
             get
@@ -202,7 +204,7 @@ namespace FoxtrotProject.ViewModel
 
 
         public ICommand SaveProductCommand { get; set; }
-
+        // Author Elena and Kasper
         public void SaveProductExecute(object parameter)
         {
             if (selectedproduct == null)
@@ -235,7 +237,7 @@ namespace FoxtrotProject.ViewModel
                 currentProduct.SelectedProduct = null;
             }
         }
-
+        // Author Elena
         public bool SaveProductCanExecute(object parameter)
         {
             if (FirstErrorMessage != null)
@@ -250,7 +252,7 @@ namespace FoxtrotProject.ViewModel
 
         #region RemoveProductExecute
         public ICommand RemoveProductCommand { get; set; }
-
+        // Author Elena and Kasper
         public void RemoveProductExecute(object parameter)
         {
             message = "Produkt slettet";
@@ -278,7 +280,7 @@ namespace FoxtrotProject.ViewModel
 
         #region EditProductExecute
         public ICommand EditProductCommand { get; set; }
-
+        // Author Elena and Kasper
         public void EditProductExecute(object parameter)
         {
 
@@ -289,6 +291,7 @@ namespace FoxtrotProject.ViewModel
             Category = selectedproduct.Category;
 
         }
+        // Author Elena 
         public bool EditProductCanExecute(object parameter)
         {
 
@@ -301,11 +304,11 @@ namespace FoxtrotProject.ViewModel
 
         #region SearchProductCommand
         public ICommand SearchProductCommand { get; set; }
-
+        // Author Elena 
         public ObservableCollection<string> SearchOptions { get; set; }
 
         public string SelectedSearchOption { get; set; }
-
+        // Author Elena 
         private void InitializeSearchOptions()
         {
             SearchOptions = new ObservableCollection<string>();
@@ -315,6 +318,7 @@ namespace FoxtrotProject.ViewModel
         }
 
         public string SearchProduct { get; set; }
+        // Author Elena 
         public void SearchProductExecute(object parameter)
         {
             try
@@ -358,6 +362,7 @@ namespace FoxtrotProject.ViewModel
                 MessageBox.Show("Error" + ex);
             }
         }
+        // Author Elena 
         public bool SearchProductCanExecute(object parameter)
         {
             return true;
