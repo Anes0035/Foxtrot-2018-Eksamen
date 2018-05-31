@@ -34,7 +34,7 @@ namespace FoxtrotProject.ViewModel
                 NotifyPropertyChanged();
             }
         }
-        public DateTime Dt
+        public string Dt
         {
             get { return logReader.Dt ; }
             set

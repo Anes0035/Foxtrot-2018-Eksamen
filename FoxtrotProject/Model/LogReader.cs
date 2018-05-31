@@ -11,8 +11,9 @@ namespace FoxtrotProject.Model
     // Author Kasper,Elena and Christian
     class LogReader
     {
-        public DateTime Dt { get; set; }
+        public string dt = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
 
+        public string Dt { get; set; }
         public string Message { get; set; }
 
         private StreamReader reader;
@@ -37,7 +38,7 @@ namespace FoxtrotProject.Model
         }
 
 
-        public LogReader(List<LogReader> logs, DateTimeOffset dt, string message)
+        public LogReader(List<LogReader> logs, string dt, string message)
         {
 
 

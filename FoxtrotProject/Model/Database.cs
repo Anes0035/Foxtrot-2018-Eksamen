@@ -461,12 +461,12 @@ namespace FoxtrotProject.Model
             OpenConnection();
             try
             {
-
+                LogReader logReader = new LogReader();
                 LogWriter logwriter = new LogWriter();
                 SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
 		values (@logtime, @logmessage)", connection);
 
-                command.Parameters.AddWithValue("@logtime", logwriter.dt);
+                command.Parameters.AddWithValue("@logtime", logReader.dt);
                 command.Parameters.AddWithValue("@logmessage", message);
                 command.ExecuteNonQuery();
             }
@@ -487,7 +487,7 @@ namespace FoxtrotProject.Model
             try
             {
                 OpenConnection();
-                LogWriter logwriter = new LogWriter();
+
 
                 SqlCommand command = new SqlCommand("Select * FROM Log", connection);
                 SqlDataReader sqlDataReader = command.ExecuteReader();
@@ -496,7 +496,7 @@ namespace FoxtrotProject.Model
                 {
                     LogReader logReader = new LogReader();
 
-                    logReader.Dt = (DateTime)sqlDataReader["LogTime"];
+                    logReader.Dt = (string)sqlDataReader["LogTime"];
                     logReader.Message = (string)sqlDataReader["LogMessage"];
 
                     logs.Add(logReader);
@@ -515,6 +515,7 @@ namespace FoxtrotProject.Model
             }
 
         }
+
     }
 }
 
