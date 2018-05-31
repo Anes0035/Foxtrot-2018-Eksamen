@@ -72,94 +72,65 @@
             </TabItem>
 
             <TabItem Header="Aftaler">
-                <TabControl TabStripPlacement="Left" Margin="0,-3,0,3">
-                    <TabItem Header="Vis" Margin="0,25,0,-40">
-                        <Grid DataContext="{Binding contractViewModel}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="350"/>
-                                <ColumnDefinition Width="130"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox Grid.Row="0" Grid.Column="0" Text="" Foreground="#55000000" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,80,0" Width="250" Height="25"/>
-                            <Button Grid.Row="0" Grid.Column="0" Content="Søg" HorizontalAlignment="Right" Margin="0,5,20,0" VerticalAlignment="Top"  Height="25" Width="40"/>
+                <Grid DataContext="{Binding contractViewModel}" Background="Azure">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="135"/>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-                            <Button Content="Slet" HorizontalAlignment="Left" Margin="235,90,0,0" Grid.Row="6" VerticalAlignment="Top" Height="25" Width="75"/>
-                        </Grid>
-                    </TabItem>
+                    <Label Grid.Row="1" Content="StartDate: " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
+                    <DatePicker x:Name="dpStartDate" SelectedDate="{Binding StartDate, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Height="24" Width="102"/>
+                    <Label Content="{Binding ElementName=dpStartDate, Path=(Validation.Errors)/ErrorContent}" Grid.Column="2" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="1" VerticalAlignment="Top" Height="27"/>
 
-                    <TabItem Header="Opret" Margin="0,50,0,-65" Height="35" VerticalAlignment="Top">
-                        <Grid DataContext="{Binding contractViewModel}" Background="Azure">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="50"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="130"/>
-                                <ColumnDefinition Width="135"/>
-                                <ColumnDefinition Width="250"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
+                    <Label Grid.Row="2" Content="Periode(i måneder):" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="115"/>
+                    <TextBox Text="{Binding Period, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" x:Name="txtPeriod" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
+                    <Label Content="{Binding ElementName=txtPeriod, Path=(Validation.Errors)/ErrorContent}" Grid.Column="2" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="2" VerticalAlignment="Top" Height="27"/>
 
-                            <Label Grid.Row="1" Content="StartDate: " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                            <DatePicker x:Name="dpStartDate" SelectedDate="{Binding StartDate, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Height="24" Width="102"/>
-                            <Label Content="{Binding ElementName=dpStartDate, Path=(Validation.Errors)/ErrorContent}" Grid.Column="2" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="1" VerticalAlignment="Top" Height="27"/>
+                    <Label Grid.Row="3" Content="Abonnement:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
+                    <CheckBox IsChecked="{Binding Subscription, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="15" Width="16"/>
 
-                            <Label Grid.Row="2" Content="Periode(i måneder):" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="115"/>
-                            <TextBox Text="{Binding Period, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" x:Name="txtPeriod" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Height="25" Width="100"/>
-                            <Label Content="{Binding ElementName=txtPeriod, Path=(Validation.Errors)/ErrorContent}" Grid.Column="2" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="2" VerticalAlignment="Top" Height="27"/>
-
-                            <Label Grid.Row="3" Content="Abonnement:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="25" Width="100"/>
-                            <CheckBox IsChecked="{Binding Subscription, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="15" Width="16"/>
-
-                            <Label Grid.Row="4" Content="Produkt grupper:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="27" Width="100"/>
-                            <ComboBox  x:Name="cbxProductGroup" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ShownProductGroups}" SelectedItem="{Binding CbxSelectedProductGroup, UpdateSourceTrigger=PropertyChanged}"
+                    <Label Grid.Row="4" Content="Produkt grupper:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" Height="27" Width="100"/>
+                    <ComboBox  x:Name="cbxProductGroup" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ShownProductGroups}" SelectedItem="{Binding CbxSelectedProductGroup, UpdateSourceTrigger=PropertyChanged}"
                                        IsEditable="True" IsTextSearchEnabled="True" Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="22"/>
 
-                            <DataGrid x:Name="lstProductGroups" ItemsSource="{Binding ProductGroups, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding DtgSelectedProductGroup}" IsReadOnly="True"
+                    <DataGrid x:Name="lstProductGroups" ItemsSource="{Binding ProductGroups, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding DtgSelectedProductGroup}" IsReadOnly="True"
                                       AutoGenerateColumns="False" Grid.Column="1" Grid.Row="5" Margin="0,5,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" 
                                       Height="160" Width="115">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Navn" Width="*" Binding="{Binding Name}"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                            <Label Content="{Binding ElementName=lstProductGroups, Path=(Validation.Errors)/ErrorContent}" Grid.Column="2" HorizontalAlignment="Left" Margin="90,5,0,0" Grid.Row="4" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="27"/>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Navn" Width="*" Binding="{Binding Name}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Label Content="{Binding ElementName=lstProductGroups, Path=(Validation.Errors)/ErrorContent}" Grid.Column="2" HorizontalAlignment="Left" Margin="90,5,0,0" Grid.Row="4" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="27"/>
 
-                            <Button Grid.Row="5" Grid.Column="2" Content="Gem" Command="{Binding SaveContractCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="95,175,0,0" Height="25" Width="75"/>
-                            <Button Content="Rens" Command="{Binding ClearContractCommand}" Grid.Column="2" HorizontalAlignment="Left" Margin="5,175,0,0" Grid.Row="5" VerticalAlignment="Top" Height="25" Width="75"/>
-                            <Button Content="Fjern" Command="{Binding RemoveProductGroupCommand}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,175,10,0" Grid.Row="5" VerticalAlignment="Top" Height="25" Width="75"/>
-                            <Button Content="Tilføj" Command="{Binding AddProductGroupCommand}" Grid.Column="2" HorizontalAlignment="Left" Margin="5,5,0,0" Grid.Row="4" VerticalAlignment="Top" Height="25" Width="75"/>
+                    <Button Grid.Row="5" Grid.Column="2" Content="Gem" Command="{Binding SaveContractCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="95,175,0,0" Height="25" Width="75"/>
+                    <Button Content="Rens" Command="{Binding ClearContractCommand}" Grid.Column="2" HorizontalAlignment="Left" Margin="5,175,0,0" Grid.Row="5" VerticalAlignment="Top" Height="25" Width="75"/>
+                    <Button Content="Fjern" Command="{Binding RemoveProductGroupCommand}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,175,10,0" Grid.Row="5" VerticalAlignment="Top" Height="25" Width="75"/>
+                    <Button Content="Tilføj" Command="{Binding AddProductGroupCommand}" Grid.Column="2" HorizontalAlignment="Left" Margin="5,5,0,0" Grid.Row="4" VerticalAlignment="Top" Height="25" Width="75"/>
 
-                            <DataGrid x:Name="lstContracts" ItemsSource="{Binding Contracts}" SelectedItem="{Binding SelectedContract, UpdateSourceTrigger=PropertyChanged}" Grid.Column="4"
+                    <DataGrid x:Name="lstContracts" ItemsSource="{Binding Contracts}" SelectedItem="{Binding SelectedContract, UpdateSourceTrigger=PropertyChanged}" Grid.Column="4"
                                       AutoGenerateColumns="False" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="1" Margin="0,5,10,0" Height="250" Width="300" 
                                       Grid.RowSpan="5">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding ID}"/>
-                                    <DataGridTextColumn Header="Start Dato" Width="Auto" Binding="{Binding StartDate}"/>
-                                    <DataGridTextColumn Header="Periode" Width="Auto" Binding="{Binding Period}"/>
-                                    <DataGridTextColumn Header="Status" Width="Auto" Binding="{Binding Status}"/>
-                                    <DataGridTextColumn Header="Subscription" Width="Auto" Binding="{Binding Subscription}"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                            <Button Content="Vis" Command="{Binding UpdateContractCommand}" Grid.Column="3" HorizontalAlignment="right" Margin="0,110,10,0" Grid.Row="5" VerticalAlignment="Top" Height="25" Width="75"/>
-                            <Button Content="Slet" Command="{Binding RemoveContractCommand}" Grid.Column="3" HorizontalAlignment="right" Margin="0,110,100,0" Grid.Row="5" VerticalAlignment="Top" Height="25" Width="75"/>
-
-                        </Grid>
-                    </TabItem>
-                    <DataGrid Height="100" Width="100"/>
-                </TabControl>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="Start Dato" Width="Auto" Binding="{Binding StartDate}"/>
+                            <DataGridTextColumn Header="Periode" Width="Auto" Binding="{Binding Period}"/>
+                            <DataGridTextColumn Header="Status" Width="Auto" Binding="{Binding Status}"/>
+                            <DataGridTextColumn Header="Subscription" Width="Auto" Binding="{Binding Subscription}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Vis" Command="{Binding UpdateContractCommand}" Grid.Column="3" HorizontalAlignment="right" Margin="0,110,10,0" Grid.Row="5" VerticalAlignment="Top" Height="25" Width="75"/>
+                    <Button Content="Slet" Command="{Binding RemoveContractCommand}" Grid.Column="3" HorizontalAlignment="right" Margin="0,110,100,0" Grid.Row="5" VerticalAlignment="Top" Height="25" Width="75"/>
+                </Grid>
             </TabItem>
 
 
