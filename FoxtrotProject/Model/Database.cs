@@ -335,8 +335,8 @@ namespace FoxtrotProject.Model
             if (records == 0)
             {
                 command.Parameters.Clear();
-                command = new SqlCommand(@"Insert INTO Contract([ContractID], [StartDate], [Period], [Status], [SubscriptionStatus], [Discount])  
-                                                                Values(@contractid, @startDate, @period, @status, @subscription, @discount)", connection);
+                command = new SqlCommand(@"Insert INTO Contract([ContractID], [StartDate], [Period], [Status], [SubscriptionStatus], [Discount], CustomerCVR)  
+                                                                Values(@contractid, @startDate, @period, @status, @subscription, @discount, @customerCVR)", connection);
 
                 command.Parameters.AddWithValue("@startDate", contract.StartDate);
                 command.Parameters.AddWithValue("@period", contract.Period);
@@ -344,6 +344,7 @@ namespace FoxtrotProject.Model
                 command.Parameters.AddWithValue("@subscription", contract.Subscription.Status);
                 command.Parameters.AddWithValue("@contractid", contract.ID);
                 command.Parameters.AddWithValue("@discount", contract.Discount);
+                command.Parameters.AddWithValue("@customerCVR", contract.Customer.CVR);
                 command.ExecuteNonQuery();
 
                 CloseConnection();
@@ -429,10 +430,11 @@ namespace FoxtrotProject.Model
 
                 while (sqlDataReader.Read())
                 {
-                    Contract contract = new Contract();
+                    Contract contract = new Contract(true);
 
                     contract.StartDate = (DateTime)sqlDataReader["StartDate"];
                     contract.Status = (bool)sqlDataReader["Status"];
+                    contract.Period = (int)sqlDataReader["Period"];
                     contract.Discount = (int)sqlDataReader["Discount"];
                     contract.Subscription.Status = (bool)sqlDataReader["SubscriptionStatus"];
                     contract.ID = (int)sqlDataReader["ContractID"];
