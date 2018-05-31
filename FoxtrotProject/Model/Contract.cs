@@ -38,7 +38,7 @@ namespace FoxtrotProject.Model
 
         public Contract Clone()
         {
-            return new Contract(false) { ID = ID, Period = Period, Status = Status, ProductGroups = ProductGroups, Subscription = Subscription, Discount = Discount, StartDate = StartDate};
+            return new Contract(false) { ID = ID, Customer = Customer, Period = Period, Status = Status, ProductGroups = ProductGroups, Subscription = Subscription, Discount = Discount, StartDate = StartDate};
         }
 
         public void AutoAssignId(ObservableCollection<Contract> contracts)

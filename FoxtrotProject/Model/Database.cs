@@ -345,6 +345,10 @@ namespace FoxtrotProject.Model
                 command.Parameters.AddWithValue("@contractid", contract.ID);
                 command.Parameters.AddWithValue("@discount", contract.Discount);
                 command.Parameters.AddWithValue("@customerCVR", contract.Customer.CVR);
+                foreach(ProductGroup pg in contract.ProductGroups)
+                {
+                    AddProductGroupForContract(contract.ID, pg.Name);
+                }
                 command.ExecuteNonQuery();
 
                 CloseConnection();
@@ -361,20 +365,36 @@ namespace FoxtrotProject.Model
             }
         }
 
+        private void AddProductGroupForContract(int contractID, string productGroupName)
+        {
+            try
+            {
+                SqlCommand command = new SqlCommand("INSERT INTO Contract_ProductGroup(ContractID, ProductGroupName) VALUES(@contractID, @productGroupName)", connection);
+                command.Parameters.AddWithValue("@contractID", contractID);
+                command.Parameters.AddWithValue("@productGroupName", productGroupName);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                LogAdd("Fejl under database inddatering i tabel Contract_ProductGroup");
+            }
+        }
+
         // Author Kasper
         public bool UpdateContract(Contract contract)
         {
             OpenConnection();
             try
             {
-                SqlCommand command = new SqlCommand("UPDATE Contract SET Status = @status, Subscription = @subscription, ContractID = @contractid, StartDate = @startDate, Period = @Period, ProductGroups = @productGroups, GetDiscount = @getDiscount " + "WHERE ContractID = @contractid)", connection);
+                SqlCommand command = new SqlCommand("UPDATE Contract SET Status = @status, Subscription = @subscription, ContractID = @contractid, StartDate = @startDate, Period = @Period, ProductGroups = @productGroups, Discount = @discount, CustomerCVR = @customerCVR " + "WHERE ContractID = @contractid)", connection);
                 command.Parameters.AddWithValue("@startDate", contract.StartDate);
                 command.Parameters.AddWithValue("@Period", contract.Period);
                 command.Parameters.AddWithValue("@status", contract.Status);
                 command.Parameters.AddWithValue("@subscription", contract.Subscription);
                 command.Parameters.AddWithValue("@contractid", contract.ID);
                 command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
-               command.Parameters.AddWithValue("@getDiscount", contract.Discount);
+                command.Parameters.AddWithValue("@discount", contract.Discount);
+                command.Parameters.AddWithValue("@customerCVR", contract.Customer.CVR);
 
                 command.ExecuteNonQuery();
                 CloseConnection();
@@ -404,6 +424,9 @@ namespace FoxtrotProject.Model
                 SqlCommand command = new SqlCommand("DELETE FROM Contract WHERE ContractID = @contractID", connection);
                 command.Parameters.Add(new SqlParameter("@contractID", contract.ID));
                 command.ExecuteNonQuery();
+                command = new SqlCommand("DELETE FROM Contract_ProductGroup WHERE ContractID = @contractID", connection);
+                command.Parameters.AddWithValue("@contractID", contract.ID);
+                command.ExecuteNonQuery();
             }
             catch (Exception)
             {
@@ -418,7 +441,7 @@ namespace FoxtrotProject.Model
         }
 
         // Author Kasper and Christian
-        public ObservableCollection<Contract> Contracts()
+        public ObservableCollection<Contract> Contracts(ObservableCollection<Customer> customers, ObservableCollection<ProductGroup> allProductGroups)
         {
             ObservableCollection<Contract> contracts = new ObservableCollection<Contract>();
             OpenConnection();
@@ -438,8 +461,14 @@ namespace FoxtrotProject.Model
                     contract.Discount = (int)sqlDataReader["Discount"];
                     contract.Subscription.Status = (bool)sqlDataReader["SubscriptionStatus"];
                     contract.ID = (int)sqlDataReader["ContractID"];
+                    contract.Customer = customers.Where(c => c.CVR == (int)sqlDataReader["CustomerCVR"]).First();
                     contracts.Add(contract);
 
+                }
+                sqlDataReader.Close();
+                foreach(Contract c in contracts)
+                {
+                    c.ProductGroups = GetProductGroupsForContract(c.ID, allProductGroups);
                 }
                 return contracts;
             }
@@ -451,7 +480,22 @@ namespace FoxtrotProject.Model
             {
                 CloseConnection();
             }
+        }
 
+        private List<ProductGroup> GetProductGroupsForContract(int contractID, ObservableCollection<ProductGroup> AllProductGroups)
+        {
+            List<ProductGroup> tempProductGroups = new List<ProductGroup>();
+            SqlCommand command = new SqlCommand("SELECT * FROM Contract_ProductGroup WHERE ContractID = @contractID", connection);
+            command.Parameters.AddWithValue("@contractID", contractID);
+            SqlDataReader dataReader = command.ExecuteReader();
+
+            while (dataReader.Read())
+            {
+                tempProductGroups.Add(AllProductGroups.Where(pg => pg.Name == (string)dataReader["ProductGroupName"]).First());
+            }
+            dataReader.Close();
+
+            return tempProductGroups;
         }
 
         #endregion
@@ -461,7 +505,7 @@ namespace FoxtrotProject.Model
             OpenConnection();
             try
             {
-                LogReader logReader = new LogReader();
+                DataEntry logReader = new DataEntry();
                 LogWriter logwriter = new LogWriter();
                 SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
 		values (@logtime, @logmessage)", connection);
@@ -481,9 +525,9 @@ namespace FoxtrotProject.Model
 
         }
         //Author Kasper
-        public List<LogReader> Logs()
+        public List<DataEntry> Logs()
         {
-            List<LogReader> logs = new List<LogReader>();
+            List<DataEntry> logs = new List<DataEntry>();
             try
             {
                 OpenConnection();
@@ -494,14 +538,15 @@ namespace FoxtrotProject.Model
 
                 while (sqlDataReader.Read())
                 {
-                    LogReader logReader = new LogReader();
+                    DataEntry dataEntry = new DataEntry();
 
-                    logReader.Dt = (string)sqlDataReader["LogTime"];
-                    logReader.Message = (string)sqlDataReader["LogMessage"];
+                    dataEntry.Dt = (string)sqlDataReader["LogTime"];
+                    dataEntry.Message = (string)sqlDataReader["LogMessage"];
 
-                    logs.Add(logReader);
+                    logs.Add(dataEntry);
                 }
 
+                logs = logs.OrderBy(d => d.Dt).ToList();
                 return logs;
 
             }

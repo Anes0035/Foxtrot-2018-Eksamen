@@ -44,5 +44,9 @@ namespace FoxtrotProject.Model
             telePhoneNumber = TelephoneNumber;
         }
 
+        public override string ToString()
+        {
+            return CVR + ", " + Name;
+        }
     }
 }

@@ -10,10 +10,10 @@ namespace FoxtrotProject.Model
     class LogManager
     {
           
-        public List<LogReader> logs { get; set; }
+        public List<DataEntry> logs { get; set; }
         public LogManager()
         {
-           logs = new List<LogReader>();
+           logs = new List<DataEntry>();
         }
     }
 }

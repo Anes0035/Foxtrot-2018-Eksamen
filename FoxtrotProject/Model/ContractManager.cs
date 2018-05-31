@@ -11,17 +11,29 @@ namespace FoxtrotProject.Model
     {
         private List<Contract> Contracts { get; set; }
 
+        public ContractManager(List<Contract> contracts)
+        {
+            Contracts = contracts;
+            Count(new ContractEventArgs(Contracts));
+        }
+
+        public event EventHandler<ContractEventArgs> onContractsChange;
+
         public void AddContract(Contract contract)
         {
             Contracts.Add(contract);
-            Count(new ContractEventArgs(contract));
+            Count(new ContractEventArgs(Contracts));
         }
 
-        public event EventHandler<ContractEventArgs> onAddContract;
+        public void RemoveContract(Contract contract)
+        {
+            Contracts.Remove(contract);
+            Count(new ContractEventArgs(Contracts));
+        }
 
         protected virtual void Count(ContractEventArgs e)
         {
-            onAddContract?.Invoke(this, e);
+            onContractsChange?.Invoke(this, e);
         }
 
     }

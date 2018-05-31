@@ -10,11 +10,11 @@ namespace FoxtrotProject.Model
     // Author Christian and Elena
     class ContractEventArgs : EventArgs
     {
-        public Contract contract { get; set; }
+        public List<Contract> Contracts { get; set; }
 
-        public ContractEventArgs(Contract contract)
+        public ContractEventArgs(List<Contract> contracts)
         {
-            this.contract = contract;
+            this.Contracts = contracts;
         }
     }
 }

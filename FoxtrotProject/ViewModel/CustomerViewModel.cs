@@ -204,29 +204,26 @@ namespace FoxtrotProject.ViewModel
             {
                 if (db.AddCustomer(customer))
                 {
-                    message = "Kunde Oprettet";
                     Customers.Add(customer.Clone());
                     NotifyPropertyChanged("customers");
-                    db.LogAdd(message);
+                    db.LogAdd(String.Format("Kunde med CVR: {0} blev oprettet", customer.CVR));
                     MessageBox.Show("Kunde Oprettet");
                     
                 }
                 else
                 {
+                    db.LogAdd(String.Format("Fejl! Kunde med CVR: {0} eksistere allerede", customer.CVR));
                     MessageBox.Show("Fejl! Kunde eksisterer allerede!");
                    
                 }
             }
             else if (selectedcustomer != null)
             {
-                
-                message = "Kunde Rettet";
                 db.EditCustomer(customer.Clone());
                 Customers.Remove(selectedcustomer);
                 Customers.Add(customer.Clone());
-               
                 NotifyPropertyChanged("customers");
-                db.LogAdd(message);
+                db.LogAdd(String.Format("Kunde med CVR: {0} blev redigeret", customer.CVR));
                 MessageBox.Show("Kunde Rettet");
                 customer.SelectedCustomer = null;
             }
@@ -254,12 +251,11 @@ namespace FoxtrotProject.ViewModel
         // Author: Kasper and Christian Removing customer from Collection and Database
         public void RemoveCustomerExecute(object parameter)
         {
-            string message = "Kunde Slettet!";
             customer.CVR = selectedcustomer.CVR;
             db.RemoveCustomer(selectedcustomer);
             Customers.Remove(selectedcustomer);
             NotifyPropertyChanged("customers");
-            db.LogAdd(message);
+            db.LogAdd(String.Format("Kunde med CVR: {0} blev slettet", customer.CVR));
             MessageBox.Show("Kunde Slettet");
         }
     

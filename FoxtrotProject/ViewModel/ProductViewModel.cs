@@ -212,10 +212,9 @@ namespace FoxtrotProject.ViewModel
                 currentProduct.AutoAssignId(products);
                 if (db.AddProduct(currentProduct))
                 {
-                    message = "Produkt oprettet";
                     Products.Add(currentProduct.Clone());
                     NotifyPropertyChanged("products");
-                    db.LogAdd(message);
+                    db.LogAdd(String.Format("Produktet med ID: {0} blev oprettet", currentProduct.ID));
                     MessageBox.Show("Produkt Oprettet");
                 }
                 else
@@ -226,13 +225,12 @@ namespace FoxtrotProject.ViewModel
 
             if (selectedproduct != null)
             {
-                message = "Produkt redigeret";
                 db.EditProduct(currentProduct.Clone());
                 Products.Remove(selectedproduct);
                 Products.Add(currentProduct.Clone());
 
                 NotifyPropertyChanged("products");
-                db.LogAdd(message);
+                db.LogAdd(String.Format("Produktet med ID: {0} blev redigeret", currentProduct.ID));
                 MessageBox.Show("Produkt rettet");
                 currentProduct.SelectedProduct = null;
             }
@@ -255,12 +253,11 @@ namespace FoxtrotProject.ViewModel
         // Author Elena and Kasper
         public void RemoveProductExecute(object parameter)
         {
-            message = "Produkt slettet";
             currentProduct.ID = selectedproduct.ID;
             db.RemoveProduct(selectedproduct);
             Products.Remove(selectedproduct);
             NotifyPropertyChanged("Product");
-            db.LogAdd(message);
+            db.LogAdd(String.Format("Produktet med ID: {0} blev slettet", currentProduct.ID));
             MessageBox.Show("Produkt Slettet");
 
 

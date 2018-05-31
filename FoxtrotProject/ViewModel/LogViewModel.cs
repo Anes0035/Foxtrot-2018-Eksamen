@@ -16,40 +16,15 @@ namespace FoxtrotProject.ViewModel
     {
         public ICommand ShowLogCommand { get; set; }
 
-        public LogReader logReader { get; set; }
-
-        public LogWriter logWriter { get; set; }
-
         public LogManager logManager { get; set; }
 
-        public Database db { get; set; }
-
-        private ObservableCollection<LogReader> logs;
-        public ObservableCollection<LogReader> Logs
+        private ObservableCollection<DataEntry> logs;
+        public ObservableCollection<DataEntry> Logs
         {
             get { return logs; }
             set
             {
                 logs = value;
-                NotifyPropertyChanged();
-            }
-        }
-        public string Dt
-        {
-            get { return logReader.Dt ; }
-            set
-            {
-                logReader.Dt = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string Message
-        {
-            get { return logReader.Message; }
-            set
-            {
-                logReader.Message = value;
                 NotifyPropertyChanged();
             }
         }
@@ -59,12 +34,26 @@ namespace FoxtrotProject.ViewModel
         {
             logManager = new LogManager();
 
-            db = new Database();
-            logReader = new LogReader();
             logManager.logs = db.Logs();
-            logs = new ObservableCollection<LogReader>(logManager.logs);
+            logs = new ObservableCollection<DataEntry>(logManager.logs);
+            UpdateLogCommand = new WpfCommand(UpdateLogExecute, UpdateLogCanExecute);
 
         }
-   
+
+        #region UpdateLogCommand
+        public ICommand UpdateLogCommand { get; set; }
+
+        public void UpdateLogExecute(object parameter)
+        {
+            logManager.logs = db.Logs();
+            Logs = new ObservableCollection<DataEntry>(logManager.logs);
+        }
+
+        public bool UpdateLogCanExecute(object parameter)
+        {
+            return true;
+        }
+        #endregion
+
     }
 }

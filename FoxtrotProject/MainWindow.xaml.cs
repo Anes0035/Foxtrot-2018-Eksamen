@@ -28,14 +28,16 @@ namespace FoxtrotProject
         ProductViewModel productViewModel;
         ContractViewModel contractViewModel;
         LogViewModel logViewModel;
+        StatisticViewModel statisticViewModel;
         public MainWindow()
         {
             InitializeComponent();
             customerViewModel = new CustomerViewModel();
             productViewModel = new ProductViewModel();
-            contractViewModel = new ContractViewModel();
+            contractViewModel = new ContractViewModel(customerViewModel.Customers);
             logViewModel = new LogViewModel();
-            DataContext = new { customerViewModel, productViewModel, contractViewModel, logViewModel };
+            statisticViewModel = new StatisticViewModel(contractViewModel.ContractManager);
+            DataContext = new { customerViewModel, productViewModel, contractViewModel, statisticViewModel, logViewModel };
         }
 
         private void txtSearchCustomer_GotFocus(object sender, RoutedEventArgs e)

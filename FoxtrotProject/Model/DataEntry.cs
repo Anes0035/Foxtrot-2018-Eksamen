@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace FoxtrotProject.Model
 {
     // Author Kasper,Elena and Christian
-    class LogReader
+    class DataEntry
     {
         public string dt = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
 
@@ -17,7 +17,7 @@ namespace FoxtrotProject.Model
         public string Message { get; set; }
 
         private StreamReader reader;
-        public LogReader()
+        public DataEntry()
         {
 
         }
@@ -38,7 +38,7 @@ namespace FoxtrotProject.Model
         }
 
 
-        public LogReader(List<LogReader> logs, string dt, string message)
+        public DataEntry(List<DataEntry> logs, string dt, string message)
         {
 
 

@@ -20,12 +20,13 @@ namespace FoxtrotProject.ViewModel
     class ContractViewModel : ViewModel
     {
 
-        private ContractManager contractManager;
+        public ContractManager ContractManager { get; set; }
 
         #region Contract
         public ObservableCollection<Contract> Contracts { get; set; }
 
         private Contract contract;
+
 
         public int ID
         {
@@ -36,6 +37,17 @@ namespace FoxtrotProject.ViewModel
                 NotifyPropertyChanged();
             }
         }
+
+        public Customer Customer
+        {
+            get { return contract.Customer; }
+            set
+            {
+                contract.Customer = value;
+                NotifyPropertyChanged();
+            }
+        }
+
 
         private DateTime startDate;
 
@@ -97,13 +109,36 @@ namespace FoxtrotProject.ViewModel
                 NotifyPropertyChanged();
             }
         }
+
+        private string discount;
+
+        public string Discount
+        {
+            get { return discount; }
+            set
+            {
+                discount = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region ProductGroups
 
         private ObservableCollection<ProductGroup> AllProductGroups;
 
-        public ObservableCollection<ProductGroup> ShownProductGroups { get; set; }
+        private ObservableCollection<ProductGroup> shownProductGroups;
+
+        public ObservableCollection<ProductGroup> ShownProductGroups
+        {
+            get { return shownProductGroups; }
+            set
+            {
+                shownProductGroups = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private ProductGroup dtgSelectedProductGroup;
 
@@ -141,18 +176,20 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
+        public ObservableCollection<Customer> Customers { get; set; }
 
-
-        public ContractViewModel()
+        public ContractViewModel(ObservableCollection<Customer> customers)
         {
-            contract = new Contract();
+            Customers = customers;
+
+            contract = new Contract(true);
             productGroups = new ObservableCollection<ProductGroup>();
             StartDate = DateTime.Today;
-
-            Contracts = db.Contracts();
-
-            contractManager = new ContractManager();
             AllProductGroups = db.GetProductGroups();
+
+            Contracts = db.Contracts(Customers, AllProductGroups);
+
+            ContractManager = new ContractManager(new List<Contract>(Contracts));
             ShownProductGroups = new ObservableCollection<ProductGroup>(AllProductGroups);
             AddProductGroupCommand = new WpfCommand(AddProductGroupExecute, AddProductGroupCanExecute);
             RemoveProductGroupCommand = new WpfCommand(RemoveProductGroupExecute, RemoveProductGroupCanExecute);
@@ -175,6 +212,10 @@ namespace FoxtrotProject.ViewModel
                 string message;
                 switch (propertyName)
                 {
+                    case "Customer":
+                        if (Customer == null)
+                            return PropertyIsEmptyErrorMessage(propertyName);
+                        break;
                     case "StartDate":
                         if (StartDate < DateTime.Today)
                             return "Kontrakten kan ikke starte i fortiden";
@@ -202,6 +243,22 @@ namespace FoxtrotProject.ViewModel
                         if (!ProductGroups.Any())
                             return "Der er ikke Tilføjet nogle produkt grupper";
 
+                        break;
+
+                    case "Discount":
+                        if (String.IsNullOrEmpty(Discount))
+                            return PropertyIsEmptyErrorMessage(propertyName);
+
+                        int discount;
+                        message = ValidateNumericParse<int>(Discount, propertyName, out discount);
+
+                        if (message != null)
+                            return message;
+
+                        if((discount < 0) || (discount >= 99))
+                            return "Rabaten skal være mellem 1-99";
+
+                        contract.Discount = discount;
                         break;
                 }
                 return null;
@@ -257,15 +314,16 @@ namespace FoxtrotProject.ViewModel
 
         public void ClearContractExecute(object parameter)
         {
+            SelectedContract = null;
             ID = 0;
+            Customer = null;
             StartDate = DateTime.Today;
             Status = false;
             Period = null;
+            Discount = null;
             Subscription = false;
             ShownProductGroups = new ObservableCollection<ProductGroup>(AllProductGroups);
-            NotifyPropertyChanged("ShownProductGroups");
             ProductGroups = new ObservableCollection<ProductGroup>();
-            SelectedContract = null;
         }
 
         public bool ClearContractCanExecute(object parameter)
@@ -279,6 +337,7 @@ namespace FoxtrotProject.ViewModel
 
         public void SaveContractExecute(object parameter)
         {
+            Contract contractClone = contract.Clone();
             string message;
             SetStatus();
             if (selectedContract == null)
@@ -287,26 +346,31 @@ namespace FoxtrotProject.ViewModel
                 contract.ProductGroups = ProductGroups.ToList();
                 if (db.AddContract(contract))
                 {
-                    message = "Aftale oprettet";
-                    db.AddContract(contract.Clone());
-                    Contracts.Add(contract.Clone());
+                    db.AddContract(contract);
+                    ContractManager.AddContract(contractClone);
+                    Contracts.Add(contractClone);
                     NotifyPropertyChanged("Contracts");
+                    message = String.Format("Aftale med ID: {0} blev oprettet", contract.ID);
                     db.LogAdd(message);
                     MessageBox.Show(message);
                 }
                 else
                 {
+                    message = String.Format("Fejl! Aftale med ID: {0} eksistere allerede", contract.ID);
+                    db.LogAdd(message);
                     MessageBox.Show("Fejl! Aftale eksisterer allerede!");
                 }
 
             }
             else if (selectedContract != null)
             {
-                message = "Aftale redigeret";
-                db.UpdateContract(contract.Clone());
+                db.UpdateContract(contract);
+                ContractManager.RemoveContract(selectedContract);
+                ContractManager.AddContract(contractClone);
                 Contracts.Remove(selectedContract);
-                Contracts.Add(contract.Clone());
+                Contracts.Add(contractClone);
                 NotifyPropertyChanged("Contracts");
+                message = String.Format("Aftale med ID: {0} blev redigeret", contract.ID);
                 db.LogAdd(message);
                 MessageBox.Show(message);
             }
@@ -327,6 +391,7 @@ namespace FoxtrotProject.ViewModel
         public void RemoveContractExecute(object parameter)
         {
             ID = selectedContract.ID;
+            ContractManager.RemoveContract(selectedContract);
             db.RemoveContract(selectedContract);
             Contracts.Remove(selectedContract);
             NotifyPropertyChanged("Contracts");
@@ -348,13 +413,17 @@ namespace FoxtrotProject.ViewModel
         public void UpdateContractExecute(object parameter)
         {
             ID = selectedContract.ID;
+            Customer = selectedContract.Customer;
             Period = selectedContract.Period.ToString();
             StartDate = selectedContract.StartDate;
             Status = selectedContract.Status;
+            Discount = selectedContract.Discount.ToString();
             Subscription = selectedContract.Subscription.Status;
             ProductGroups = new ObservableCollection<ProductGroup>(selectedContract.ProductGroups);
+            ShownProductGroups = new ObservableCollection<ProductGroup>(AllProductGroups.Except(ProductGroups).ToList());
             contract.Discount = selectedContract.Discount;
         }
+
         public bool UpdateContractCanExecute(object paramter)
         {
             if (SelectedContract == null)
