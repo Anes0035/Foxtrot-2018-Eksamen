@@ -408,10 +408,9 @@ namespace FoxtrotProject.Model
                 return true;
             }
 
-            catch (Exception e)
+            catch (Exception)
             {
-                message = e.ToString();
-                LogAdd(message);
+                LogAdd("Fejl under database inddatering ved redigering af aftale");
                 return false;
             }
             finally
