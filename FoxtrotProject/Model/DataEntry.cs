@@ -16,11 +16,12 @@ namespace FoxtrotProject.Model
         public string Dt { get; set; }
         public string Message { get; set; }
 
-        private StreamReader reader;
+       
         public DataEntry()
         {
 
         }
+        // Author Kasper and Christian
 
         public void ReadDateEntry(string entry)
         {
@@ -37,7 +38,7 @@ namespace FoxtrotProject.Model
             }
         }
 
-
+        // Author Kasper and Christian
         public DataEntry(List<DataEntry> logs, string dt, string message)
         {
 

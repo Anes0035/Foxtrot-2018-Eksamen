@@ -29,7 +29,7 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-        // Author Kasper
+        // Author Kasper and Christian
         public LogViewModel()
         {
             logManager = new LogManager();
@@ -42,13 +42,13 @@ namespace FoxtrotProject.ViewModel
 
         #region UpdateLogCommand
         public ICommand UpdateLogCommand { get; set; }
-
+        // Author Kasper and Christian
         public void UpdateLogExecute(object parameter)
         {
             logManager.logs = db.Logs();
             Logs = new ObservableCollection<DataEntry>(logManager.logs);
         }
-
+        // Author Kasper and Christian
         public bool UpdateLogCanExecute(object parameter)
         {
             return true;

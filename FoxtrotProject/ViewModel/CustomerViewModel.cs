@@ -196,10 +196,9 @@ namespace FoxtrotProject.ViewModel
 
         #region SaveCustomerCommand
         public ICommand SaveCustomerCommand { get; set; }
-        // Author Kasper and Christian
+        // Author Kasper
         public void SaveCustomerExecute(object parameter)
         {
-            string message;
             if (selectedcustomer == null)
             {
                 if (db.AddCustomer(customer))
@@ -248,7 +247,7 @@ namespace FoxtrotProject.ViewModel
           public ICommand RemoveCustomerCommand { get; set; }
 
 
-        // Author: Kasper and Christian Removing customer from Collection and Database
+        // Author: Kasper  Removing customer from Collection and Database
         public void RemoveCustomerExecute(object parameter)
         {
             customer.CVR = selectedcustomer.CVR;
@@ -292,7 +291,7 @@ namespace FoxtrotProject.ViewModel
             ContactPerson = selectedcustomer.ContactPerson;
             GrossIncome = selectedcustomer.GrossIncome.ToString();
         }
-
+        // Author Kasper
         public bool EditCustomerCanExecute(object parameter)
         {
             if (selectedcustomer == null)

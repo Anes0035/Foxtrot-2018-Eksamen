@@ -80,7 +80,7 @@ namespace FoxtrotProject.Model
 
         }
 
-        /// Method for editing a customers details ( Not Finished ) 
+        /// Method for editing a customers details // Author Kasper
 
         public void EditCustomer(Customer customer)
         {
@@ -112,6 +112,7 @@ namespace FoxtrotProject.Model
 
         ///  Method for removing a customer
 
+            //Author Kasper
         public void RemoveCustomer(Customer customer)
         {
             try
@@ -136,6 +137,7 @@ namespace FoxtrotProject.Model
             }
 
         }
+        //Author Kasper
         public List<Customer> Customers()
         {
 
@@ -386,7 +388,7 @@ namespace FoxtrotProject.Model
             OpenConnection();
             try
             {
-                SqlCommand command = new SqlCommand("UPDATE Contract SET Status = @status, Subscription = @subscription, ContractID = @contractid, StartDate = @startDate, Period = @Period, ProductGroups = @productGroups, Discount = @discount, CustomerCVR = @customerCVR " + "WHERE ContractID = @contractid)", connection);
+                SqlCommand command = new SqlCommand("UPDATE Contract SET Status = @status, SubscriptionStatus = @subscription, ContractID = @contractid, StartDate = @startDate, Period = @Period, Discount = @discount, CustomerCVR = @customerCVR " + "WHERE ContractID = @contractid", connection);
                 command.Parameters.AddWithValue("@startDate", contract.StartDate);
                 command.Parameters.AddWithValue("@Period", contract.Period);
                 command.Parameters.AddWithValue("@status", contract.Status);
@@ -406,9 +408,9 @@ namespace FoxtrotProject.Model
                 return true;
             }
 
-            catch (Exception)
+            catch (Exception e)
             {
-                message = "Fejl under redigering af aftale";
+                message = e.ToString();
                 LogAdd(message);
                 return false;
             }
@@ -442,6 +444,7 @@ namespace FoxtrotProject.Model
             }
         }
 
+        //Author Christian
         private void RemoveProductGroupsForContract(int contractID)
         {
             SqlCommand command = new SqlCommand("DELETE FROM Contract_ProductGroup WHERE ContractID = @contractID", connection);
@@ -491,6 +494,7 @@ namespace FoxtrotProject.Model
             }
         }
 
+        //Author Christian
         private List<ProductGroup> GetProductGroupsForContract(int contractID, ObservableCollection<ProductGroup> AllProductGroups)
         {
             List<ProductGroup> tempProductGroups = new List<ProductGroup>();
@@ -515,7 +519,7 @@ namespace FoxtrotProject.Model
             try
             {
                 DataEntry logReader = new DataEntry();
-                LogWriter logwriter = new LogWriter();
+               
                 SqlCommand command = new SqlCommand(@"insert into Log (LogTime , LogMessage)
 		values (@logtime, @logmessage)", connection);
 

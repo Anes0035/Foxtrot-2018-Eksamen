@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FoxtrotProject.Model
 {
-    //Author Christian
+    //Author Anes
     class Subscription
     {
         public bool Status { get; set; }

@@ -32,6 +32,7 @@ namespace FoxtrotProject.Model
             ID = iD;
         }
 
+        // Author Elena
         public Product Clone()
         {
             return new Product() { ID = ID, Name = Name, Description = Description, Price = Price, Category = Category };
@@ -46,6 +47,7 @@ namespace FoxtrotProject.Model
             category = Category;
         }
 
+        // Author Elena
         public void AutoAssignId(ObservableCollection<Product> products)
         {
             int counter = 0;

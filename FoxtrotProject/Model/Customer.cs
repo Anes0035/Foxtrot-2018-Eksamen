@@ -25,7 +25,7 @@ namespace FoxtrotProject.Model
         public Customer SelectedCustomer { get; set; }
     
         
-
+        //Author Kasper
         public Customer()
         {
             
@@ -34,6 +34,7 @@ namespace FoxtrotProject.Model
         {
             return new Customer() { CVR = CVR, Name = Name, Address = Address, ContactPerson = ContactPerson, GrossIncome = GrossIncome, TelephoneNumber = TelephoneNumber };
         }
+        //Author Kasper
         public Customer(List<Customer> customers, int cvr, string name, string address, string contactPerson, double grossIncome, int telePhoneNumber)
         {
             cvr = CVR;
@@ -43,7 +44,7 @@ namespace FoxtrotProject.Model
             grossIncome = GrossIncome;
             telePhoneNumber = TelephoneNumber;
         }
-
+        //Author Kasper
         public override string ToString()
         {
             return CVR + ", " + Name;

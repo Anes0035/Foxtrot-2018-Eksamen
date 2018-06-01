@@ -10,6 +10,7 @@ using FoxtrotProject.Model;
 
 namespace FoxtrotProject.ViewModel
 {
+    //Author Anes and Elena
     abstract class ViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         protected static Database db = new Database();
@@ -64,7 +65,7 @@ namespace FoxtrotProject.ViewModel
         {
             return string.Format("{0} feltet er tomt", Translator.GetTranslation(propertyName));
         }
-
+        //Author Christian
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 

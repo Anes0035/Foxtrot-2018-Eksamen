@@ -35,12 +35,12 @@ namespace FoxtrotProject.Model
             }
         }
 
-
+        // Author Christian
         public Contract Clone()
         {
             return new Contract(false) { ID = ID, Customer = Customer, Period = Period, Status = Status, ProductGroups = ProductGroups, Subscription = Subscription, Discount = Discount, StartDate = StartDate};
         }
-
+        // Author Christian
         public void AutoAssignId(ObservableCollection<Contract> contracts)
         {
             int counter = 0;

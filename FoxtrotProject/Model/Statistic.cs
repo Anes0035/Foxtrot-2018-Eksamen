@@ -15,13 +15,13 @@ namespace FoxtrotProject.Model
         public int X { get; set; }
 
         private ContractManager contractManager;
-
+        //Author Christian and Anes
         public Statistic(ContractManager contractManager)
         {
             ProductGroupCount = new Dictionary<ProductGroup, int>();
             this.contractManager = contractManager;
         }
-
+        //Author Christian and Anes
         private void CountProductGroup()
         {
             ProductGroupCount = new Dictionary<ProductGroup, int>();
@@ -39,7 +39,7 @@ namespace FoxtrotProject.Model
             }
             //Sort method Anes 
         }
-
+        //Author Christian and Anes
         public ObservableCollection<string> FindTopXProducts()
         {
             CountProductGroup();

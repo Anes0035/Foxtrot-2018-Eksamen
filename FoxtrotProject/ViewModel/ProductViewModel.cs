@@ -16,7 +16,7 @@ namespace FoxtrotProject.ViewModel
     {
         #region Product
 
-        public string message;
+        
         ProductManager productManager;
 
         public ObservableCollection<ProductGroup> ProductGroups { get; set; }
@@ -313,7 +313,7 @@ namespace FoxtrotProject.ViewModel
             SearchOptions.Add("Indeholder");
             SelectedSearchOption = SearchOptions[0];
         }
-
+        // Author Elena
         public string SearchProduct { get; set; }
         // Author Elena 
         public void SearchProductExecute(object parameter)
@@ -366,9 +366,9 @@ namespace FoxtrotProject.ViewModel
         }
         #endregion
 
-
         #region  ClearProductCommand
         public ICommand ClearProductCommand { get; set; }
+        // Author Elena
         public void ClearProductExecute(object parameter)
         {
 
@@ -384,6 +384,7 @@ namespace FoxtrotProject.ViewModel
             //txtPrice.Text = null;
             //txtProductCategory.Text = string.Empty;
         }
+        // Author Elena
         public bool ClearProductCanExecute(object parameter)
         {
             return true;

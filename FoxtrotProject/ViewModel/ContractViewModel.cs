@@ -16,7 +16,7 @@ namespace FoxtrotProject.ViewModel
         Aktiv,
         Inaktiv
     }
-
+    // Author Christian and Kasper
     class ContractViewModel : ViewModel
     {
 
@@ -48,8 +48,7 @@ namespace FoxtrotProject.ViewModel
             }
         }
 
-
-        private DateTime startDate;
+        
 
         public DateTime StartDate
         {
@@ -129,7 +128,7 @@ namespace FoxtrotProject.ViewModel
         private ObservableCollection<ProductGroup> AllProductGroups;
 
         private ObservableCollection<ProductGroup> shownProductGroups;
-
+        // Author Christian
         public ObservableCollection<ProductGroup> ShownProductGroups
         {
             get { return shownProductGroups; }
@@ -141,7 +140,7 @@ namespace FoxtrotProject.ViewModel
         }
 
         private ProductGroup dtgSelectedProductGroup;
-
+        // Author Christian
         public ProductGroup DtgSelectedProductGroup
         {
             get { return dtgSelectedProductGroup; }
@@ -153,7 +152,7 @@ namespace FoxtrotProject.ViewModel
         }
 
         private ProductGroup cbxSelectedProductGroup;
-
+        // Author Christian 
         public ProductGroup CbxSelectedProductGroup
         {
             get { return cbxSelectedProductGroup; }
@@ -164,7 +163,7 @@ namespace FoxtrotProject.ViewModel
             }
         }
         #endregion
-
+        // Author Christian and Kasper
         private Contract selectedContract;
         public Contract SelectedContract
         {
@@ -177,7 +176,7 @@ namespace FoxtrotProject.ViewModel
         }
 
         public ObservableCollection<Customer> Customers { get; set; }
-
+        // Author Christian 
         public ContractViewModel(ObservableCollection<Customer> customers)
         {
             Customers = customers;
@@ -200,6 +199,7 @@ namespace FoxtrotProject.ViewModel
         }
 
         #region ErrorHandling
+        // Author Christian
         public override string Error
         {
             get { return null; }
@@ -263,7 +263,7 @@ namespace FoxtrotProject.ViewModel
 
         #region AddProductGroupCommand
         public ICommand AddProductGroupCommand { get; set; }
-
+        // Author Christian 
         public void AddProductGroupExecute(object parameter)
         {
             ProductGroups.Add(CbxSelectedProductGroup);
@@ -282,9 +282,9 @@ namespace FoxtrotProject.ViewModel
         #endregion
 
         #region RemoveProductGroupCommand
-
+        // Author Christian 
         public ICommand RemoveProductGroupCommand { get; set; }
-
+        // Author Christian 
         public void RemoveProductGroupExecute(object parameter)
         {
             ShownProductGroups.Add(DtgSelectedProductGroup);
@@ -292,7 +292,7 @@ namespace FoxtrotProject.ViewModel
             NotifyPropertyChanged("ShownProductGroups");
             NotifyPropertyChanged("ProductGroups");
         }
-
+        // Author Christian 
         public bool RemoveProductGroupCanExecute(object parameter)
         {
             if (dtgSelectedProductGroup != null)
@@ -306,7 +306,7 @@ namespace FoxtrotProject.ViewModel
         #region ClearContractCommand
 
         public ICommand ClearContractCommand { get; set; }
-
+        // Author Christian 
         public void ClearContractExecute(object parameter)
         {
             SelectedContract = null;
@@ -328,8 +328,9 @@ namespace FoxtrotProject.ViewModel
         #endregion
 
         #region SaveContractCommand
+        // Author Kasper
         public ICommand SaveContractCommand { get; set; }
-
+        // Author Kasper
         public void SaveContractExecute(object parameter)
         {
             Contract contractClone = contract.Clone();
@@ -369,7 +370,7 @@ namespace FoxtrotProject.ViewModel
                 MessageBox.Show(message);
             }
         }
-
+        // Author Christian
         public bool SaveContractCanExecute(object paramter)
         {
             if (FirstErrorMessage != null)
@@ -380,8 +381,9 @@ namespace FoxtrotProject.ViewModel
         #endregion
 
         #region RemoveContractCommand
+        // Author Christian
         public ICommand RemoveContractCommand { get; set; }
-
+        // Author Christian
         public void RemoveContractExecute(object parameter)
         {
             ID = selectedContract.ID;
@@ -392,6 +394,7 @@ namespace FoxtrotProject.ViewModel
             db.LogAdd(String.Format("Kontrakt med ID: {0} blev slettet", ID));
             MessageBox.Show("Kontrakt Slettet");
         }
+        // Author Christian
         public bool RemoveContractCanExecute(object paramter)
         {
             if (SelectedContract == null)
@@ -402,8 +405,9 @@ namespace FoxtrotProject.ViewModel
         #endregion
 
         #region UpdateContractCommand
+        // Author Kasper
         public ICommand UpdateContractCommand { get; set; }
-
+        // Author Kasper
         public void UpdateContractExecute(object parameter)
         {
             Customer = selectedContract.Customer;
@@ -417,7 +421,7 @@ namespace FoxtrotProject.ViewModel
             ShownProductGroups = new ObservableCollection<ProductGroup>(AllProductGroups.Except(ProductGroups).ToList());
             contract.Discount = selectedContract.Discount;
         }
-
+        // Author Kasper
         public bool UpdateContractCanExecute(object paramter)
         {
             if (SelectedContract == null)
