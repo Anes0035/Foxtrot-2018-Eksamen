@@ -390,7 +390,7 @@ namespace FoxtrotProject.Model
                 command.Parameters.AddWithValue("@startDate", contract.StartDate);
                 command.Parameters.AddWithValue("@Period", contract.Period);
                 command.Parameters.AddWithValue("@status", contract.Status);
-                command.Parameters.AddWithValue("@subscription", contract.Subscription);
+                command.Parameters.AddWithValue("@subscription", contract.Subscription.Status);
                 command.Parameters.AddWithValue("@contractid", contract.ID);
                 command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
                 command.Parameters.AddWithValue("@discount", contract.Discount);
