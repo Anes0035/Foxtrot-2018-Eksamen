@@ -392,9 +392,13 @@ namespace FoxtrotProject.Model
                 command.Parameters.AddWithValue("@status", contract.Status);
                 command.Parameters.AddWithValue("@subscription", contract.Subscription.Status);
                 command.Parameters.AddWithValue("@contractid", contract.ID);
-                command.Parameters.AddWithValue("@productGroups", contract.ProductGroups);
                 command.Parameters.AddWithValue("@discount", contract.Discount);
                 command.Parameters.AddWithValue("@customerCVR", contract.Customer.CVR);
+                RemoveProductGroupsForContract(contract.ID);
+                foreach(ProductGroup pg in contract.ProductGroups)
+                {
+                    AddProductGroupForContract(contract.ID, pg.Name);
+                }
 
                 command.ExecuteNonQuery();
                 CloseConnection();
@@ -424,9 +428,7 @@ namespace FoxtrotProject.Model
                 SqlCommand command = new SqlCommand("DELETE FROM Contract WHERE ContractID = @contractID", connection);
                 command.Parameters.Add(new SqlParameter("@contractID", contract.ID));
                 command.ExecuteNonQuery();
-                command = new SqlCommand("DELETE FROM Contract_ProductGroup WHERE ContractID = @contractID", connection);
-                command.Parameters.AddWithValue("@contractID", contract.ID);
-                command.ExecuteNonQuery();
+                RemoveProductGroupsForContract(contract.ID);
             }
             catch (Exception)
             {
@@ -438,6 +440,13 @@ namespace FoxtrotProject.Model
             {
                 CloseConnection();
             }
+        }
+
+        private void RemoveProductGroupsForContract(int contractID)
+        {
+            SqlCommand command = new SqlCommand("DELETE FROM Contract_ProductGroup WHERE ContractID = @contractID", connection);
+            command.Parameters.AddWithValue("@contractID", contractID);
+            command.ExecuteNonQuery();
         }
 
         // Author Kasper and Christian
