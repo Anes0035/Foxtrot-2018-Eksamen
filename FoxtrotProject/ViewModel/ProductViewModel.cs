@@ -256,7 +256,7 @@ namespace FoxtrotProject.ViewModel
             currentProduct.ID = selectedproduct.ID;
             db.RemoveProduct(selectedproduct);
             Products.Remove(selectedproduct);
-            NotifyPropertyChanged("Product");
+            NotifyPropertyChanged("products");
             db.LogAdd(String.Format("Produktet med ID: {0} blev slettet", currentProduct.ID));
             MessageBox.Show("Produkt Slettet");
 
