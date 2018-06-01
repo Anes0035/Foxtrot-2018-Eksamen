@@ -53,10 +53,10 @@ namespace FoxtrotProject.ViewModel
 
         public DateTime StartDate
         {
-            get { return startDate; }
+            get { return contract.StartDate; }
             set
             {
-                startDate = value;
+                contract.StartDate = value;
                 NotifyPropertyChanged();
             }
         }
@@ -216,12 +216,6 @@ namespace FoxtrotProject.ViewModel
                         if (Customer == null)
                             return PropertyIsEmptyErrorMessage(propertyName);
                         break;
-                    case "StartDate":
-                        if (StartDate < DateTime.Today)
-                            return "Kontrakten kan ikke starte i fortiden";
-
-                        contract.StartDate = StartDate;
-                        break;
 
                     case "Period":
                         if (string.IsNullOrEmpty((string)GetType().GetProperty(propertyName).GetValue(this)))
@@ -243,6 +237,7 @@ namespace FoxtrotProject.ViewModel
                         if (!ProductGroups.Any())
                             return "Der er ikke Tilføjet nogle produkt grupper";
 
+                        contract.ProductGroups = ProductGroups.ToList();
                         break;
 
                     case "Discount":
@@ -343,7 +338,6 @@ namespace FoxtrotProject.ViewModel
             if (selectedContract == null)
             {
                 contract.AutoAssignId(Contracts);
-                contract.ProductGroups = ProductGroups.ToList();
                 if (db.AddContract(contract))
                 {
                     db.AddContract(contract);
@@ -412,8 +406,8 @@ namespace FoxtrotProject.ViewModel
 
         public void UpdateContractExecute(object parameter)
         {
-            ID = selectedContract.ID;
             Customer = selectedContract.Customer;
+            ID = selectedContract.ID;
             Period = selectedContract.Period.ToString();
             StartDate = selectedContract.StartDate;
             Status = selectedContract.Status;

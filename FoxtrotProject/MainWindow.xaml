@@ -246,9 +246,10 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Height="35">
                             <Label Content="Mest populær:" Margin="10,0,0,0" Width="105"/>
-                            <TextBox Text="{Binding X, UpdateSourceTrigger=PropertyChanged}" Width="81" x:Name="TextBoxTopX"/>
+                            <TextBox Text="{Binding X, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Width="81" x:Name="txtX"/>
                             <Button Content="Søg" Command="{Binding ShowTopXCommand}" Width="56"/>
                         </StackPanel>
+                        <Label Content="{Binding ElementName=txtX, Path=(Validation.Errors).CurrentItem.ErrorContent}" Margin="10,5,0,0" Height="27"/>
                     </StackPanel>
 
                     <ListView Name="ListViewStatistik" ItemsSource="{Binding TopProductGroups, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Margin="20"/>

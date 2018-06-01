@@ -14,17 +14,19 @@ namespace FoxtrotProject.Model
 
         public int X { get; set; }
 
+        private ContractManager contractManager;
+
         public Statistic(ContractManager contractManager)
         {
             ProductGroupCount = new Dictionary<ProductGroup, int>();
-            contractManager.onContractsChange += new EventHandler<ContractEventArgs>(CountProductGroup);
+            this.contractManager = contractManager;
         }
 
-        private void CountProductGroup(object sender, ContractEventArgs e)
+        private void CountProductGroup()
         {
             ProductGroupCount = new Dictionary<ProductGroup, int>();
 
-            foreach (Contract c in e.Contracts)
+            foreach (Contract c in contractManager.Contracts)
             {
                 foreach(ProductGroup pg in c.ProductGroups)
                 {
@@ -40,6 +42,7 @@ namespace FoxtrotProject.Model
 
         public ObservableCollection<string> FindTopXProducts()
         {
+            CountProductGroup();
             Dictionary<ProductGroup, int> TopProductGroupCount = (from pair in ProductGroupCount orderby pair.Value descending select pair).Take(X).ToDictionary(pair => pair.Key, pair => pair.Value);
             ObservableCollection<string> TopProductGroups = new ObservableCollection<string>();
 
